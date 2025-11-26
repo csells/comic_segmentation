@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "plasma-disk",
+      "request": "launch",
+      "type": "dart",
+      "toolArgs": [
+        "--dart-define=GEMINI_API_KEY=${env:GEMINI_API_KEY}"
+      ]
+    }
+  ]
+}
