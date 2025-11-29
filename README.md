@@ -24,7 +24,7 @@ Update your `.vscode/launch.json` configuration:
 
 ```json
 {
-    "name": "plasma-disk",
+    "name": "comic segmentation",
     "request": "launch",
     "type": "dart",
     "args": [
