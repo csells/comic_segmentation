@@ -7,17 +7,18 @@ environment:
   sdk: ^3.10.0
 
 dependencies:
-  flutter:
-    sdk: flutter
   cupertino_icons: ^1.0.8
   dartantic_ai: ^1.3.0
-  image_picker: ^1.2.1
+  dartantic_interface: ^1.1.0
+  flutter:
+    sdk: flutter
   flutter_riverpod: ^3.0.3
   google_fonts: ^6.3.2
-  dartantic_interface: ^1.1.0
+  image_picker: ^1.2.1
   json_schema: ^5.2.2
 
 dev_dependencies:
+  all_lint_rules_community: ^0.0.43
   flutter_test:
     sdk: flutter
 

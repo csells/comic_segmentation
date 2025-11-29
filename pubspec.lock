@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "91.0.0"
+  all_lint_rules_community:
+    dependency: "direct dev"
+    description:
+      name: all_lint_rules_community
+      sha256: "920415d5a2899d00cadc50fb6d4e282aaf9c90841b66b27286aed966a49e2256"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.43"
   analyzer:
     dependency: transitive
     description:

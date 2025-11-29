@@ -1,9 +1,4 @@
 class Panel {
-  final int ymin;
-  final int xmin;
-  final int ymax;
-  final int xmax;
-
   Panel({
     required this.ymin,
     required this.xmin,
@@ -11,34 +6,37 @@ class Panel {
     required this.xmax,
   });
 
-  factory Panel.fromJson(Map<String, dynamic> json) {
-    return Panel(
-      ymin: json['ymin'] as int,
-      xmin: json['xmin'] as int,
-      ymax: json['ymax'] as int,
-      xmax: json['xmax'] as int,
-    );
-  }
+  factory Panel.fromJson(Map<String, dynamic> json) => Panel(
+    ymin: json['ymin'] as int,
+    xmin: json['xmin'] as int,
+    ymax: json['ymax'] as int,
+    xmax: json['xmax'] as int,
+  );
+  final int ymin;
+  final int xmin;
+  final int ymax;
+  final int xmax;
 
-  Map<String, dynamic> toJson() {
-    return {'ymin': ymin, 'xmin': xmin, 'ymax': ymax, 'xmax': xmax};
-  }
+  Map<String, dynamic> toJson() => {
+    'ymin': ymin,
+    'xmin': xmin,
+    'ymax': ymax,
+    'xmax': xmax,
+  };
 }
 
 class ComicPageSegmentation {
-  final List<Panel> panels;
-
   ComicPageSegmentation({required this.panels});
 
-  factory ComicPageSegmentation.fromJson(Map<String, dynamic> json) {
-    return ComicPageSegmentation(
-      panels: (json['panels'] as List<dynamic>)
-          .map((e) => Panel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
+  factory ComicPageSegmentation.fromJson(Map<String, dynamic> json) =>
+      ComicPageSegmentation(
+        panels: (json['panels'] as List<dynamic>)
+            .map((e) => Panel.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
+  final List<Panel> panels;
 
-  Map<String, dynamic> toJson() {
-    return {'panels': panels.map((e) => e.toJson()).toList()};
-  }
+  Map<String, dynamic> toJson() => {
+    'panels': panels.map((e) => e.toJson()).toList(),
+  };
 }

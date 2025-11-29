@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "plasma-disk",
+      "name": "comic segmentation",
       "request": "launch",
       "type": "dart",
       "toolArgs": [

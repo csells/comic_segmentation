@@ -13,24 +13,27 @@ import 'segmentation_models.dart';
 final aiServiceProvider = riverpod.Provider<AIService>((ref) => AIService());
 
 class AIService {
-  late final Agent _agent;
-
   AIService() {
     // Initialize Agent with Google Provider and API Key from environment
     _agent = Agent.forProvider(
-      GoogleProvider(apiKey: const String.fromEnvironment('GEMINI_API_KEY')),
+      GoogleProvider(apiKey: _apiKey),
       chatModelName: 'gemini-3-pro-preview',
     );
   }
+
+  // ignore: do_not_use_environment
+  static const _apiKey = String.fromEnvironment('GEMINI_API_KEY');
+  late final Agent _agent;
 
   Future<
     ({ComicPageSegmentation? segmentation, String? rawResponse, String? error})
   >
   segmentPage(Uint8List imageBytes) async {
     try {
-      final prompt =
-          'Analyze this comic book page and return the bounding boxes for all panels. '
-          'Return coordinates as integers in a 0-1000 scale (ymin, xmin, ymax, xmax).';
+      const prompt = '''
+Analyze this comic book page and return the bounding boxes for all panels. 
+Return coordinates as integers in a 0-1000 scale (ymin, xmin, ymax, xmax).
+''';
 
       // Define the expected output schema
       final schema = JsonSchema.create({
@@ -82,14 +85,14 @@ class AIService {
         final jsonMap = jsonDecode(rawText);
         final segmentation = ComicPageSegmentation.fromJson(jsonMap);
         return (segmentation: segmentation, rawResponse: rawText, error: null);
-      } catch (e) {
+      } on Exception catch (e) {
         return (
           segmentation: null,
           rawResponse: rawText,
           error: 'Failed to parse JSON: $e',
         );
       }
-    } catch (e) {
+    } on Exception catch (e) {
       return (
         segmentation: null,
         rawResponse: null,
