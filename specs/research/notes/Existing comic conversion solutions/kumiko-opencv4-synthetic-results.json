@@ -1,0 +1,181 @@
+{
+  "python": "3.13.12",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "cv2": "4.14.0",
+  "results": [
+    {
+      "fixture": "grid",
+      "direction": "ltr",
+      "exit": 0,
+      "stderr": "",
+      "output": [
+        {
+          "filename": "grid.png",
+          "size": [
+            800,
+            1000
+          ],
+          "numbering": "ltr",
+          "gutters": [
+            53,
+            73
+          ],
+          "license": null,
+          "panels": [
+            [
+              27,
+              27,
+              347,
+              437
+            ],
+            [
+              427,
+              27,
+              347,
+              437
+            ],
+            [
+              27,
+              537,
+              347,
+              437
+            ],
+            [
+              427,
+              537,
+              347,
+              437
+            ]
+          ],
+          "processing_time": 0.01
+        }
+      ]
+    },
+    {
+      "fixture": "grid",
+      "direction": "rtl",
+      "exit": 0,
+      "stderr": "",
+      "output": [
+        {
+          "filename": "grid.png",
+          "size": [
+            800,
+            1000
+          ],
+          "numbering": "rtl",
+          "gutters": [
+            53,
+            73
+          ],
+          "license": null,
+          "panels": [
+            [
+              427,
+              27,
+              347,
+              437
+            ],
+            [
+              27,
+              27,
+              347,
+              437
+            ],
+            [
+              427,
+              537,
+              347,
+              437
+            ],
+            [
+              27,
+              537,
+              347,
+              437
+            ]
+          ],
+          "processing_time": 0.01
+        }
+      ]
+    },
+    {
+      "fixture": "broken-gutter",
+      "direction": "ltr",
+      "exit": 0,
+      "stderr": "",
+      "output": [
+        {
+          "filename": "broken-gutter.png",
+          "size": [
+            800,
+            1000
+          ],
+          "numbering": "ltr",
+          "gutters": [
+            2,
+            72
+          ],
+          "license": null,
+          "panels": [
+            [
+              27,
+              26,
+              347,
+              439
+            ],
+            [
+              376,
+              26,
+              398,
+              439
+            ],
+            [
+              27,
+              537,
+              398,
+              437
+            ],
+            [
+              427,
+              537,
+              347,
+              437
+            ]
+          ],
+          "processing_time": 0.01
+        }
+      ]
+    },
+    {
+      "fixture": "inset",
+      "direction": "ltr",
+      "exit": 0,
+      "stderr": "",
+      "output": [
+        {
+          "filename": "inset.png",
+          "size": [
+            800,
+            1000
+          ],
+          "numbering": "ltr",
+          "gutters": [
+            1,
+            1
+          ],
+          "license": null,
+          "panels": [
+            [
+              27,
+              27,
+              747,
+              947
+            ]
+          ],
+          "processing_time": 0.01
+        }
+      ]
+    }
+  ]
+}

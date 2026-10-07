@@ -1,0 +1,57 @@
+[
+  {
+    "file": "v20-04-settings.png",
+    "sha256": "fa4cae804704fbe2acbdaae41fa26cda9ad9fdf32271e42998ec869dee63a37a",
+    "bytes": 354423
+  },
+  {
+    "file": "v20-10-control-dialog.png",
+    "sha256": "41e69bc1cc04b4b27dd3fdb7540bec165d7613370180e7922722768db5a01e5c",
+    "bytes": 223334
+  },
+  {
+    "file": "v20-11-control-cover.png",
+    "sha256": "8071fc67ac4819bd7f24d2d7a0426c801000ac303e00d162deb6b8954ed28401",
+    "bytes": 38208
+  },
+  {
+    "file": "v20-12-control3.png",
+    "sha256": "8fd5b1258f116d2d819fe331d1778dc6017f56a0d31b503aef7baf04e6a1dc08",
+    "bytes": 30161
+  },
+  {
+    "file": "v20-13-control1.png",
+    "sha256": "54792a3141e8ec45132ce92a55a96ca88eefe9b9729fe3348c57bd2aab58b1d4",
+    "bytes": 32062
+  },
+  {
+    "file": "v20-14-control-prev3.png",
+    "sha256": "8fd5b1258f116d2d819fe331d1778dc6017f56a0d31b503aef7baf04e6a1dc08",
+    "bytes": 30161
+  },
+  {
+    "file": "v20-15-control-next1.png",
+    "sha256": "54792a3141e8ec45132ce92a55a96ca88eefe9b9729fe3348c57bd2aab58b1d4",
+    "bytes": 32062
+  },
+  {
+    "file": "v20-16-control4.png",
+    "sha256": "4756ce9708a44ebbb855fe22111e4a3cc29f42286fed9ef762cb297645cab590",
+    "bytes": 30995
+  },
+  {
+    "file": "v20-17-control2.png",
+    "sha256": "b29c11756c76947a9f6900335e266b5d026cba60a80edd9a42433ba2809e41f9",
+    "bytes": 39983
+  },
+  {
+    "file": "v20-18-control-fallback.png",
+    "sha256": "b71fd079f0336b0ae118a4d8ada17fb45012dc579b5f6db825ab613f5b871b29",
+    "bytes": 36567
+  },
+  {
+    "file": "v20-clean-first.ini",
+    "sha256": "422bf309a3b03a07d8eccdfffaf760505439580260310ff33eee26b193192b33",
+    "bytes": 483
+  }
+]

@@ -1,0 +1,373 @@
+{
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.12 (main, Mar 25 2026, 02:48:22) [Clang 22.1.1 ]",
+  "runs": [
+    {
+      "name": "cbz_direct",
+      "command": [
+        "/tmp/comic-converters-research.PNH3Wl/venv/bin/pannello",
+        "/tmp/comic-converters-research.PNH3Wl/synthetic.cbz",
+        "--fallback",
+        "none",
+        "-j",
+        "1",
+        "-o",
+        "/tmp/comic-converters-research.PNH3Wl/cbz_direct"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "\n  detecting page 1/3\n  detecting page 2/3\n  detecting page 3/3\nsynthetic: 3 pages, 7 panels, rtl (ComicInfo)  (12.0s) -> /tmp/comic-converters-research.PNH3Wl/cbz_direct/synthetic.json\n  WARNING: KOReader will read this archive out of order (panels misalign) -- regenerate with --repack\n  low-confidence: 1/3 pages (0 fixed, 1 to review)\n    page  reason     result\n       1  full_page  full page\n",
+      "metadata": {
+        "reading_direction": "rtl",
+        "total_pages": 3,
+        "pages": [
+          {
+            "page": 1,
+            "image": "page1.png",
+            "panels": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "w": 1.0,
+                "h": 1.0
+              }
+            ]
+          },
+          {
+            "page": 2,
+            "image": "page2.png",
+            "panels": [
+              {
+                "x": 0.5007,
+                "y": 0.0336,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.0488,
+                "y": 0.0336,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.5007,
+                "y": 0.5004,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.0488,
+                "y": 0.5004,
+                "w": 0.4519,
+                "h": 0.4668
+              }
+            ]
+          },
+          {
+            "page": 3,
+            "image": "page10.png",
+            "panels": [
+              {
+                "x": 0.0488,
+                "y": 0.0336,
+                "w": 0.9038,
+                "h": 0.4668
+              },
+              {
+                "x": 0.0488,
+                "y": 0.5004,
+                "w": 0.9038,
+                "h": 0.4668
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "cbz_repack",
+      "command": [
+        "/tmp/comic-converters-research.PNH3Wl/venv/bin/pannello",
+        "--repack",
+        "/tmp/comic-converters-research.PNH3Wl/synthetic.cbz",
+        "--fallback",
+        "none",
+        "-j",
+        "1",
+        "-o",
+        "/tmp/comic-converters-research.PNH3Wl/cbz_repack"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "repacked synthetic.cbz: 3 pages -> synthetic.cbz\n\n  detecting page 1/3\n  detecting page 2/3\n  detecting page 3/3\nsynthetic: 3 pages, 7 panels, ltr  (0.2s) -> /tmp/comic-converters-research.PNH3Wl/cbz_repack/synthetic.json\n  low-confidence: 1/3 pages (0 fixed, 1 to review)\n    page  reason     result\n       1  full_page  full page\n",
+      "metadata": {
+        "reading_direction": "ltr",
+        "total_pages": 3,
+        "pages": [
+          {
+            "page": 1,
+            "image": "0001.png",
+            "panels": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "w": 1.0,
+                "h": 1.0
+              }
+            ]
+          },
+          {
+            "page": 2,
+            "image": "0002.png",
+            "panels": [
+              {
+                "x": 0.0488,
+                "y": 0.0336,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.5007,
+                "y": 0.0336,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.0488,
+                "y": 0.5004,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.5007,
+                "y": 0.5004,
+                "w": 0.4519,
+                "h": 0.4668
+              }
+            ]
+          },
+          {
+            "page": 3,
+            "image": "0003.png",
+            "panels": [
+              {
+                "x": 0.0488,
+                "y": 0.0336,
+                "w": 0.9038,
+                "h": 0.4668
+              },
+              {
+                "x": 0.0488,
+                "y": 0.5004,
+                "w": 0.9038,
+                "h": 0.4668
+              }
+            ]
+          }
+        ]
+      },
+      "archive_entries": [
+        "0001.png",
+        "0002.png",
+        "0003.png"
+      ],
+      "image_hashes": {
+        "0001.png": "ac24018a48688a147a4eccca3bfe1127b28a66eab0f12028a537342652f8e47b",
+        "0002.png": "6660b5aa0fbe4e8cf67c22170a4f2943bc352c1c89d6dd53f1d3bede1aeffd68",
+        "0003.png": "ee3bc01147f94616a523c5f5bae8308f156d6b90c7c9d22af0808ddf0750ac45"
+      }
+    },
+    {
+      "name": "pdf_repack",
+      "command": [
+        "/tmp/comic-converters-research.PNH3Wl/venv/bin/pannello",
+        "--repack",
+        "/tmp/comic-converters-research.PNH3Wl/synthetic.pdf",
+        "--fallback",
+        "none",
+        "-j",
+        "1",
+        "-o",
+        "/tmp/comic-converters-research.PNH3Wl/pdf_repack"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "repacked synthetic.pdf: 3 pages -> synthetic.cbz\n\n  detecting page 1/3\n  detecting page 2/3\n  detecting page 3/3\nsynthetic: 3 pages, 7 panels, ltr  (0.2s) -> /tmp/comic-converters-research.PNH3Wl/pdf_repack/synthetic.json\n  low-confidence: 1/3 pages (0 fixed, 1 to review)\n    page  reason     result\n       1  full_page  full page\n",
+      "metadata": {
+        "reading_direction": "ltr",
+        "total_pages": 3,
+        "pages": [
+          {
+            "page": 1,
+            "image": "0001.jpg",
+            "panels": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "w": 1.0,
+                "h": 1.0
+              }
+            ]
+          },
+          {
+            "page": 2,
+            "image": "0002.jpg",
+            "panels": [
+              {
+                "x": 0.0488,
+                "y": 0.0336,
+                "w": 0.4525,
+                "h": 0.4672
+              },
+              {
+                "x": 0.5013,
+                "y": 0.0336,
+                "w": 0.4525,
+                "h": 0.4672
+              },
+              {
+                "x": 0.0488,
+                "y": 0.5009,
+                "w": 0.4525,
+                "h": 0.4672
+              },
+              {
+                "x": 0.5013,
+                "y": 0.5009,
+                "w": 0.4525,
+                "h": 0.4672
+              }
+            ]
+          },
+          {
+            "page": 3,
+            "image": "0003.jpg",
+            "panels": [
+              {
+                "x": 0.0488,
+                "y": 0.0336,
+                "w": 0.905,
+                "h": 0.4672
+              },
+              {
+                "x": 0.0488,
+                "y": 0.5009,
+                "w": 0.905,
+                "h": 0.4672
+              }
+            ]
+          }
+        ]
+      },
+      "archive_entries": [
+        "0001.jpg",
+        "0002.jpg",
+        "0003.jpg"
+      ],
+      "image_hashes": {
+        "0001.jpg": "c26566ecb330f4bf97c52224a3e7ff298192edfc1ec638b32195b6a24f94ae0f",
+        "0002.jpg": "ccff78eb388b225f66eed083c34813369323ea922c0d5bd89c8fef456d474d76",
+        "0003.jpg": "c03c37cfdb287fbffcdcb22ee84c0c99d354cca10ffaefb6ade2468ee7d716bd"
+      }
+    },
+    {
+      "name": "folder_repack",
+      "command": [
+        "/tmp/comic-converters-research.PNH3Wl/venv/bin/pannello",
+        "--repack",
+        "/tmp/comic-converters-research.PNH3Wl/fixtures",
+        "--fallback",
+        "none",
+        "-j",
+        "1",
+        "-o",
+        "/tmp/comic-converters-research.PNH3Wl/folder_repack"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "repacked fixtures: 3 pages -> fixtures.cbz\n\n  detecting page 1/3\n  detecting page 2/3\n  detecting page 3/3\nfixtures: 3 pages, 7 panels, ltr  (0.2s) -> /tmp/comic-converters-research.PNH3Wl/folder_repack/fixtures.json\n  low-confidence: 1/3 pages (0 fixed, 1 to review)\n    page  reason     result\n       1  full_page  full page\n",
+      "metadata": {
+        "reading_direction": "ltr",
+        "total_pages": 3,
+        "pages": [
+          {
+            "page": 1,
+            "image": "0001.png",
+            "panels": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "w": 1.0,
+                "h": 1.0
+              }
+            ]
+          },
+          {
+            "page": 2,
+            "image": "0002.png",
+            "panels": [
+              {
+                "x": 0.0488,
+                "y": 0.0336,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.5007,
+                "y": 0.0336,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.0488,
+                "y": 0.5004,
+                "w": 0.4519,
+                "h": 0.4668
+              },
+              {
+                "x": 0.5007,
+                "y": 0.5004,
+                "w": 0.4519,
+                "h": 0.4668
+              }
+            ]
+          },
+          {
+            "page": 3,
+            "image": "0003.png",
+            "panels": [
+              {
+                "x": 0.0488,
+                "y": 0.0336,
+                "w": 0.9038,
+                "h": 0.4668
+              },
+              {
+                "x": 0.0488,
+                "y": 0.5004,
+                "w": 0.9038,
+                "h": 0.4668
+              }
+            ]
+          }
+        ]
+      },
+      "archive_entries": [
+        "0001.png",
+        "0002.png",
+        "0003.png"
+      ],
+      "image_hashes": {
+        "0001.png": "ac24018a48688a147a4eccca3bfe1127b28a66eab0f12028a537342652f8e47b",
+        "0002.png": "6660b5aa0fbe4e8cf67c22170a4f2943bc352c1c89d6dd53f1d3bede1aeffd68",
+        "0003.png": "ee3bc01147f94616a523c5f5bae8308f156d6b90c7c9d22af0808ddf0750ac45"
+      }
+    }
+  ],
+  "input_preserved": true,
+  "original_image_hashes": {
+    "page1.png": "ac24018a48688a147a4eccca3bfe1127b28a66eab0f12028a537342652f8e47b",
+    "page10.png": "ee3bc01147f94616a523c5f5bae8308f156d6b90c7c9d22af0808ddf0750ac45",
+    "page2.png": "6660b5aa0fbe4e8cf67c22170a4f2943bc352c1c89d6dd53f1d3bede1aeffd68"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "reading_direction": "ltr",
+  "total_pages": 2,
+  "pages": [
+    {
+      "page": 1,
+      "image": "0001.png",
+      "panels": [
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 1.0,
+          "h": 1.0
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "image": "0002.png",
+      "panels": [
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "w": 1.0,
+          "h": 1.0
+        }
+      ]
+    }
+  ]
+}

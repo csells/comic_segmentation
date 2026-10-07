@@ -1,0 +1,19 @@
+10-07 16:22:19.119  3832  4207 I python  : Traceback (most recent call last):
+10-07 16:22:19.119  3832  4207 I python  :   File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/python-installs/acbfa/arm64-v8a/kivy/__init__.py", line 372, in <module>
+10-07 16:22:19.119  3832  4207 I python  :   File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/python3/arm64-v8a__ndk_target_21/python3/Lib/shutil.py", line 561, in copytree
+10-07 16:22:19.119  3832  4207 I python  :   File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/python3/arm64-v8a__ndk_target_21/python3/Lib/shutil.py", line 515, in _copytree
+10-07 16:22:20.063  3832  4207 I python  :  Traceback (most recent call last):
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/python3/arm64-v8a__ndk_target_21/python3/Lib/configparser.py", line 805, in get
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/python3/arm64-v8a__ndk_target_21/python3/Lib/collections/__init__.py", line 1006, in __getitem__
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/python3/arm64-v8a__ndk_target_21/python3/Lib/collections/__init__.py", line 998, in __missing__
+10-07 16:22:20.063  3832  4207 I python  :  KeyError: 'use_temp_dir'
+10-07 16:22:20.063  3832  4207 I python  :  Traceback (most recent call last):
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/app/main.py", line 1748, in <module>
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/python-installs/acbfa/arm64-v8a/kivy/app.py", line 955, in run
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/python-installs/acbfa/arm64-v8a/kivy/app.py", line 925, in _run_prepare
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/app/main.py", line 1570, in build
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/app/main.py", line 114, in __init__
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/app/main.py", line 1288, in load_settings
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/python-installs/acbfa/arm64-v8a/kivy/config.py", line 541, in get
+10-07 16:22:20.063  3832  4207 I python  :    File "/home/whale/ACBF/ACBF-Viewer-for-Android/.buildozer/android/platform/build-arm64-v8a_armeabi-v7a/build/other_builds/python3/arm64-v8a__ndk_target_21/python3/Lib/configparser.py", line 808, in get
+10-07 16:22:20.063  3832  4207 I python  :  configparser.NoOptionError: No option 'use_temp_dir' in section: 'general'

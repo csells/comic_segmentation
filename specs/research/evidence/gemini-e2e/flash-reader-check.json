@@ -1,0 +1,36 @@
+{
+  "archive": "/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-gemini-e2e-fer6gndl/run/gemini-sample.cbz",
+  "schema_valid": true,
+  "reader_valid": true,
+  "reader_has_frames": true,
+  "reader_body_pages": 3,
+  "image_and_frame_order_match": true,
+  "pages": [
+    {
+      "page": 1,
+      "image": "0001.png",
+      "frame_count": 1
+    },
+    {
+      "page": 2,
+      "image": "0002.png",
+      "frame_count": 1
+    },
+    {
+      "page": 3,
+      "image": "0003.png",
+      "frame_count": 1
+    },
+    {
+      "page": 4,
+      "image": "0004.png",
+      "frame_count": 5
+    }
+  ],
+  "scratch": "/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-acbf-parser-b9syqpk8",
+  "ui_tested": false,
+  "constants_stub": {
+    "default_font": "",
+    "PLATFORM": "linux"
+  }
+}

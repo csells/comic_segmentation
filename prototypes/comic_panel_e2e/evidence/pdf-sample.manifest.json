@@ -1,0 +1,117 @@
+{
+  "prototype": true,
+  "output": "/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-panel-e2e-convert-w3e9cnd5/comic.cbz",
+  "output_sha256": "cdea8a4329408fd89246d445a6be78d953b42fa6d36e8dd3a160315f7017d667",
+  "page_count": 4,
+  "body_page_count": 3,
+  "reading_direction": "ltr",
+  "pages": [
+    {
+      "page": 1,
+      "source_image": "0001.jpg",
+      "source_page": 1,
+      "archive_image": "0001.jpg",
+      "width": 1128,
+      "height": 1648,
+      "sha256": "0083402254f35ca366df2aaaa2265c3d7215f0713437e74551635be98f60ee69",
+      "frame_count": 1,
+      "frames": [
+        "0,0 1127,0 1127,1647 0,1647"
+      ],
+      "fallback_reason": "pannello:full_page"
+    },
+    {
+      "page": 2,
+      "source_image": "0002.jpg",
+      "source_page": 3,
+      "archive_image": "0002.jpg",
+      "width": 1128,
+      "height": 1648,
+      "sha256": "4ba29f0261ab509733d2a76481c1ab2c42792c7329383c595db7dfa62a81e980",
+      "frame_count": 1,
+      "frames": [
+        "0,0 1127,0 1127,1647 0,1647"
+      ],
+      "fallback_reason": "pannello:full_page"
+    },
+    {
+      "page": 3,
+      "source_image": "0003.jpg",
+      "source_page": 5,
+      "archive_image": "0003.jpg",
+      "width": 1128,
+      "height": 1648,
+      "sha256": "6e00884f8147131e518db2b59a8823de9870efa25ef3df4f1d654c5915114260",
+      "frame_count": 7,
+      "frames": [
+        "0,0 820,0 820,1260 0,1260",
+        "819,0 1127,0 1127,277 819,277",
+        "819,276 1127,276 1127,600 819,600",
+        "819,599 1127,599 1127,1260 819,1260",
+        "0,1259 213,1259 213,1647 0,1647",
+        "212,1259 767,1259 767,1647 212,1647",
+        "766,1259 1127,1259 1127,1647 766,1647"
+      ],
+      "fallback_reason": null
+    },
+    {
+      "page": 4,
+      "source_image": "0004.jpg",
+      "source_page": 25,
+      "archive_image": "0004.jpg",
+      "width": 1128,
+      "height": 1648,
+      "sha256": "2a98ccdcebd7bfbd63db2fdecc1db44761a66ad969cf2d7add189f65b73d66fd",
+      "frame_count": 5,
+      "frames": [
+        "0,0 1127,0 1127,574 0,574",
+        "0,573 225,573 225,1101 0,1101",
+        "224,573 554,573 554,1101 224,1101",
+        "553,573 1127,573 1127,1101 553,1101",
+        "0,1100 1127,1100 1127,1590 0,1590"
+      ],
+      "fallback_reason": null
+    }
+  ],
+  "preserved_auxiliary": [],
+  "source": "/Users/csells/Downloads/Parallel Truths Graphic Novel Anthology - Reader Nation.pdf",
+  "source_sha256_before": "30d075d2bf54cdcd2401ccf905ab50a859779296e7afdbff404efd291f42cd32",
+  "source_sha256_after": "30d075d2bf54cdcd2401ccf905ab50a859779296e7afdbff404efd291f42cd32",
+  "pdf_dpi": 150,
+  "detector": "Pannello 0.1.0 / Kumiko, no model fallback",
+  "detector_stats": {
+    "comic": "pages",
+    "out": "/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-panel-e2e-convert-w3e9cnd5/detector/pages.json",
+    "pages": 4,
+    "panels": 14,
+    "low_confidence": [
+      {
+        "page": 1,
+        "reason": "full_page",
+        "fixed": false,
+        "fullpage": true,
+        "by": "fullpage",
+        "panels": 1
+      },
+      {
+        "page": 2,
+        "reason": "full_page",
+        "fixed": false,
+        "fullpage": true,
+        "by": "fullpage",
+        "panels": 1
+      }
+    ],
+    "errors": [],
+    "reading_direction": "ltr",
+    "rtl_source": "default",
+    "gray_hint": false,
+    "order_mismatch": false,
+    "preview_dir": null,
+    "preview_sheets": null,
+    "review_dir": null,
+    "seconds": 1.0254838466644287
+  },
+  "elapsed_seconds": 1.84,
+  "process_pid": 22963
+}

@@ -1,0 +1,100 @@
+{
+  "prototype": true,
+  "output": "/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-panel-e2e-convert-cprp658u/comic.cbz",
+  "output_sha256": "4f6170a2ccf7c1dcc36508b79a22649361e4764a8a442092bce68d5063390287",
+  "page_count": 3,
+  "body_page_count": 2,
+  "reading_direction": "rtl",
+  "pages": [
+    {
+      "page": 1,
+      "source_image": "page1.png",
+      "source_page": 1,
+      "archive_image": "0001.png",
+      "width": 800,
+      "height": 1160,
+      "sha256": "ac24018a48688a147a4eccca3bfe1127b28a66eab0f12028a537342652f8e47b",
+      "frame_count": 1,
+      "frames": [
+        "0,0 799,0 799,1159 0,1159"
+      ],
+      "fallback_reason": "pannello:full_page"
+    },
+    {
+      "page": 2,
+      "source_image": "page2.png",
+      "source_page": 2,
+      "archive_image": "0002.png",
+      "width": 800,
+      "height": 1160,
+      "sha256": "6660b5aa0fbe4e8cf67c22170a4f2943bc352c1c89d6dd53f1d3bede1aeffd68",
+      "frame_count": 4,
+      "frames": [
+        "400,38 763,38 763,581 400,581",
+        "39,38 401,38 401,581 39,581",
+        "400,580 763,580 763,1122 400,1122",
+        "39,580 401,580 401,1122 39,1122"
+      ],
+      "fallback_reason": null
+    },
+    {
+      "page": 3,
+      "source_image": "page10.png",
+      "source_page": 3,
+      "archive_image": "0003.png",
+      "width": 800,
+      "height": 1160,
+      "sha256": "ee3bc01147f94616a523c5f5bae8308f156d6b90c7c9d22af0808ddf0750ac45",
+      "frame_count": 2,
+      "frames": [
+        "39,38 763,38 763,581 39,581",
+        "39,580 763,580 763,1122 39,1122"
+      ],
+      "fallback_reason": null
+    }
+  ],
+  "preserved_auxiliary": [
+    {
+      "source": "ComicInfo.xml",
+      "archive": "ComicInfo.xml",
+      "sha256": "398ed15baee28ca06bdea62f5a339e30bd94deb34e3d0f2e658a4791ecc27ea9"
+    },
+    {
+      "source": "notes.txt",
+      "archive": "notes.txt",
+      "sha256": "e000bf235e9b343659fd8519dd41586adb7fa05dd7a14856a593082b2a419285"
+    }
+  ],
+  "source": "/private/tmp/comic-converters-research.PNH3Wl/synthetic.cbz",
+  "source_sha256_before": "74162add691c94d6c00d24225401aa132a0e60c608aaef9c0c305b4113a141c3",
+  "source_sha256_after": "74162add691c94d6c00d24225401aa132a0e60c608aaef9c0c305b4113a141c3",
+  "pdf_dpi": null,
+  "detector": "Pannello 0.1.0 / Kumiko, no model fallback",
+  "detector_stats": {
+    "comic": "pages",
+    "out": "/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-panel-e2e-convert-cprp658u/detector/pages.json",
+    "pages": 3,
+    "panels": 7,
+    "low_confidence": [
+      {
+        "page": 1,
+        "reason": "full_page",
+        "fixed": false,
+        "fullpage": true,
+        "by": "fullpage",
+        "panels": 1
+      }
+    ],
+    "errors": [],
+    "reading_direction": "rtl",
+    "rtl_source": "ComicInfo.xml",
+    "gray_hint": false,
+    "order_mismatch": false,
+    "preview_dir": null,
+    "preview_sheets": null,
+    "review_dir": null,
+    "seconds": 0.20745301246643066
+  },
+  "elapsed_seconds": 0.22,
+  "process_pid": 24049
+}

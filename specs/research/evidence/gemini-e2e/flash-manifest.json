@@ -1,0 +1,71 @@
+{
+  "prototype": true,
+  "output": "/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-gemini-e2e-fer6gndl/run/gemini-sample.cbz",
+  "output_sha256": "4f6ef5f6856141a6f8d38b6f9f5e77ae624dadd15417bddd1df7f7db00848869",
+  "page_count": 4,
+  "body_page_count": 3,
+  "reading_direction": "ltr",
+  "pages": [
+    {
+      "page": 1,
+      "source_image": "0001.png",
+      "source_page": 1,
+      "archive_image": "0001.png",
+      "width": 1027,
+      "height": 1500,
+      "sha256": "dcae952a86d7792cd8f3a4d00d6d3a0044496c1e75a500748f90af111da2468a",
+      "frame_count": 1,
+      "frames": [
+        "0,0 1026,0 1026,1499 0,1499"
+      ],
+      "fallback_reason": null
+    },
+    {
+      "page": 2,
+      "source_image": "0002.png",
+      "source_page": 3,
+      "archive_image": "0002.png",
+      "width": 1027,
+      "height": 1500,
+      "sha256": "c1c63078bba6cc02e2c1fdea15f8468ca2c89aa56f5938ba8de12271dceb23c7",
+      "frame_count": 1,
+      "frames": [
+        "0,0 1026,0 1026,1499 0,1499"
+      ],
+      "fallback_reason": null
+    },
+    {
+      "page": 3,
+      "source_image": "0003.png",
+      "source_page": 5,
+      "archive_image": "0003.png",
+      "width": 1027,
+      "height": 1500,
+      "sha256": "4388f3b7246734d94fe5fc71915035b65afc348f34ef401fdceb3c8e2f853482",
+      "frame_count": 1,
+      "frames": [
+        "0,0 1026,0 1026,1499 0,1499"
+      ],
+      "fallback_reason": "ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}"
+    },
+    {
+      "page": 4,
+      "source_image": "0004.png",
+      "source_page": 25,
+      "archive_image": "0004.png",
+      "width": 1027,
+      "height": 1500,
+      "sha256": "b5d155e419ecd871fa28af5ae773accd03ac04794cec8fae1e7cade810fb8213",
+      "frame_count": 5,
+      "frames": [
+        "0,0 497,0 497,473 0,473",
+        "505,34 981,34 981,502 505,502",
+        "0,511 499,511 499,975 0,975",
+        "508,531 1026,531 1026,1008 508,1008",
+        "0,972 1026,972 1026,1499 0,1499"
+      ],
+      "fallback_reason": null
+    }
+  ],
+  "preserved_auxiliary": []
+}

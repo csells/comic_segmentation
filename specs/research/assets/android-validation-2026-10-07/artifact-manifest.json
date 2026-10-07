@@ -1,0 +1,46 @@
+{
+  "27-control-dialog.png": {
+    "sha256": "ebbe17d9953ee86a0df9ce09719ea46aeee1e0b4ff468d50b6816759f6c30843",
+    "bytes": 327831
+  },
+  "28-control-cover.png": {
+    "sha256": "8071fc67ac4819bd7f24d2d7a0426c801000ac303e00d162deb6b8954ed28401",
+    "bytes": 38208
+  },
+  "29-control3.png": {
+    "sha256": "8fd5b1258f116d2d819fe331d1778dc6017f56a0d31b503aef7baf04e6a1dc08",
+    "bytes": 30161
+  },
+  "30-control1.png": {
+    "sha256": "54792a3141e8ec45132ce92a55a96ca88eefe9b9729fe3348c57bd2aab58b1d4",
+    "bytes": 32062
+  },
+  "31-control-prev3.png": {
+    "sha256": "8fd5b1258f116d2d819fe331d1778dc6017f56a0d31b503aef7baf04e6a1dc08",
+    "bytes": 30161
+  },
+  "33-control4.png": {
+    "sha256": "4756ce9708a44ebbb855fe22111e4a3cc29f42286fed9ef762cb297645cab590",
+    "bytes": 30995
+  },
+  "34-control2.png": {
+    "sha256": "b29c11756c76947a9f6900335e266b5d026cba60a80edd9a42433ba2809e41f9",
+    "bytes": 39983
+  },
+  "35-control-fallback.png": {
+    "sha256": "b71fd079f0336b0ae118a4d8ada17fb45012dc579b5f6db825ab613f5b871b29",
+    "bytes": 36567
+  },
+  "09-settings.png": {
+    "sha256": "13ee5d179f20f0481feeb08583294c03743dc7f700133f721d777a85760e8ea5",
+    "bytes": 357451
+  },
+  "acbfa-before-workaround.ini": {
+    "sha256": "43c8caa3d81f0eba34efd49f9bc82e3b33a481c6ff1f01ab4cafbed746e69c7c",
+    "bytes": 446
+  },
+  "acbfa-workaround.ini": {
+    "sha256": "8a93a8d02df520712091a808ef3db2f3aa9522f7c6ce6ac7201f2ae4859cbc11",
+    "bytes": 463
+  }
+}

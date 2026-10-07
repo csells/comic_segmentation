@@ -1,0 +1,30 @@
+[
+  {
+    "fixture": "grid",
+    "direction": "ltr",
+    "returncode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/kumiko\", line 99, in <module>\n    k.parse_image(filename)\n    ~~~~~~~~~~~~~^^^^^^^^^^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/kumikolib.py\", line 95, in parse_image\n    Page(\n    ~~~~^\n    \tfilename,\n     ^^^^^^^^^\n    ...<3 lines>...\n    \tpanel_expansion = self.panel_expansion,\n     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/lib/page.py\", line 102, in __init__\n    self.get_segments()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/lib/page.py\", line 151, in get_segments\n    x0 = int(round(dline[0][0]))\n                   ~~~~~~~~^^^\nIndexError: invalid index to scalar variable.\n",
+    "result": ""
+  },
+  {
+    "fixture": "grid",
+    "direction": "rtl",
+    "returncode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/kumiko\", line 99, in <module>\n    k.parse_image(filename)\n    ~~~~~~~~~~~~~^^^^^^^^^^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/kumikolib.py\", line 95, in parse_image\n    Page(\n    ~~~~^\n    \tfilename,\n     ^^^^^^^^^\n    ...<3 lines>...\n    \tpanel_expansion = self.panel_expansion,\n     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/lib/page.py\", line 102, in __init__\n    self.get_segments()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/lib/page.py\", line 151, in get_segments\n    x0 = int(round(dline[0][0]))\n                   ~~~~~~~~^^^\nIndexError: invalid index to scalar variable.\n",
+    "result": ""
+  },
+  {
+    "fixture": "broken-gutter",
+    "direction": "ltr",
+    "returncode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/kumiko\", line 99, in <module>\n    k.parse_image(filename)\n    ~~~~~~~~~~~~~^^^^^^^^^^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/kumikolib.py\", line 95, in parse_image\n    Page(\n    ~~~~^\n    \tfilename,\n     ^^^^^^^^^\n    ...<3 lines>...\n    \tpanel_expansion = self.panel_expansion,\n     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/lib/page.py\", line 102, in __init__\n    self.get_segments()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/lib/page.py\", line 151, in get_segments\n    x0 = int(round(dline[0][0]))\n                   ~~~~~~~~^^^\nIndexError: invalid index to scalar variable.\n",
+    "result": ""
+  },
+  {
+    "fixture": "inset",
+    "direction": "ltr",
+    "returncode": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/kumiko\", line 99, in <module>\n    k.parse_image(filename)\n    ~~~~~~~~~~~~~^^^^^^^^^^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/kumikolib.py\", line 95, in parse_image\n    Page(\n    ~~~~^\n    \tfilename,\n     ^^^^^^^^^\n    ...<3 lines>...\n    \tpanel_expansion = self.panel_expansion,\n     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/lib/page.py\", line 102, in __init__\n    self.get_segments()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-detection-research-9stc05u0/kumiko/lib/page.py\", line 151, in get_segments\n    x0 = int(round(dline[0][0]))\n                   ~~~~~~~~^^^\nIndexError: invalid index to scalar variable.\n",
+    "result": ""
+  }
+]

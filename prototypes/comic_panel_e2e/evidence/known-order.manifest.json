@@ -1,0 +1,56 @@
+{
+  "prototype": true,
+  "output": "/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-panel-e2e-fixture-37q30lnw/known-order.cbz",
+  "output_sha256": "78b79194060f980092d2f3fcdc2d0c7026a2b4c212a1b381c2595c0052a637bd",
+  "page_count": 3,
+  "body_page_count": 2,
+  "reading_direction": "ltr",
+  "pages": [
+    {
+      "page": 1,
+      "source_image": "page1.png",
+      "source_page": 1,
+      "archive_image": "0001.png",
+      "width": 800,
+      "height": 1200,
+      "sha256": "2a703cbe2ea247c3bcfa9ed181db14c0da5cdd4d76c34cc1af8c86e9846c5b70",
+      "frame_count": 1,
+      "frames": [
+        "0,0 799,0 799,1199 0,1199"
+      ],
+      "fallback_reason": null
+    },
+    {
+      "page": 2,
+      "source_image": "page2.png",
+      "source_page": 2,
+      "archive_image": "0002.png",
+      "width": 800,
+      "height": 1200,
+      "sha256": "e9346d83b7132b7b67c06a565729ca3e8fed1cb9d76bc6c2060a9fe10e318854",
+      "frame_count": 4,
+      "frames": [
+        "30,30 770,30 770,250 30,250",
+        "30,285 295,285 295,750 30,750",
+        "330,285 770,285 770,750 330,750",
+        "30,785 770,785 770,1170 30,1170"
+      ],
+      "fallback_reason": null
+    },
+    {
+      "page": 3,
+      "source_image": "page10.png",
+      "source_page": 3,
+      "archive_image": "0003.png",
+      "width": 800,
+      "height": 1200,
+      "sha256": "71a0fe5a651da060c4a19904f6f8593061c7403363ab8510b0e6ea5187d5f9d3",
+      "frame_count": 1,
+      "frames": [
+        "0,0 799,0 799,1199 0,1199"
+      ],
+      "fallback_reason": "empty_panels"
+    }
+  ],
+  "preserved_auxiliary": []
+}

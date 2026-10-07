@@ -1,0 +1,96 @@
+{
+  "prototype": true,
+  "output": "/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-panel-e2e-convert-8ujk50td/comic.cbz",
+  "output_sha256": "45f323a8b68c5ce5bd397a298b2146ec4ae035778cfbd1001efeace7c7996b1f",
+  "page_count": 3,
+  "body_page_count": 2,
+  "reading_direction": "ltr",
+  "pages": [
+    {
+      "page": 1,
+      "source_image": "page1.png",
+      "source_page": 1,
+      "archive_image": "0001.png",
+      "width": 800,
+      "height": 1200,
+      "sha256": "2a703cbe2ea247c3bcfa9ed181db14c0da5cdd4d76c34cc1af8c86e9846c5b70",
+      "frame_count": 1,
+      "frames": [
+        "0,0 799,0 799,1199 0,1199"
+      ],
+      "fallback_reason": "pannello:full_page"
+    },
+    {
+      "page": 2,
+      "source_image": "page2.png",
+      "source_page": 2,
+      "archive_image": "0002.png",
+      "width": 800,
+      "height": 1200,
+      "sha256": "e9346d83b7132b7b67c06a565729ca3e8fed1cb9d76bc6c2060a9fe10e318854",
+      "frame_count": 4,
+      "frames": [
+        "28,29 772,29 772,268 28,268",
+        "28,267 313,267 313,768 28,768",
+        "312,267 772,267 772,768 312,768",
+        "28,768 772,768 772,1172 28,1172"
+      ],
+      "fallback_reason": null
+    },
+    {
+      "page": 3,
+      "source_image": "page10.png",
+      "source_page": 3,
+      "archive_image": "0003.png",
+      "width": 800,
+      "height": 1200,
+      "sha256": "71a0fe5a651da060c4a19904f6f8593061c7403363ab8510b0e6ea5187d5f9d3",
+      "frame_count": 1,
+      "frames": [
+        "0,0 799,0 799,1199 0,1199"
+      ],
+      "fallback_reason": "pannello:full_page"
+    }
+  ],
+  "preserved_auxiliary": [],
+  "source": "/private/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-panel-e2e-fixture-37q30lnw/pages",
+  "source_sha256_before": null,
+  "source_sha256_after": null,
+  "pdf_dpi": null,
+  "detector": "Pannello 0.1.0 / Kumiko, no model fallback",
+  "detector_stats": {
+    "comic": "pages",
+    "out": "/var/folders/6k/xzgngnms6jg4_z2l40y0_9vh0000gn/T/comic-panel-e2e-convert-8ujk50td/detector/pages.json",
+    "pages": 3,
+    "panels": 6,
+    "low_confidence": [
+      {
+        "page": 1,
+        "reason": "full_page",
+        "fixed": false,
+        "fullpage": true,
+        "by": "fullpage",
+        "panels": 1
+      },
+      {
+        "page": 3,
+        "reason": "full_page",
+        "fixed": false,
+        "fullpage": true,
+        "by": "fullpage",
+        "panels": 1
+      }
+    ],
+    "errors": [],
+    "reading_direction": "ltr",
+    "rtl_source": "default",
+    "gray_hint": false,
+    "order_mismatch": false,
+    "preview_dir": null,
+    "preview_sheets": null,
+    "review_dir": null,
+    "seconds": 0.21082210540771484
+  },
+  "elapsed_seconds": 0.23,
+  "process_pid": 22964
+}
