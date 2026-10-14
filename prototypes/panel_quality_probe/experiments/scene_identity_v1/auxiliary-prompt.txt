@@ -1,0 +1,8 @@
+
+Auxiliary automatic scene descriptions follow. They are fallible hypotheses,
+not gold labels or a completeness checklist. Establish the target independently
+from source and geometry. Confirm or reject useful ownership claims against
+visible evidence. Missing descriptions do not make content optional. Conflicting
+descriptions must not override source pixels. Inspect the actual crop and return
+the unchanged requested verdict schema. Do not accept a crop merely because its
+main described subjects are present.

@@ -1,0 +1,124 @@
+{
+  "model": "gpt-6-sol",
+  "reasoning": {
+    "effort": "low"
+  },
+  "max_output_tokens": 8192,
+  "service_tier": "default",
+  "store": false,
+  "source_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "page_kind",
+      "rationale",
+      "views"
+    ],
+    "properties": {
+      "page_kind": {
+        "type": "string",
+        "enum": [
+          "narrative",
+          "whole_page",
+          "uncertain"
+        ]
+      },
+      "rationale": {
+        "type": "string"
+      },
+      "views": {
+        "type": "array",
+        "maxItems": 128,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "visual_cue",
+            "locator_y",
+            "locator_x",
+            "uncertain"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "visual_cue": {
+              "type": "string"
+            },
+            "locator_y": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "locator_x": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "uncertain": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  },
+  "mapping_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "disposition",
+      "mappings",
+      "inventory_issues",
+      "reason"
+    ],
+    "properties": {
+      "disposition": {
+        "type": "string",
+        "enum": [
+          "complete",
+          "missing",
+          "uncertain"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      },
+      "inventory_issues": {
+        "type": "array",
+        "maxItems": 128,
+        "items": {
+          "type": "string"
+        }
+      },
+      "mappings": {
+        "type": "array",
+        "maxItems": 128,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_id",
+            "proposed_order",
+            "reason"
+          ],
+          "properties": {
+            "source_id": {
+              "type": "string"
+            },
+            "proposed_order": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

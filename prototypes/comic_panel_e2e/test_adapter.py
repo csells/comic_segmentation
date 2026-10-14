@@ -38,6 +38,10 @@ class AdapterTests(unittest.TestCase):
             self.assertEqual(xml.find(".//{*}coverpage/{*}frame").attrib["points"], "50,0 99,0 99,100 50,100")
             self.assertEqual(xml.find("{*}body/{*}page/{*}frame").attrib["points"], "0,0 99,0 99,199 0,199")
             self.assertEqual(archive.read("0001.png"), (self.pages / "page2.png").read_bytes())
+            profile = json.loads(archive.read("panel-reader.json"))
+            self.assertEqual(profile['reading_direction'], 'rtl')
+            self.assertEqual(profile['metadata_sha256'], hashlib.sha256(archive.read('metadata.acbf')).hexdigest())
+            self.assertIsNone(xml.find('.//{*}reading-direction'))
         self.assertEqual(manifest["pages"][1]["fallback_reason"], "empty_panels")
         self.assertEqual(manifest["reading_direction"], "rtl")
 
@@ -65,14 +69,21 @@ class AdapterTests(unittest.TestCase):
             self.build()
         self.assertEqual(target.read_bytes(), b"USER DATA")
 
-    def test_one_page_book_rejected_instead_of_duplicating_cover(self):
+    def test_one_page_book_preserves_its_frames_without_duplicating_source(self):
         self.data["pages"] = self.data["pages"][:1]
         self.data["total_pages"] = 1
         single = self.root / "single"
         single.mkdir()
         (single / "page2.png").write_bytes((self.pages / "page2.png").read_bytes())
-        with self.assertRaisesRegex(ValueError, "cover plus at least one body page"):
-            build_cbz(single, self.data, self.root / "single.cbz", title="Single page")
+        result = build_cbz(single, self.data, self.root / "single.cbz", title="Single page")
+        self.assertEqual(result['page_count'], 1)
+        self.assertEqual(result['body_page_count'], 0)
+        with zipfile.ZipFile(self.root / 'single.cbz') as archive:
+            xml = ET.fromstring(archive.read('metadata.acbf'))
+            self.assertIsNone(xml.find('{*}body'))
+            self.assertEqual(len(xml.findall('.//{*}image')), 1)
+            self.assertEqual(len(xml.findall('.//{*}coverpage/{*}frame')), 2)
+            self.assertEqual(archive.read('0001.png'), (single / 'page2.png').read_bytes())
 
     def test_metadata_is_preserved_without_second_active_acbf(self):
         (self.pages / "ComicInfo.xml").write_bytes(b"<ComicInfo><Manga>YesAndRightToLeft</Manga></ComicInfo>")
@@ -85,6 +96,15 @@ class AdapterTests(unittest.TestCase):
             self.assertEqual(archive.read("source-metadata/old.acbf.original"), b"original metadata")
             self.assertEqual([n for n in archive.namelist() if n.endswith(".acbf")], ["metadata.acbf"])
         self.assertEqual(len(result["preserved_auxiliary"]), 3)
+
+    def test_old_reader_profile_is_preserved_as_auxiliary(self):
+        original = b'{"unrelated": "original profile bytes"}'
+        (self.pages / 'panel-reader.json').write_bytes(original)
+        result = self.build()
+        with zipfile.ZipFile(self.root / 'book.cbz') as archive:
+            self.assertEqual(archive.read('source-metadata/panel-reader.json.original'), original)
+            self.assertEqual(json.loads(archive.read('panel-reader.json'))['reading_direction'], 'rtl')
+        self.assertEqual(result['preserved_auxiliary'][0]['sha256'], hashlib.sha256(original).hexdigest())
 
 
 if __name__ == "__main__":

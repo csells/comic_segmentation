@@ -1,0 +1,967 @@
+{
+  "date": "2026-10-08",
+  "scope": "Matched difficult four-page pilot, not whole-book acceptance",
+  "approved_baseline": "Chris reported no errors in Astra pilot; source and prompt fingerprints below freeze evaluated inputs",
+  "source_pages": [
+    5,
+    25,
+    254,
+    256
+  ],
+  "openai_runs": [
+    {
+      "run": "openai-astra-v4-pilot-20261008",
+      "model_label": "astra",
+      "review": "All overlays and18 ordered crops reviewed; usable pilot",
+      "cost_micro_usd": 405050,
+      "inference_seconds": 143.117,
+      "pages": [
+        {
+          "source_page": 5,
+          "request_id": "a41d4805754b40690cb436335667e741494e16570235da4c3ea983c298bf9dad",
+          "status": "structurally_valid_unreviewed",
+          "panels": 7,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1787,
+            "output_tokens_details": {
+              "reasoning_tokens": 1312
+            },
+            "total_tokens": 4859
+          },
+          "model_version": "gpt-6-astra",
+          "elapsed_seconds": 41.24,
+          "cost_micro_usd": 127750,
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+          "panels_sha256": "9e0ce7569668c67285c96700296e1ad2c604decbb2ec109c2c6df8c11189efd1"
+        },
+        {
+          "source_page": 25,
+          "request_id": "e04aab8ff045d44d812a7d0dc9913333f7409592759659baa0021370c0446ad9",
+          "status": "structurally_valid_unreviewed",
+          "panels": 6,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1962,
+            "output_tokens_details": {
+              "reasoning_tokens": 1547
+            },
+            "total_tokens": 5034
+          },
+          "model_version": "gpt-6-astra",
+          "elapsed_seconds": 58.941,
+          "cost_micro_usd": 136500,
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+          "panels_sha256": "c54061db7ed6565ff3c02e5febc96220c9c0729676a4e692b83e7e1cd4c53eb4"
+        },
+        {
+          "source_page": 254,
+          "request_id": "fa4f7d1a96b3bc2ddf5e9ba66d5e6ab4bde57e5916710e7142639bf9a316f0f1",
+          "status": "structurally_valid_unreviewed",
+          "panels": 4,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1147,
+            "output_tokens_details": {
+              "reasoning_tokens": 848
+            },
+            "total_tokens": 4219
+          },
+          "model_version": "gpt-6-astra",
+          "elapsed_seconds": 33.881,
+          "cost_micro_usd": 95750,
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2",
+          "panels_sha256": "5cb15c16b9c2b3f8ad2dda7a3c40933adbdf551e48174e13fd70fe035344caa9"
+        },
+        {
+          "source_page": 256,
+          "request_id": "e5c96aedc6253213691c7265432eda995d9d0f66b3b1df8bc30c3e2dd931afe2",
+          "status": "structurally_valid_unreviewed",
+          "panels": 1,
+          "classification": "whole_page",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 133,
+            "output_tokens_details": {
+              "reasoning_tokens": 55
+            },
+            "total_tokens": 3205
+          },
+          "model_version": "gpt-6-astra",
+          "elapsed_seconds": 9.055,
+          "cost_micro_usd": 45050,
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8",
+          "panels_sha256": "aac999e4879aa414f15fbceda17d2025f2fce669e08235a92f6d511f9f5dca48"
+        }
+      ],
+      "run_sha256": "1e0a1693e8de569b71ef289a9aeafcb8473349fb587622c751fb2fc35cc44309",
+      "configuration": {
+        "model": "gpt-6-astra",
+        "reasoning": {
+          "effort": "high"
+        },
+        "max_output_tokens": 8192,
+        "service_tier": "default",
+        "store": false,
+        "image_detail": "original"
+      }
+    },
+    {
+      "run": "openai-sol-v4-pilot-20261008",
+      "model_label": "sol",
+      "review": "All overlays and18 ordered crops reviewed; usable pilot",
+      "cost_micro_usd": 76630,
+      "inference_seconds": 68.893,
+      "pages": [
+        {
+          "source_page": 5,
+          "request_id": "e79a5864b650a45d359d7c7704d8ae57e38b8d4c9e2b237065683cb8ee5f3002",
+          "status": "structurally_valid_unreviewed",
+          "panels": 7,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1829,
+            "output_tokens_details": {
+              "reasoning_tokens": 1552
+            },
+            "total_tokens": 4901
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 26.66,
+          "cost_micro_usd": 25970,
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+          "panels_sha256": "3855196f2f380ab4c16884810972df51682ddca20e472052bbac0fa8d449f1b8"
+        },
+        {
+          "source_page": 25,
+          "request_id": "2d79737884d80c8d40f2279075be61a128f522d63c4d0695ba9e64706e6804c4",
+          "status": "structurally_valid_unreviewed",
+          "panels": 6,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1409,
+            "output_tokens_details": {
+              "reasoning_tokens": 1034
+            },
+            "total_tokens": 4481
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 19.443,
+          "cost_micro_usd": 21770,
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+          "panels_sha256": "c068cd8882a60e124df492798e191bd3d27d82cd35153c12f931fb3a38d1ca42"
+        },
+        {
+          "source_page": 254,
+          "request_id": "ab911327f0bc3012a55531ae40a79569be5f903fa200830c25f46d56a4a57fef",
+          "status": "structurally_valid_unreviewed",
+          "panels": 4,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1250,
+            "output_tokens_details": {
+              "reasoning_tokens": 1083
+            },
+            "total_tokens": 4322
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 19.511,
+          "cost_micro_usd": 20180,
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2",
+          "panels_sha256": "c6d7f282d9834661c519fef5a576c2eb1e1d8b3e9848ba3f076ef5a08aec126d"
+        },
+        {
+          "source_page": 256,
+          "request_id": "f96a26311405e0bbe9eecc89dc01e29551a4f1aeadb579220a9b4ae7f52e395e",
+          "status": "structurally_valid_unreviewed",
+          "panels": 1,
+          "classification": "whole_page",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 103,
+            "output_tokens_details": {
+              "reasoning_tokens": 31
+            },
+            "total_tokens": 3175
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 3.279,
+          "cost_micro_usd": 8710,
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8",
+          "panels_sha256": "6edd4a41afadcfabbbc8a6d4f89f0f45cf867238b59fd2d18a043d61d5d5c514"
+        }
+      ],
+      "run_sha256": "d4f2a48c16487c11923a2f3ee009d235e71530a6c7d49f2d9dfd6fe1a640e9b2",
+      "configuration": {
+        "model": "gpt-6-sol",
+        "reasoning": {
+          "effort": "high"
+        },
+        "max_output_tokens": 8192,
+        "service_tier": "default",
+        "store": false,
+        "image_detail": "original"
+      }
+    },
+    {
+      "run": "openai-sol-low-v4-pilot-20261008",
+      "model_label": "sol-low",
+      "review": "All overlays and18 ordered crops reviewed; usable pilot",
+      "cost_micro_usd": 44230,
+      "inference_seconds": 27.615,
+      "pages": [
+        {
+          "source_page": 5,
+          "request_id": "39b62ff6864ec05fd3e505ebf18a51e6886f1528bd141337bfabf99a0231af1d",
+          "status": "structurally_valid_unreviewed",
+          "panels": 7,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 506,
+            "output_tokens_details": {
+              "reasoning_tokens": 228
+            },
+            "total_tokens": 3578
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 8.881,
+          "cost_micro_usd": 12740,
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+          "panels_sha256": "3f596f40248837eba9fce614623b2d12fee079167b916a664482b9cacba79871"
+        },
+        {
+          "source_page": 25,
+          "request_id": "63fb2342ab6e6229cb29f1a9b24da55210af5aa32348708930a1fdacdebf6974",
+          "status": "structurally_valid_unreviewed",
+          "panels": 6,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 394,
+            "output_tokens_details": {
+              "reasoning_tokens": 157
+            },
+            "total_tokens": 3466
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 7.788,
+          "cost_micro_usd": 11620,
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+          "panels_sha256": "69bd5c518eadebb50e2648b8585c5599782cd4437278584f4a99c9f61509f428"
+        },
+        {
+          "source_page": 254,
+          "request_id": "1fdb9d2ddfbe13a8a66044a37c92a8b18b4c8508cd70ea4e95cbdaa47d38d74a",
+          "status": "structurally_valid_unreviewed",
+          "panels": 4,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 382,
+            "output_tokens_details": {
+              "reasoning_tokens": 215
+            },
+            "total_tokens": 3454
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 8.489,
+          "cost_micro_usd": 11500,
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2",
+          "panels_sha256": "4cad8a7eb1d19e2ccc0505272ad84579395e3899605877367ca53ce46de4cd6f"
+        },
+        {
+          "source_page": 256,
+          "request_id": "279a7d78572af962f9c6c61f810b078e0a3d23970e9891e936adb67e2fa5badd",
+          "status": "structurally_valid_unreviewed",
+          "panels": 1,
+          "classification": "whole_page",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 69,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 3141
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 2.457,
+          "cost_micro_usd": 8370,
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8",
+          "panels_sha256": "b559f85ae9608d8ff3526f3728035bf17ac4c057eb8753b20937c0ebb2199585"
+        }
+      ],
+      "run_sha256": "fe415f8dfb1ee6863bf8a10211e7bf7b07463795f772ed925ba5a0c8a57d83e9",
+      "configuration": {
+        "model": "gpt-6-sol",
+        "reasoning": {
+          "effort": "low"
+        },
+        "max_output_tokens": 8192,
+        "service_tier": "default",
+        "store": false,
+        "image_detail": "original"
+      }
+    },
+    {
+      "run": "openai-luna-v4-pilot-20261008",
+      "model_label": "luna",
+      "review": "All4 overlays reviewed; rejected for false split5 and clipped foreground25; complete crop acceptance not performed",
+      "cost_micro_usd": 4743,
+      "inference_seconds": 106.107,
+      "pages": [
+        {
+          "source_page": 5,
+          "request_id": "fc4aa4e5274a6215797b34908a074c4a856decf30cb0bcb4ccfbef34c256870f",
+          "status": "structurally_valid_unreviewed",
+          "panels": 8,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 5501,
+            "output_tokens_details": {
+              "reasoning_tokens": 5178
+            },
+            "total_tokens": 8573
+          },
+          "model_version": "gpt-6-luna",
+          "elapsed_seconds": 57.125,
+          "cost_micro_usd": 2751,
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+          "panels_sha256": "74a6e6737f6fdd82f0a76dfb3ebf996d681b874e42272695dd608bd09374b848"
+        },
+        {
+          "source_page": 25,
+          "request_id": "de7400e92240accf113a950319b4866e4112c8b5ed1b2afa112d8c5e52435966",
+          "status": "structurally_valid_unreviewed",
+          "panels": 6,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 2343,
+            "output_tokens_details": {
+              "reasoning_tokens": 2098
+            },
+            "total_tokens": 5415
+          },
+          "model_version": "gpt-6-luna",
+          "elapsed_seconds": 26.458,
+          "cost_micro_usd": 1172,
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+          "panels_sha256": "355a6a450af745089948209ffb71a452ba5902221dd4eca9828ff0864928f717"
+        },
+        {
+          "source_page": 254,
+          "request_id": "5bf2ef58e088abb64b749d7c76bd521e2da0ed4b7e82a887cca19901d60dd50f",
+          "status": "structurally_valid_unreviewed",
+          "panels": 4,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1477,
+            "output_tokens_details": {
+              "reasoning_tokens": 1303
+            },
+            "total_tokens": 4549
+          },
+          "model_version": "gpt-6-luna",
+          "elapsed_seconds": 18.573,
+          "cost_micro_usd": 739,
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2",
+          "panels_sha256": "79292d0109552e52d5f3b0a2717d678cb9014eaa59aec3a2de4abb9709daef51"
+        },
+        {
+          "source_page": 256,
+          "request_id": "01f7c767d04163025d2ba92eb03346e7ce0e9cf99e674213bba85ecea10f75e3",
+          "status": "structurally_valid_unreviewed",
+          "panels": 1,
+          "classification": "whole_page",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 162,
+            "output_tokens_details": {
+              "reasoning_tokens": 88
+            },
+            "total_tokens": 3234
+          },
+          "model_version": "gpt-6-luna",
+          "elapsed_seconds": 3.951,
+          "cost_micro_usd": 81,
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8",
+          "panels_sha256": "f29c852485100bf44b0d777ac93d1263a6ee27edc3fbdcc3bde84fe234c845b9"
+        }
+      ],
+      "run_sha256": "03d186d8afe3b16d3deb720f59fc278c7a2a8af4a0ce25b83f4ee9a30656f9db",
+      "configuration": {
+        "model": "gpt-6-luna",
+        "reasoning": {
+          "effort": "high"
+        },
+        "max_output_tokens": 8192,
+        "service_tier": "default",
+        "store": false,
+        "image_detail": "original"
+      }
+    },
+    {
+      "run": "openai-56luna-v4-pilot-20261008",
+      "model_label": "56luna",
+      "review": "All4 overlays reviewed; rejected for false split5 and clipped foreground25; complete crop acceptance not performed",
+      "cost_micro_usd": 19308,
+      "inference_seconds": 138.356,
+      "pages": [
+        {
+          "source_page": 5,
+          "request_id": "4687ba0c7c79a8ef0e91a05632b7b8a60831e63edb06ca1a5c880822ee8eb185",
+          "status": "structurally_valid_unreviewed",
+          "panels": 8,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 5495,
+            "output_tokens_details": {
+              "reasoning_tokens": 5178
+            },
+            "total_tokens": 8567
+          },
+          "model_version": "gpt-5.6-luna",
+          "elapsed_seconds": 59.623,
+          "cost_micro_usd": 7637,
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+          "panels_sha256": "a7bfa6ed76e98ce89afcbe79cb05d7be854d158d0213407e390cf7487bd14c35"
+        },
+        {
+          "source_page": 25,
+          "request_id": "83dfbb936fbaca547673d7798c5a90036c3ec120f78d63bac4c58e1a53ce4ff6",
+          "status": "structurally_valid_unreviewed",
+          "panels": 6,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 4916,
+            "output_tokens_details": {
+              "reasoning_tokens": 4660
+            },
+            "total_tokens": 7988
+          },
+          "model_version": "gpt-5.6-luna",
+          "elapsed_seconds": 50.302,
+          "cost_micro_usd": 6913,
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+          "panels_sha256": "147bcf3ac9ce6760f934851f1f8bd51c268dab422981d8606a3eda1d72104491"
+        },
+        {
+          "source_page": 254,
+          "request_id": "8a3f771ce3d3d45ea2e0dcd94c4a78537d90b4da7f0787fcf15c847278c0038b",
+          "status": "structurally_valid_unreviewed",
+          "panels": 4,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 2224,
+            "output_tokens_details": {
+              "reasoning_tokens": 2043
+            },
+            "total_tokens": 5296
+          },
+          "model_version": "gpt-5.6-luna",
+          "elapsed_seconds": 23.137,
+          "cost_micro_usd": 3548,
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2",
+          "panels_sha256": "99ee8a28c98123887ae58caa103dc3b2aa75b05f79439c9bcf0ba1261d525ffd"
+        },
+        {
+          "source_page": 256,
+          "request_id": "b3e382d16db5410a313e7f18ebf4065561256ba617e9745962e0f4fac4519f4c",
+          "status": "structurally_valid_unreviewed",
+          "panels": 1,
+          "classification": "whole_page",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 353,
+            "output_tokens_details": {
+              "reasoning_tokens": 280
+            },
+            "total_tokens": 3425
+          },
+          "model_version": "gpt-5.6-luna",
+          "elapsed_seconds": 5.294,
+          "cost_micro_usd": 1210,
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8",
+          "panels_sha256": "8320f57aec8cdad91fdae8414f26f52b313140c3f68ec5c68ad84fbdfb597227"
+        }
+      ],
+      "run_sha256": "3f14b7e243640fa332bd418f518007e2e5e412e95473963dfd8b1ccdaba6d8be",
+      "configuration": {
+        "model": "gpt-5.6-luna",
+        "reasoning": {
+          "effort": "high"
+        },
+        "max_output_tokens": 8192,
+        "service_tier": "default",
+        "store": false,
+        "image_detail": "original"
+      }
+    }
+  ],
+  "specialist_runs": [
+    {
+      "run": "magi-pilot-20261008",
+      "configuration": {
+        "kind": "magi",
+        "device": "cpu",
+        "threads": 2,
+        "model_sha256": "b4f77488ed0205e8b74b7373850d06ab7661752688c5e4f28f35095931e97c14",
+        "load_seconds": 12.701401708,
+        "manual_geometry": false,
+        "ordering": "Magi sort_panels on horizontally mirrored box coordinates for LTR",
+        "input": "grayscale RGB per Magi usage",
+        "threshold": 0.2
+      },
+      "inference_seconds": 4.0200583760000015,
+      "pages": [
+        {
+          "source_page": 5,
+          "panels": 3,
+          "seconds": 1.2943697919999995,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Upper scenes merged into one region; insets missing",
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f"
+        },
+        {
+          "source_page": 25,
+          "panels": 5,
+          "seconds": 1.4062882500000011,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Bottom pair merged; rider head/balloon clipped",
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b"
+        },
+        {
+          "source_page": 254,
+          "panels": 3,
+          "seconds": 0.6517174170000004,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Middle portrait missing as separate scene",
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2"
+        },
+        {
+          "source_page": 256,
+          "panels": 1,
+          "seconds": 0.6676829170000005,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "One near-full-page splash; overlay inspected",
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8"
+        }
+      ]
+    },
+    {
+      "run": "magi-iou-pilot-20261008",
+      "configuration": {
+        "kind": "magi",
+        "device": "cpu",
+        "threads": 2,
+        "model_sha256": "b4f77488ed0205e8b74b7373850d06ab7661752688c5e4f28f35095931e97c14",
+        "load_seconds": 4.6297683329999995,
+        "manual_geometry": false,
+        "ordering": "Magi sort_panels on horizontally mirrored box coordinates for LTR",
+        "input": "grayscale RGB per Magi usage",
+        "threshold": 0.2,
+        "magi_postprocessing": "IoU NMS 0.7",
+        "yolo_image_size": 640
+      },
+      "inference_seconds": 3.915110749000001,
+      "pages": [
+        {
+          "source_page": 5,
+          "panels": 7,
+          "seconds": 1.144264292,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Seven boxes include duplicate/composite background; wrong scene mapping/order",
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f"
+        },
+        {
+          "source_page": 25,
+          "panels": 6,
+          "seconds": 1.4014749580000005,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Six boxes include duplicate top composite and merged bottom pair",
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b"
+        },
+        {
+          "source_page": 254,
+          "panels": 3,
+          "seconds": 0.6668462909999997,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Still misses middle portrait",
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2"
+        },
+        {
+          "source_page": 256,
+          "panels": 1,
+          "seconds": 0.7025252080000008,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "One near-full-page splash; overlay inspected",
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8"
+        }
+      ]
+    },
+    {
+      "run": "western-yolo-pilot-20261008",
+      "configuration": {
+        "kind": "yolo",
+        "device": "cpu",
+        "threads": 2,
+        "model_sha256": "566e9ff59ec146afb695eb48a8aaae983b43bb72c3a57f63afafe12f3b349af4",
+        "load_seconds": 0.7577859170000001,
+        "manual_geometry": false,
+        "ordering": "Magi sort_panels on horizontally mirrored box coordinates for LTR",
+        "input": "original RGB",
+        "threshold": 0.25
+      },
+      "inference_seconds": 2.001455292,
+      "pages": [
+        {
+          "source_page": 5,
+          "panels": 4,
+          "seconds": 0.9489055000000002,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Misses main background and insets",
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f"
+        },
+        {
+          "source_page": 25,
+          "panels": 6,
+          "seconds": 0.30559375000000033,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Duplicate top composite and missing bottom-left scene despite six boxes",
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b"
+        },
+        {
+          "source_page": 254,
+          "panels": 6,
+          "seconds": 0.3588406249999996,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "False regions, clipped lettering, missing middle scene",
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2"
+        },
+        {
+          "source_page": 256,
+          "panels": 1,
+          "seconds": 0.38811541699999985,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Top art cropped by about50px; END retained",
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8"
+        }
+      ]
+    },
+    {
+      "run": "western-yolo1280-pilot-20261008",
+      "configuration": {
+        "kind": "yolo",
+        "device": "cpu",
+        "threads": 2,
+        "model_sha256": "566e9ff59ec146afb695eb48a8aaae983b43bb72c3a57f63afafe12f3b349af4",
+        "load_seconds": 0.633957542,
+        "manual_geometry": false,
+        "ordering": "Magi sort_panels on horizontally mirrored box coordinates for LTR",
+        "input": "original RGB",
+        "threshold": 0.25,
+        "magi_postprocessing": "upstream coverage suppression",
+        "yolo_image_size": 1280
+      },
+      "inference_seconds": 6.490163750000001,
+      "pages": [
+        {
+          "source_page": 5,
+          "panels": 5,
+          "seconds": 2.1563026670000003,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Missing main background and portrait scene",
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f"
+        },
+        {
+          "source_page": 25,
+          "panels": 4,
+          "seconds": 1.4628951249999997,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Missing top-left and bottom-left scenes",
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b"
+        },
+        {
+          "source_page": 254,
+          "panels": 2,
+          "seconds": 1.4390639580000002,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "Only two inset regions; missing scenes and clipped first balloon",
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2"
+        },
+        {
+          "source_page": 256,
+          "panels": 0,
+          "seconds": 1.431902,
+          "quality": "rejected_configuration",
+          "overlay_inspected": true,
+          "complete_crop_acceptance": false,
+          "finding": "No detection",
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8"
+        }
+      ]
+    }
+  ],
+  "paid_calls_this_comparison": 12,
+  "openai_calls_iteration": 29,
+  "gemini_attempts_iteration": 14,
+  "new_cost_micro_usd": 68281,
+  "used_held_micro_usd": 4423241,
+  "reported_usage_estimate_micro_usd": 823241,
+  "unknown_gemini_holds_micro_usd": 3600000,
+  "cap_micro_usd": 20000000,
+  "no_retries": true,
+  "manual_geometry": false,
+  "prompt_v4_sha256": "0f6422eec8ea7ca75cfbe1320b67dcd58b7ad4092a2acbe7e525157efde9e2a3",
+  "models": [
+    {
+      "repo": "ragavsachdeva/magi",
+      "revision": "15ad498ad45093ad3b833d625728220c6309ad99",
+      "file": "model.safetensors",
+      "bytes": 2063157440,
+      "sha256": "b4f77488ed0205e8b74b7373850d06ab7661752688c5e4f28f35095931e97c14",
+      "seconds": 49.972251291
+    },
+    {
+      "repo": "mosesb/best-comic-panel-detection",
+      "revision": "bbab11504194d0b341ac3f6099f3592aa0604ae3",
+      "file": "best.pt",
+      "bytes": 119112954,
+      "sha256": "566e9ff59ec146afb695eb48a8aaae983b43bb72c3a57f63afafe12f3b349af4",
+      "seconds": 3.577205875000004
+    },
+    {
+      "repo": "mosesb/best-comic-panel-detection",
+      "revision": "bbab11504194d0b341ac3f6099f3592aa0604ae3",
+      "file": "README.md",
+      "bytes": 4752,
+      "sha256": "e12fac4e15178fbbd077f17a4ecee11232d68d6bebb57067cb3d578f244e66d3",
+      "seconds": 0.3624436250000045
+    },
+    {
+      "repo": "mosesb/best-comic-panel-detection",
+      "revision": "bbab11504194d0b341ac3f6099f3592aa0604ae3",
+      "file": "args.yaml",
+      "bytes": 1606,
+      "sha256": "a9b25734886126c63743d6ff0253915bb34d26614e86cb73daf4952dcda6f724",
+      "seconds": 0.2748961670000014
+    }
+  ],
+  "staging": {
+    "build": "build-7",
+    "review_url": "https://csells-mac-mini--51996.getbb.app/",
+    "catalog_entries": 5,
+    "reader_application_changed": false,
+    "prior_books_unchanged": true,
+    "public_anonymous_status": 401,
+    "owner_authenticated_share": true,
+    "checks": [
+      {
+        "book": "openai-sol-low-pilot",
+        "prepared_checks_passed": 25,
+        "published_checks_passed": 25,
+        "uncaught_exceptions": 0,
+        "viewport": "390x844 emulation, not physical phone"
+      },
+      {
+        "book": "openai-sol-high-pilot",
+        "prepared_checks_passed": 25,
+        "published_checks_passed": 25,
+        "uncaught_exceptions": 0,
+        "viewport": "390x844 emulation, not physical phone"
+      }
+    ],
+    "temporary_ports_closed": [
+      8081,
+      9222
+    ],
+    "review_port_running": 8080,
+    "production_promotion": false,
+    "catalog": [
+      {
+        "id": "openai-astra-pilot",
+        "title": "OpenAI \u00b7 reviewed pilot",
+        "description": "Original cover, then PDF pages 5, 25, 254 and 256. Automatic results: all 18 scenes and their order visually reviewed. Full book still under validation.",
+        "file": "openai-astra-pilot.cbz",
+        "bytes": 1699011,
+        "sha256": "fa6044fb55b4631c44d4b70f4615aa44bd0364caeaa39b7ed402528252b0d98a"
+      },
+      {
+        "id": "openai-sol-low-pilot",
+        "title": "OpenAI Sol \u00b7 low reasoning",
+        "description": "Same four difficult pages as the approved Astra pilot. All 18 scenes and order reviewed; 4.4\u00a2 measured API estimate. Compare the crop boundaries yourself.",
+        "file": "openai-sol-low-pilot.cbz",
+        "bytes": 1699015,
+        "sha256": "bc87f7557dce6629eb79bc25dd0f1854604620320bc5806fcae0d503acb27ae1"
+      },
+      {
+        "id": "openai-sol-high-pilot",
+        "title": "OpenAI Sol \u00b7 high reasoning",
+        "description": "Same four difficult pages as the approved Astra pilot. All 18 scenes and order reviewed; 7.7\u00a2 measured API estimate. Compare the crop boundaries yourself.",
+        "file": "openai-sol-high-pilot.cbz",
+        "bytes": 1699016,
+        "sha256": "c7affea0dac6588891d68111f62542d5ed3877e5d63ed5579efc8075774794cb"
+      },
+      {
+        "id": "gemini",
+        "title": "Gemini sample",
+        "description": "4 PDF pages: 1, 3, 5 and 25. Page 5 falls back to a whole page; page 25 has a known merged panel.",
+        "file": "gemini-saved.cbz",
+        "bytes": 7539352,
+        "sha256": "8b5e080530f1532cfa0d710a3001490b6825220c15d8c8c764ce7386358d2848"
+      },
+      {
+        "id": "local",
+        "title": "Full book \u00b7 local detector",
+        "description": "257 PDF pages with saved local-detector results. Includes known panel errors and 48 reported whole-page fallbacks.",
+        "file": "local-saved.cbz",
+        "bytes": 75362700,
+        "sha256": "7f684110be76a478f8d79ce6c249b0d70f6ebd2ae142858942587a84365be073"
+      }
+    ],
+    "recurring_health_verified_after_registry_update": true,
+    "reader_registry_revision": 10
+  },
+  "retained_archives": [
+    {
+      "file": "specialist-retained.tgz",
+      "bytes": 2043559834,
+      "sha256": "f3ad94be31c7d64b2a7f40a6f1c126f7903ae864683f6302c1a5143c6fe6f9db"
+    },
+    {
+      "file": "cost-build7-retained-20261008.tgz",
+      "bytes": 37210030,
+      "sha256": "b76e3e48b9d761764b896442a48846c10c90a865cf18204f58ba9c7edf6f0b64"
+    }
+  ],
+  "specialist_guest": {
+    "name": "orca-automation-comic-cost-20261008",
+    "state": "deleted after verified export and graceful shutdown",
+    "credentials_copied": false,
+    "unrelated_guests_preserved": true,
+    "orca_registry_revision": 7
+  },
+  "offline_tests_passed": 13
+}

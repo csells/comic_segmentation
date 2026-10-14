@@ -1,0 +1,86 @@
+<!doctype html><meta charset="utf-8"><title>Running ACBF tests</title>
+<pre id="out"></pre>
+<script type="module">
+const out = document.querySelector('#out');
+try {
+  const { parseAcbf, openAcbf, parseReaderProfile } = await import('./acbf.js');
+  let passed = 0;
+  const assert = (v, text) => { if (!v) throw Error(text); };
+  const test = async (name, f) => { await f(); out.textContent += `PASS ${name}\n`; passed++; };
+  const xml = (frames = '<frame points="50,10 90,10 90,40 50,40"/><frame points="0,0 40,0 40,40 0,40"/>') => `
+    <ACBF xmlns="http://www.acbf.info/xml/acbf/1.1"><meta-data><book-info>
+    <book-title>&lt;script&gt;untrusted title&lt;/script&gt;</book-title>
+    <coverpage><image href="cover.png"/></coverpage></book-info></meta-data>
+    <body><page><image href="story.png"/>${frames}</page></body></ACBF>`;
+  const paths = new Set(['cover.png','story.png']);
+  const rejects = (fn, pattern) => { try { fn(); } catch(e) { assert(pattern.test(e.message),e.message); return; } throw Error('expected rejection'); };
+  await test('cover once, XML order, literal title, no-frame whole page', () => {
+    const b = parseAcbf(xml(), paths);
+    assert(b.pages.length===2 && b.pages[0].path==='cover.png','cover/page count');
+    assert(b.pages[1].panels.map(p=>p.x).join(',')==='50,0','metadata order was sorted');
+    assert(b.pages[0].panels.length===0,'missing frames must disable redetection');
+    assert(b.title==='<script>untrusted title<'+'/script>','title text');
+    assert(b.readingDirection==='ltr','older books retain the LTR default');
+  });
+  await test('reader direction profile is validated and bound to exact metadata', () => {
+    const hash = 'a'.repeat(64);
+    const profile = {format:'comic-panel-reader-profile', version:1, reading_direction:'rtl', metadata_sha256:hash};
+    assert(parseReaderProfile(JSON.stringify(profile), hash).reading_direction==='rtl','RTL profile');
+    rejects(()=>parseReaderProfile(JSON.stringify(profile), 'b'.repeat(64)), /profile/i);
+    for (const change of [{reading_direction:'sideways'}, {version:2}, {extra:'field'}, {metadata_sha256:5}])
+      rejects(()=>parseReaderProfile(JSON.stringify({...profile,...change}), hash), /profile/i);
+  });
+  await test('single source page keeps cover frames without invented body or duplication', async () => {
+    const single = xml().replace(/<body>[\s\S]*<\/body>/, '').replace('<coverpage><image href="cover.png"/>', '<coverpage><image href="cover.png"/><frame points="0,0 40,0 40,40 0,40"/>');
+    const parsed = parseAcbf(single, paths);
+    assert(parsed.pages.length===1 && parsed.pages[0].panels.length===1,'single source page and frame');
+    rejects(()=>parseAcbf(single.replace('</ACBF>', '<body/></ACBF>'),paths), /body/i);
+    const book = await openAcbf(await (await fetch('./single-control.cbz')).blob());
+    await book.pages[0].get();
+    assert(book.pages.length===1 && book.pages[0].panels.length===4,'actual single-page archive');
+  });
+  await test('missing/duplicate/traversal/external image references fail', () => {
+    rejects(()=>parseAcbf(xml().replace('story.png','missing.png'),paths),/missing/i);
+    rejects(()=>parseAcbf(xml().replace('story.png','cover.png'),paths),/duplicate/i);
+    for(const p of ['../story.png','https://example.com/story.png','/story.png'])
+      rejects(()=>parseAcbf(xml().replace('story.png',p),new Set([...paths,p])),/path/i);
+  });
+  await test('bad XML, namespace, entities and malformed geometry fail', () => {
+    rejects(()=>parseAcbf(xml().replace('</body>',''),paths),/XML/i);
+    rejects(()=>parseAcbf(xml().replace('acbf/1.1','acbf/1.2'),paths),/1.1/i);
+    rejects(()=>parseAcbf('<!DOCTYPE ACBF>'+xml(),paths),/DTD/i);
+    for(const points of ['NaN,0 1,0 1,1','0,0 0,0 0,0','-1,0 1,0 1,1','0,0 1.5,0 1,1'])
+      rejects(()=>parseAcbf(xml(`<frame points="${points}"/>`),paths),/frame/i);
+  });
+  await test('real deflated CBZ decodes image and preserves 3,1,4,2',async()=>{
+    const b = await openAcbf(await (await fetch('./order-control.cbz')).blob());
+    assert(b.pages.length===3,'three pages');
+    await b.pages[1].get();
+    assert(b.pages[1].panels.map(p=>p.x).join(',')==='350,50,50,50','order coordinates');
+    assert(b.pages[1].panels.map(p=>p.y).join(',')==='450,50,950,450','order coordinates');
+  });
+  await test('archive profile sets RTL, legacy defaults LTR and mismatched profile fails',async()=>{
+    const rtl = await openAcbf(await (await fetch('./rtl-control.cbz')).blob());
+    assert(rtl.readingDirection==='rtl','RTL direction transport');
+    assert(rtl.pages[1].panels.map(p=>p.x).join(',')==='350,50,50,50','RTL must not reorder metadata');
+    const legacy = await openAcbf(await (await fetch('./legacy-control.cbz')).blob());
+    assert(legacy.readingDirection==='ltr','legacy default');
+    let failed=false;
+    try { await openAcbf(await (await fetch('./profile-mismatch.cbz')).blob()); }
+    catch(e) { failed=/profile/i.test(e.message); }
+    assert(failed,'unbound direction profile accepted');
+  });
+  await test('duplicate ZIP names are rejected before map overwrite',async()=>{
+    let failed=false;
+    try { await openAcbf(await (await fetch('./duplicate.cbz')).blob()); }
+    catch(e){ failed=/duplicate/i.test(e.message); }
+    assert(failed,'duplicate archive accepted');
+  });
+  await test('out-of-bounds frame fails on actual decoded dimensions',async()=>{
+    const b=await openAcbf(await (await fetch('./bounds.cbz')).blob());
+    let failed=false; try { await b.pages[1].get(); } catch(e){ failed=/bounds/i.test(e.message); }
+    assert(failed,'bad bounds accepted');
+  });
+  document.title='PASS'; out.textContent += `${passed} tests passed\n`;
+} catch(e) { document.title='FAIL'; out.textContent += e.stack; }
+</script>

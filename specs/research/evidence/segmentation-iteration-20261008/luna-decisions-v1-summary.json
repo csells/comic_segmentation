@@ -1,0 +1,278 @@
+{
+  "date": "2026-10-08",
+  "model": "gpt-6-luna",
+  "endpoint": "POST /v1/decisions",
+  "policy": "Escalate if any of four defect probabilities >= 0.5; invalid/refused response stops. Frozen before execution.",
+  "cases": [
+    {
+      "id": "case-01",
+      "page": 100,
+      "expected": "escalate",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.0,
+        "order_defect": 0.0,
+        "text_clipping": 0.02,
+        "art_clipping": 0.97
+      },
+      "elapsed_seconds": 1.334,
+      "cost_micro_usd": 646,
+      "input_tokens": 6453,
+      "request_id": "1a822d817e111b1b000340a0daa28e00728cd96dcf721c23f852101a94e1fc6f",
+      "response_sha256": "2f037dbca7378cd0c9bbd0e0fa866ddffe713b339729e91693df9db43a145b2f"
+    },
+    {
+      "id": "case-02",
+      "page": 100,
+      "expected": "keep",
+      "actual": "keep",
+      "probabilities": {
+        "scene_defect": 0.0,
+        "order_defect": 0.0,
+        "text_clipping": 0.0,
+        "art_clipping": 0.03
+      },
+      "elapsed_seconds": 0.536,
+      "cost_micro_usd": 656,
+      "input_tokens": 6554,
+      "request_id": "d9989a1702882fbfc9a37f0ea8ad41b821be3123efdc54f54afde7259bad1556",
+      "response_sha256": "7c34411438f79e1a21437065b955d7a1360d7ae064828bc10cb388216a3ac3ec"
+    },
+    {
+      "id": "case-03",
+      "page": 205,
+      "expected": "escalate",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.19,
+        "order_defect": 0.16,
+        "text_clipping": 1.0,
+        "art_clipping": 1.0
+      },
+      "elapsed_seconds": 0.557,
+      "cost_micro_usd": 713,
+      "input_tokens": 7128,
+      "request_id": "26b6a7daf1897aec962f135fd03467f133df7802da9131ef313dc647bfc0125b",
+      "response_sha256": "c04e3a569fccd531746078cfa2f725e732ff92b84f8deb9ff8ad59aa38c7086c"
+    },
+    {
+      "id": "case-04",
+      "page": 18,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.01,
+        "order_defect": 0.12,
+        "text_clipping": 0.47,
+        "art_clipping": 0.98
+      },
+      "elapsed_seconds": 0.608,
+      "cost_micro_usd": 703,
+      "input_tokens": 7029,
+      "request_id": "1e5ba844a7f95c32d5ef87bd415b9757f8ea840c2d6e7943a230e33bc7ef9969",
+      "response_sha256": "08d4866dba9910bfc05701878b63c3a4ff6ee10b940ff2a3dad1cf5305fdad6d"
+    },
+    {
+      "id": "case-05",
+      "page": 175,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.0,
+        "order_defect": 0.0,
+        "text_clipping": 0.84,
+        "art_clipping": 0.49
+      },
+      "elapsed_seconds": 0.612,
+      "cost_micro_usd": 679,
+      "input_tokens": 6786,
+      "request_id": "70e950493e2a39a8603c46acd48a83462316da3925525367aeffa1cae13366f5",
+      "response_sha256": "14c6f9b11b0092ca6d384b1db5a3353ff7bd3afd9e7998ac6ce8d0419f2dd130"
+    },
+    {
+      "id": "case-06",
+      "page": 240,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 1.0,
+        "order_defect": 0.0,
+        "text_clipping": 0.0,
+        "art_clipping": 0.0
+      },
+      "elapsed_seconds": 0.293,
+      "cost_micro_usd": 308,
+      "input_tokens": 3071,
+      "request_id": "0f16a7c794877d7c2b5670b0ae1a99c1aeb6b9181f377ee9a29fa9f8419204ed",
+      "response_sha256": "6d63ccb0031f26336df2e83df4b2290045b92c41fb901f425a22e1fd07ce7035"
+    },
+    {
+      "id": "case-07",
+      "page": 6,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.06,
+        "order_defect": 0.01,
+        "text_clipping": 0.95,
+        "art_clipping": 1.0
+      },
+      "elapsed_seconds": 0.639,
+      "cost_micro_usd": 710,
+      "input_tokens": 7097,
+      "request_id": "e9c094a88f515076c7587da2ddce18e50baf35d1e06da911f1e2745fc4d98b71",
+      "response_sha256": "1dfbaa2915d4ef927a682af87de65926e15cd6fdc959aea435e4962d5760f094"
+    },
+    {
+      "id": "case-08",
+      "page": 25,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.0,
+        "order_defect": 0.0,
+        "text_clipping": 0.17,
+        "art_clipping": 1.0
+      },
+      "elapsed_seconds": 0.582,
+      "cost_micro_usd": 689,
+      "input_tokens": 6883,
+      "request_id": "71d25bba8eb5cb9e2321ac86635015ad30155cf63bdfab81e68f432e635fa048",
+      "response_sha256": "2e693a078bdcfd69be69e11e71e11efc793742c64583321f6edf8a4b7da4d3b2"
+    },
+    {
+      "id": "case-09",
+      "page": 205,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.41,
+        "order_defect": 0.07,
+        "text_clipping": 1.0,
+        "art_clipping": 1.0
+      },
+      "elapsed_seconds": 0.644,
+      "cost_micro_usd": 736,
+      "input_tokens": 7356,
+      "request_id": "2c55196a0e7f43f77475783dcb402b8f53c42785e09d15fdcb69a02b79271ac3",
+      "response_sha256": "f60f9babb3d2a660c38f350c111723a2fbd7a5078c9738a0d5b9616566ed1c6e"
+    },
+    {
+      "id": "case-10",
+      "page": 254,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.0,
+        "order_defect": 0.0,
+        "text_clipping": 0.99,
+        "art_clipping": 1.0
+      },
+      "elapsed_seconds": 0.524,
+      "cost_micro_usd": 699,
+      "input_tokens": 6987,
+      "request_id": "1c0b1bb2a33d313c24847615e79fb7b87c7ae763be56a0b7beba8d430182f26c",
+      "response_sha256": "27b19356b1551a41abab41fabb7cb5cf0a308513b99a550d965f243dd2aff3a1"
+    },
+    {
+      "id": "case-11",
+      "page": 256,
+      "expected": "keep",
+      "actual": "keep",
+      "probabilities": {
+        "scene_defect": 0.0,
+        "order_defect": 0.0,
+        "text_clipping": 0.0,
+        "art_clipping": 0.0
+      },
+      "elapsed_seconds": 0.342,
+      "cost_micro_usd": 308,
+      "input_tokens": 3071,
+      "request_id": "c6d79deed1bd46c1e1761eefbc66e982c7b5ff208cbcebb48d5c087ea29cfbde",
+      "response_sha256": "b690dc5817681afcee9b397f4dbb8fece8b0c5a8bfcc82df9f08430a133182ef"
+    },
+    {
+      "id": "case-12",
+      "page": 54,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.12,
+        "order_defect": 0.0,
+        "text_clipping": 0.99,
+        "art_clipping": 1.0
+      },
+      "elapsed_seconds": 0.556,
+      "cost_micro_usd": 680,
+      "input_tokens": 6795,
+      "request_id": "45ad5f7b0d61ff5a717c32983da742d66cd61164cfb1b7703d40c96f49669161",
+      "response_sha256": "542f12f65f77992a8a80728f3df8e487d423955cd0941697693fa98ddf3a7d92"
+    },
+    {
+      "id": "case-13",
+      "page": 5,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 0.0,
+        "order_defect": 0.01,
+        "text_clipping": 1.0,
+        "art_clipping": 1.0
+      },
+      "elapsed_seconds": 0.676,
+      "cost_micro_usd": 707,
+      "input_tokens": 7068,
+      "request_id": "16a60a572617021af73f87123479e25d3b092a9b4ed1352b4049ed1d00061077",
+      "response_sha256": "8d03f181dc99a0624c66dfbdccb9b514082f25734e6993426eef16b307c318a3"
+    },
+    {
+      "id": "case-14",
+      "page": 2,
+      "expected": "keep",
+      "actual": "escalate",
+      "probabilities": {
+        "scene_defect": 1.0,
+        "order_defect": 0.0,
+        "text_clipping": 0.0,
+        "art_clipping": 0.01
+      },
+      "elapsed_seconds": 0.372,
+      "cost_micro_usd": 308,
+      "input_tokens": 3071,
+      "request_id": "f3da9ca50c53a8d09c04169561ddfc9979677750d1142f982bc904bc6a1a7f83",
+      "response_sha256": "b444c1c2435f5eb3dfcf622ae4b67ff96922a16363b49db278145da8bf438e77"
+    }
+  ],
+  "metrics": {
+    "completed": 14,
+    "known_failures_caught": 2,
+    "known_failures_missed": 0,
+    "usable_candidates_kept": 2,
+    "usable_candidates_escalated": 10,
+    "agreement": 4,
+    "agreement_denominator": 14
+  },
+  "estimated_cost_micro_usd": 8542,
+  "input_tokens": 85349,
+  "median_elapsed_seconds": 0.5695,
+  "min_elapsed_seconds": 0.293,
+  "max_elapsed_seconds": 1.334,
+  "mean_elapsed_seconds": 0.5910714285714286,
+  "budget_used_held_micro_usd": 4603790,
+  "unchanged_unknown_holds_micro_usd": 3600000,
+  "labels_sha256": "81909cb4a4aa3f9461146d25f5869990e11deb5a24237df8c937d8f56ed2490f",
+  "source_sha256": "13f94ea9e96815753dc9b47f6c44dc83009f823afb0c64f17f61e7c10d9daaee",
+  "verification": {
+    "offline_vm_tests_passed": 29,
+    "initial_test_failure": "ModuleNotFoundError before implementation",
+    "request_reconstruction_and_image_hashes_verified": 14,
+    "ledger_history_preserved": true,
+    "new_reservations": 14,
+    "new_settlements": 14,
+    "retries": 0,
+    "new_detector_calls": 0,
+    "label_corrections": 0
+  },
+  "limitation": "Diagnostic known cases from one book, two repeated pages. Frozen developer labels, not independent held-out validation. Visual recheck of all ten disputed originals/overlays and selected crops; not a new exhaustive crop audit.",
+  "decision": "Do not use this prompt/input configuration as the automatic escalation gate."
+}

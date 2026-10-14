@@ -1,0 +1,57 @@
+{
+  "new_calls": 52,
+  "cache_hits": 101,
+  "used_held_micro_usd": 4953583,
+  "elapsed_seconds": 122.39116479900258,
+  "source_sha256": "30d075d2bf54cdcd2401ccf905ab50a859779296e7afdbff404efd291f42cd32",
+  "output_sha256": "a7807a21f09b3015d46506479279bcc4358939d453cfa9000906caf468fa9a5d",
+  "pages": 17,
+  "source_pages": [
+    1,
+    2,
+    5,
+    6,
+    18,
+    25,
+    26,
+    27,
+    54,
+    100,
+    101,
+    175,
+    205,
+    206,
+    240,
+    254,
+    256
+  ],
+  "accepted_pages": 17,
+  "fallback_pages": [],
+  "escalated_pages": [
+    7,
+    13
+  ],
+  "refined_pages": [
+    10,
+    11
+  ],
+  "panel_steps": 92,
+  "human_routing_decisions": 0,
+  "evaluation_labels_read": false,
+  "new_call_kinds": {
+    "detector": 6,
+    "native": 43,
+    "verifier": 3
+  },
+  "added_estimated_usd": 0.172592,
+  "prepared_reader_checks": 112,
+  "published_reader_checks": 112,
+  "browser_exceptions": 0,
+  "unit_tests_passed": 42,
+  "cbz_format_new_calls": 0,
+  "folder_format_new_calls": 0,
+  "final_code_regression_new_calls": 0,
+  "cbr_fixture_validated": false,
+  "full_book_execution": "not authorized by automatic approval review",
+  "stage_build": "build-10"
+}

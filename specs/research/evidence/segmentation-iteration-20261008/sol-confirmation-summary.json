@@ -1,0 +1,429 @@
+{
+  "date": "2026-10-08",
+  "decision": "Sol low prompt v4 first pass plus conservative dark-gutter refinement; targeted Sol high prompt v5 after developer-observed failures. Automatic escalation unvalidated.",
+  "new_paid_calls": 11,
+  "new_cost_micro_usd": 171120,
+  "budget": {
+    "cap_micro_usd": 20000000,
+    "used_or_held_micro_usd": 4594361,
+    "reported_usage_estimate_micro_usd": 994361,
+    "unknown_holds_micro_usd": 3600000,
+    "openai_successes": 40,
+    "gemini_attempts": 14,
+    "gemini_responses": 2
+  },
+  "runs": [
+    {
+      "name": "openai-sol-low-v4-confirmation-20261008",
+      "calls": [
+        {
+          "source_page": 2,
+          "request_id": "25a090a79c3a6c93677297c46b3a419ac64e7b8630c192f3aca4858f1171605c",
+          "status": "structurally_valid_unreviewed",
+          "panels": 1,
+          "classification": "whole_page",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 92,
+            "output_tokens_details": {
+              "reasoning_tokens": 25
+            },
+            "total_tokens": 3164
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 3.965,
+          "source_sha256": "880daa5b4368bee3cf169a9db66bebd05a6f87c47d0c975a184a10da24f1ec9e",
+          "panels_sha256": "e22238114692f3e4e7298489a2335dde613a235bea4ea26685a2c39f90af0706",
+          "estimated_micro_usd": 8600
+        },
+        {
+          "source_page": 6,
+          "request_id": "41000a170aed0fc70598b229b39c3894a8421bfae6b87bad9338566357ccda13",
+          "status": "structurally_valid_unreviewed",
+          "panels": 7,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 507,
+            "output_tokens_details": {
+              "reasoning_tokens": 228
+            },
+            "total_tokens": 3579
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 7.199,
+          "source_sha256": "b8fc2d2c2e06f0016997e4ae76ddfb4947474731a57f73e75baee094895924d9",
+          "panels_sha256": "20b1a821f716a54dfeee1df6c3afe7215d4e489ce7db62ccbc8a8eedd2bde14f",
+          "estimated_micro_usd": 12750
+        },
+        {
+          "source_page": 18,
+          "request_id": "297bcfcca2d6b9d066b76caaca50c705e38243d890ca0a3c3702d89865e1aabe",
+          "status": "structurally_valid_unreviewed",
+          "panels": 6,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 565,
+            "output_tokens_details": {
+              "reasoning_tokens": 329
+            },
+            "total_tokens": 3637
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 8.19,
+          "source_sha256": "401b472888189438d9d823a7089634fcfc67e7784963f9deaeca23e15ffd5f5b",
+          "panels_sha256": "13655a0ce906533511511a583ab2de370d42fb28cbe24790a9fa1a1c3f088973",
+          "estimated_micro_usd": 13330
+        },
+        {
+          "source_page": 54,
+          "request_id": "bf183e1afa683ddd54b220b5a223a14090badd9605cc2a6da1c3136a95d9f07f",
+          "status": "structurally_valid_unreviewed",
+          "panels": 10,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 599,
+            "output_tokens_details": {
+              "reasoning_tokens": 231
+            },
+            "total_tokens": 3671
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 8.003,
+          "source_sha256": "f65836d5dac359ea1ef4885b5513ec8dd9c0e4a0001779782dbe897fb212629d",
+          "panels_sha256": "a9301bd3d18111c91a9f236e764263545ceff5926166bb435145958ce0760adc",
+          "estimated_micro_usd": 13670
+        },
+        {
+          "source_page": 100,
+          "request_id": "6ad4654931772df01540df15db312b51175c7c1a16d12a882a5b0e473ea6b258",
+          "status": "structurally_valid_unreviewed",
+          "panels": 5,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 197,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 3269
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 4.563,
+          "source_sha256": "80b1f124c71c1ada510832a8a361c0c76fa0e705b63ee9a598f8ea69d905f08b",
+          "panels_sha256": "de51f68f94c4b1f75c2b2b17ac604e2eb9bb8708683a82d3f2088a93768bcceb",
+          "estimated_micro_usd": 9650
+        },
+        {
+          "source_page": 175,
+          "request_id": "3a47b72cdb83bfd4b0436c1204fe4bbdac45c213f74f6f432eabd9ed42fca001",
+          "status": "structurally_valid_unreviewed",
+          "panels": 6,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 309,
+            "output_tokens_details": {
+              "reasoning_tokens": 83
+            },
+            "total_tokens": 3381
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 5.052,
+          "source_sha256": "eacf49b3907a6a945e4372a2d96199b8c846f21ab46463128f6c20d366fa5a84",
+          "panels_sha256": "55872b21877a2a930d66e04e67bbf98c8e7cb77c56b8abb2698114b9857f205a",
+          "estimated_micro_usd": 10770
+        },
+        {
+          "source_page": 205,
+          "request_id": "2034544bf8bb50541163548293f24b74279037bee5fa9ed64dcf5dc995a9564f",
+          "status": "structurally_valid_unreviewed",
+          "panels": 10,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1049,
+            "output_tokens_details": {
+              "reasoning_tokens": 676
+            },
+            "total_tokens": 4121
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 14.561,
+          "source_sha256": "897d3ae22ebe4ae6a667810d190a13e973eabd1b1dfa91f959b106e6434fcab3",
+          "panels_sha256": "92ed82a223cd5f8c19fa28ef087944a1d67364a8bdcfe89f598715f9b9aa67a5",
+          "estimated_micro_usd": 18170
+        },
+        {
+          "source_page": 240,
+          "request_id": "058639d0660dddb310370aa6839ce021a270b16d33c8e11fd3ce6777719d517b",
+          "status": "structurally_valid_unreviewed",
+          "panels": 1,
+          "classification": "whole_page",
+          "usage": {
+            "input_tokens": 3072,
+            "input_tokens_details": {
+              "cache_write_tokens": 3069,
+              "cached_tokens": 0
+            },
+            "output_tokens": 91,
+            "output_tokens_details": {
+              "reasoning_tokens": 27
+            },
+            "total_tokens": 3163
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 2.504,
+          "source_sha256": "5844cea489ef01d1a503c6b5313113b9e73b28fc7568a64b7d59c80d1068b0a8",
+          "panels_sha256": "1fae6219fd33beae818ccf80a306ccc772c710fcfe32423c3d8b4049931a7792",
+          "estimated_micro_usd": 8590
+        }
+      ],
+      "estimated_micro_usd": 95530,
+      "elapsed_seconds": 54.037
+    },
+    {
+      "name": "openai-sol-low-v5-boundaries-20261008",
+      "calls": [
+        {
+          "source_page": 100,
+          "request_id": "e64fa27431b1e3c133d275e7d53a995efb821f5fc7c5abe661e39540bd64a394",
+          "status": "structurally_valid_unreviewed",
+          "panels": 5,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3272,
+            "input_tokens_details": {
+              "cache_write_tokens": 3269,
+              "cached_tokens": 0
+            },
+            "output_tokens": 277,
+            "output_tokens_details": {
+              "reasoning_tokens": 79
+            },
+            "total_tokens": 3549
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 5.15,
+          "source_sha256": "80b1f124c71c1ada510832a8a361c0c76fa0e705b63ee9a598f8ea69d905f08b",
+          "panels_sha256": "24b97e636a9b2d7a397e2ab070678dde6b935366cfc4ebd3840da6ff9f59995e",
+          "estimated_micro_usd": 10950
+        },
+        {
+          "source_page": 205,
+          "request_id": "505226391c6d56be2e7859f192332fb855b1f40ac62259030094fae88654e8e1",
+          "status": "structurally_valid_unreviewed",
+          "panels": 10,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3272,
+            "input_tokens_details": {
+              "cache_write_tokens": 3269,
+              "cached_tokens": 0
+            },
+            "output_tokens": 764,
+            "output_tokens_details": {
+              "reasoning_tokens": 399
+            },
+            "total_tokens": 4036
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 11.988,
+          "source_sha256": "897d3ae22ebe4ae6a667810d190a13e973eabd1b1dfa91f959b106e6434fcab3",
+          "panels_sha256": "47df6d81414c6a1d3919ebe8075a8eb92e3e1cf09ad2eae5388e6f047cf65a10",
+          "estimated_micro_usd": 15820
+        }
+      ],
+      "estimated_micro_usd": 26770,
+      "elapsed_seconds": 17.138
+    },
+    {
+      "name": "openai-sol-high-v5-boundaries-20261008",
+      "calls": [
+        {
+          "source_page": 205,
+          "request_id": "bba626b6251ec756f765800a35d3c83a41cfcfea32e28574e177f26dbadb7b1d",
+          "status": "structurally_valid_unreviewed",
+          "panels": 10,
+          "classification": "panels",
+          "usage": {
+            "input_tokens": 3272,
+            "input_tokens_details": {
+              "cache_write_tokens": 3269,
+              "cached_tokens": 0
+            },
+            "output_tokens": 4064,
+            "output_tokens_details": {
+              "reasoning_tokens": 3676
+            },
+            "total_tokens": 7336
+          },
+          "model_version": "gpt-6-sol",
+          "elapsed_seconds": 52.17,
+          "source_sha256": "897d3ae22ebe4ae6a667810d190a13e973eabd1b1dfa91f959b106e6434fcab3",
+          "panels_sha256": "97d88a659e4790ef0766315deb96dd6db755ca0720f660f3f18d7da6f2e3dc35",
+          "estimated_micro_usd": 48820
+        }
+      ],
+      "estimated_micro_usd": 48820,
+      "elapsed_seconds": 52.17
+    }
+  ],
+  "review": {
+    "low_v4_confirmation": {
+      "source_pages": [
+        2,
+        6,
+        18,
+        54,
+        100,
+        175,
+        205,
+        240
+      ],
+      "all_overlays_viewed": true,
+      "all_44_panel_crops_viewed": true,
+      "whole_page_compositions": 2,
+      "failures": {
+        "100": "Five tight artwork rectangles; corrected by dark-gutter-expansion-v2.",
+        "205": "Shared thought balloon clipped in panel 2 and collar clipped in panel 9; older Sol high v4 also clips the shared balloon."
+      }
+    },
+    "low_v5": {
+      "source_pages": [
+        100,
+        205
+      ],
+      "all_overlays_viewed": true,
+      "exhaustive_crop_acceptance": false,
+      "decision": "Rejected as a fix: page100 still tight, page205 collar recovered but shared balloon still clipped; not adopted globally."
+    },
+    "high_v5": {
+      "source_pages": [
+        205
+      ],
+      "all_overlays_viewed": true,
+      "all_10_panel_crops_viewed": true,
+      "result": "Shared balloon and collar complete; valid reaction/action sequence; overlapping rectangles include neighboring fragments."
+    },
+    "gutter_v2": {
+      "source_pages": [
+        2,
+        5,
+        6,
+        18,
+        25,
+        54,
+        100,
+        175,
+        205,
+        240,
+        254,
+        256
+      ],
+      "only_changed_page": 100,
+      "changed_boxes": 5,
+      "other_11_pages_geometry_identical": true,
+      "all_changed_crops_and_overlay_viewed": true,
+      "tests_passed": 6,
+      "inference_calls": 0
+    },
+    "combined_sample": {
+      "source_pages": [
+        2,
+        5,
+        6,
+        18,
+        25,
+        54,
+        100,
+        175,
+        205,
+        240,
+        254,
+        256
+      ],
+      "raw_low_usable_pages": 10,
+      "refined_low_pages": [
+        100
+      ],
+      "high_v5_pages": [
+        205
+      ],
+      "panel_steps": 61,
+      "whole_page_compositions": 3,
+      "all_final_scenes_crops_order_reviewed": true,
+      "book_cover_source_page": 1,
+      "cover_is_not_additional_detector_validation": true,
+      "remaining_pages_without_openai_results": 245,
+      "held_out_multi_book_validation": false
+    }
+  },
+  "manual_geometry": false,
+  "private_evidence_root": "validation-artifacts/segmentation-iteration-20261008",
+  "reader": {
+    "build": "build-9",
+    "status": "published and verified",
+    "cbz_sha256": "4de51efe19a7bae1c2321f6f6d962e6b5efe70cc9cd2cbab2933cfb2c3861726",
+    "prepared_assertions": 77,
+    "published_assertions": 77,
+    "uncaught_exceptions": 0,
+    "temporary_ports_closed": [
+      8081,
+      9222
+    ],
+    "cover_and_body_image_bytes_preserved": 13,
+    "original_build7_files_unchanged": true,
+    "failure_evidence": "build8 rejected filename with digits; candidate9 uses allowed basename; no application change",
+    "browser_environment_warnings": "Minimal VM headless Chromium has no desktop DBus or DRM device and emits no-sandbox/GPU initialization warnings; this static reader needs neither desktop integration nor hardware video. Actual page/crop rendering and all navigation passed. Task browser now stopped.",
+    "rollback_unit": "review-unit-before-build9.service",
+    "review_service": "comic-reader-review.service",
+    "url": "https://csells-mac-mini--51996.getbb.app/",
+    "private_archive": "validation-artifacts/segmentation-iteration-20261008/sol12-review-build9-20261008.tgz",
+    "archive_sha256": "a4f0c7ead49eb5267a9f0f5541869986c682f6398efa81983d110f2c909e8365",
+    "archive_bytes": 59906656,
+    "ui_evidence": [
+      "validation-artifacts/segmentation-iteration-20261008/sol12-prepared-ui-build9-20261008",
+      "validation-artifacts/segmentation-iteration-20261008/sol12-published-ui-build9-20261008"
+    ],
+    "registry_revision": 11,
+    "registry_health_at_finish": {
+      "id": "comic-panel-reader-stage",
+      "status": "healthy",
+      "evidence": "Build9 actual published reader: 77 phone-sized navigation assertions, zero exceptions; HTTP8080 health200; source book hashes preserved. Recurring HTTP probe unchanged; task browser/preview stopped.",
+      "checked": 1791509445.8061757,
+      "expires": 1791509745.8061757
+    },
+    "recurring_probe": "Existing credential-free HTTP probe preserved unchanged; previous scheduled checks healthy. Post-update actual UI/HTTP observation published with bounded TTL; next scheduled refresh pending."
+  }
+}

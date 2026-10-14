@@ -1,0 +1,248 @@
+{
+  "date": "2026-10-08",
+  "automatic_geometry": true,
+  "manual_reference_in_inference": false,
+  "distinct_openai_pages": 12,
+  "openai_calls": 17,
+  "openai_runs": [
+    {
+      "run": "openai-astra-v4-pilot-20261008",
+      "estimated_cost_micro_usd": 405050,
+      "results": [
+        {
+          "source_page": 5,
+          "panels": 7,
+          "elapsed_seconds": 41.24,
+          "model_version": "gpt-6-astra",
+          "request_fingerprint": "a41d4805754b40690cb436335667e741494e16570235da4c3ea983c298bf9dad",
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 25,
+          "panels": 6,
+          "elapsed_seconds": 58.941,
+          "model_version": "gpt-6-astra",
+          "request_fingerprint": "e04aab8ff045d44d812a7d0dc9913333f7409592759659baa0021370c0446ad9",
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 254,
+          "panels": 4,
+          "elapsed_seconds": 33.881,
+          "model_version": "gpt-6-astra",
+          "request_fingerprint": "fa4f7d1a96b3bc2ddf5e9ba66d5e6ab4bde57e5916710e7142639bf9a316f0f1",
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 256,
+          "panels": 1,
+          "elapsed_seconds": 9.055,
+          "model_version": "gpt-6-astra",
+          "request_fingerprint": "e5c96aedc6253213691c7265432eda995d9d0f66b3b1df8bc30c3e2dd931afe2",
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        }
+      ]
+    },
+    {
+      "run": "openai-sol-v4-pilot-20261008",
+      "estimated_cost_micro_usd": 76630,
+      "results": [
+        {
+          "source_page": 5,
+          "panels": 7,
+          "elapsed_seconds": 26.66,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "e79a5864b650a45d359d7c7704d8ae57e38b8d4c9e2b237065683cb8ee5f3002",
+          "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 25,
+          "panels": 6,
+          "elapsed_seconds": 19.443,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "2d79737884d80c8d40f2279075be61a128f522d63c4d0695ba9e64706e6804c4",
+          "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 254,
+          "panels": 4,
+          "elapsed_seconds": 19.511,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "ab911327f0bc3012a55531ae40a79569be5f903fa200830c25f46d56a4a57fef",
+          "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 256,
+          "panels": 1,
+          "elapsed_seconds": 3.279,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "f96a26311405e0bbe9eecc89dc01e29551a4f1aeadb579220a9b4ae7f52e395e",
+          "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        }
+      ]
+    },
+    {
+      "run": "openai-sol-v4-diverse-20261008",
+      "estimated_cost_micro_usd": 188670,
+      "results": [
+        {
+          "source_page": 2,
+          "panels": 1,
+          "elapsed_seconds": 9.652,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "ecdd5a16453ab3f19219f194531c9c3a59e173742b345bc7db9636fc33cf3933",
+          "source_sha256": "880daa5b4368bee3cf169a9db66bebd05a6f87c47d0c975a184a10da24f1ec9e",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 6,
+          "panels": 7,
+          "elapsed_seconds": 43.327,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "75da2bc30068ac2c0c750c9d8c6c454085ae4c29ceb3914e44d607aab10b327e",
+          "source_sha256": "b8fc2d2c2e06f0016997e4ae76ddfb4947474731a57f73e75baee094895924d9",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 18,
+          "panels": 6,
+          "elapsed_seconds": 37.101,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "a563929ee8588c25765a1ada91ec7430c054ccb908054697c7b7e11d02eb4eeb",
+          "source_sha256": "401b472888189438d9d823a7089634fcfc67e7784963f9deaeca23e15ffd5f5b",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 54,
+          "panels": 10,
+          "elapsed_seconds": 22.499,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "e9a0bbf5d5680c62bd127a5ac3171e4c7b5c01be4dad5eb67531bf2df9a4aa94",
+          "source_sha256": "f65836d5dac359ea1ef4885b5513ec8dd9c0e4a0001779782dbe897fb212629d",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 100,
+          "panels": 5,
+          "elapsed_seconds": 9.287,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "465d81cb2d5acefac0ed94682e9f8927292ea3084af757581ec54c585ea467a1",
+          "source_sha256": "80b1f124c71c1ada510832a8a361c0c76fa0e705b63ee9a598f8ea69d905f08b",
+          "visual_review": "scenes_and_order_recovered_tight_edges_remain"
+        },
+        {
+          "source_page": 175,
+          "panels": 6,
+          "elapsed_seconds": 7.465,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "6b14915f35bb872d7f792977038ca07db955ef545c73cfb9065cbceea0f4c784",
+          "source_sha256": "eacf49b3907a6a945e4372a2d96199b8c846f21ab46463128f6c20d366fa5a84",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 205,
+          "panels": 10,
+          "elapsed_seconds": 60.467,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "bc320f0f5bb527a22d955a7ea3b9f73a0d00e4e3d6b1388c8a2c701c76f9e78a",
+          "source_sha256": "897d3ae22ebe4ae6a667810d190a13e973eabd1b1dfa91f959b106e6434fcab3",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        },
+        {
+          "source_page": 240,
+          "panels": 1,
+          "elapsed_seconds": 4.599,
+          "model_version": "gpt-6-sol",
+          "request_fingerprint": "a04b5fe2abd40d907fa7caa945efcce508a0bbf4a306ee05ed412d5e65403a46",
+          "source_sha256": "5844cea489ef01d1a503c6b5313113b9e73b28fc7568a64b7d59c80d1068b0a8",
+          "visual_review": "usable_with_documented_rectangular_overlap_limits"
+        }
+      ]
+    },
+    {
+      "run": "openai-astra-v4-page100-20261008",
+      "estimated_cost_micro_usd": 76800,
+      "results": [
+        {
+          "source_page": 100,
+          "panels": 5,
+          "elapsed_seconds": 19.051,
+          "model_version": "gpt-6-astra",
+          "request_fingerprint": "322faa69ad001dbd1664f71d3f91b0205bf42b2c0f66e11cebea89925e355151",
+          "source_sha256": "80b1f124c71c1ada510832a8a361c0c76fa0e705b63ee9a598f8ea69d905f08b",
+          "visual_review": "scenes_and_order_recovered_tight_edges_remain"
+        }
+      ]
+    }
+  ],
+  "full_book_accepted": false,
+  "remaining_pages_without_openai_result": 245,
+  "budget": {
+    "cap_micro_usd": 20000000,
+    "used_and_held_micro_usd": 4354960,
+    "estimated_reported_usage_micro_usd": 754960,
+    "unknown_reserved_micro_usd": 3600000
+  },
+  "specialists": [
+    {
+      "detector": "YOLO26n ONNX",
+      "pages": [
+        5,
+        25,
+        254,
+        256
+      ],
+      "counts": [
+        10,
+        5,
+        3,
+        1
+      ],
+      "all_original_overlays_reviewed": true,
+      "accepted": false
+    },
+    {
+      "detector": "OpenComic512",
+      "pages": [
+        5,
+        25,
+        254,
+        256
+      ],
+      "counts": [
+        6,
+        3,
+        2,
+        1
+      ],
+      "all_original_overlays_reviewed": true,
+      "accepted": false
+    },
+    {
+      "detector": "OpenComic1024",
+      "pages": [
+        5,
+        25,
+        254,
+        256
+      ],
+      "counts": [
+        10,
+        5,
+        7,
+        3
+      ],
+      "all_original_overlays_reviewed": true,
+      "accepted": false
+    }
+  ],
+  "report": "../../detector-comparison-20261008.md"
+}

@@ -7,6 +7,7 @@ import argparse
 from datetime import date
 import hashlib
 import json
+import json
 import math
 from pathlib import Path
 import uuid
@@ -17,6 +18,7 @@ from PIL import Image
 
 NS = "http://www.acbf.info/xml/acbf/1.1"
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"}
+READER_PROFILE = "panel-reader.json"
 ET.register_namespace("", NS)
 
 
@@ -66,8 +68,6 @@ def build_cbz(page_root, panel_data, output, *, title, source_map=None, fallback
     entries = panel_data.get("pages", [])
     if not entries or panel_data.get("total_pages") != len(entries):
         raise ValueError("empty pages or inconsistent total_pages")
-    if len(entries) < 2:
-        raise ValueError("ACBF 1.1 prototype requires a cover plus at least one body page")
     if panel_data.get("reading_direction") not in ("ltr", "rtl"):
         raise ValueError("reading_direction must be ltr or rtl")
     mapped, records, seen = [], [], set()
@@ -118,14 +118,23 @@ def build_cbz(page_root, panel_data, output, *, title, source_map=None, fallback
     today = date.today().isoformat()
     _tag(doc, "creation-date", today, value=today)
     _tag(doc, "id", str(uuid.uuid4()))
-    body = _tag(acbf, "body")
+    # The pinned ACBF 1.1 XSD accepts a cover-only document. An empty body is
+    # invalid, and duplicating the source page to invent a body page loses the
+    # one-source-page/one-reader-page invariant. The older Android parser still
+    # assumes a body element; single-page books target our web profile for now.
+    body = _tag(acbf, "body") if len(mapped) > 1 else None
     for index, (_, name, frames) in enumerate(mapped):
         page = cover if index == 0 else _tag(body, "page")
         _tag(page, "image", href=name)
         for points in frames:
             _tag(page, "frame", points=points)
     xml = ET.tostring(acbf, encoding="utf-8", xml_declaration=True)
-    occupied = {name.casefold() for _, name, _ in mapped} | {"metadata.acbf"}
+    # ACBF 1.1 has no standard reading-direction field. Keep schema-valid ACBF
+    # and carry this reader's control direction in a hash-bound companion file.
+    reader_profile = {"format": "comic-panel-reader-profile", "version": 1,
+                      "reading_direction": panel_data["reading_direction"],
+                      "metadata_sha256": hashlib.sha256(xml).hexdigest()}
+    occupied = {name.casefold() for _, name, _ in mapped} | {"metadata.acbf", READER_PROFILE}
     auxiliary = []
     for path in sorted(set(files) - seen):
         name = path.relative_to(root).as_posix()
@@ -140,6 +149,7 @@ def build_cbz(page_root, panel_data, output, *, title, source_map=None, fallback
             for path, name, _ in mapped:
                 archive.write(path, name)
             archive.writestr("metadata.acbf", xml)
+            archive.writestr(READER_PROFILE, json.dumps(reader_profile, sort_keys=True) + "\n")
             for path, name in auxiliary:
                 archive.write(path, name)
     with zipfile.ZipFile(output) as archive:
@@ -149,6 +159,7 @@ def build_cbz(page_root, panel_data, output, *, title, source_map=None, fallback
     return {"prototype": True, "output": str(output), "output_sha256": digest(output),
             "page_count": len(records), "body_page_count": len(records) - 1,
             "reading_direction": panel_data["reading_direction"], "pages": records,
+            "reader_profile": reader_profile,
             "preserved_auxiliary": [{"source": p.relative_to(root).as_posix(), "archive": n, "sha256": digest(p)} for p, n in auxiliary]}
 
 

@@ -1,0 +1,208 @@
+{
+  "schema": "independent-fixtures-v1",
+  "frozen_at": "2026-10-09T19:29:11.456394+00:00",
+  "primary_screen_count": 12,
+  "primary_screen_split": {
+    "anthology": "development only; excluded",
+    "randall-munroe": "reserved independent evaluation",
+    "hiroshi-seo": "reserved independent evaluation",
+    "cadu-simoes-fred-hildebrand": "reserved independent evaluation"
+  },
+  "rules": [
+    "Freeze automatic policy before first inference.",
+    "Never put these manifest labels or human evaluation notes into runtime prompts.",
+    "Review source and exact output crops; overlay alone is insufficient.",
+    "Any policy tuning based on these outputs retires affected artist/book group to development.",
+    "No claim these works were absent from model pretraining.",
+    "Three webtoon sections share an episode and artist; they are not independent books."
+  ],
+  "acquisition_gaps": [
+    {
+      "source": "Ubunchu author ZIP and linked author mirror",
+      "status": "HTTP404"
+    },
+    {
+      "source": "Mimi and Eunice direct author pages",
+      "status": "HTTP403; not bypassed"
+    },
+    {
+      "source": "Creative Commons Sharing Creative Works official ZIP",
+      "status": "HTTP403; not bypassed; excluded from actual fixture set"
+    },
+    {
+      "source": "Homem-Grilo hq001h original and displayed CDN first chunk",
+      "status": "HTTP404; excluded; accessible hq013 groups used before any model output"
+    }
+  ],
+  "manifest_sha256": "c6682e11e3126f65604105449673a3da03a9c71c37159a745a6bd142c7d7e898",
+  "fixtures": [
+    {
+      "id": "xkcd-0303",
+      "artist_group": "randall-munroe",
+      "book_group": "xkcd",
+      "unit_kind": "original_webcomic_strip",
+      "source_page": "https://xkcd.com/303/",
+      "direction": "ltr",
+      "direction_basis": "Source visual convention; not publisher machine metadata",
+      "license": "CC BY-NC 2.5",
+      "input_path": "inputs/xkcd/xkcd-0303.png",
+      "sha256": "1489aef471a4ed7cda5e1c69bf9ce9d51395bd2e781346216f025e208c95756b",
+      "width": 413,
+      "height": 360
+    },
+    {
+      "id": "xkcd-0327",
+      "artist_group": "randall-munroe",
+      "book_group": "xkcd",
+      "unit_kind": "original_webcomic_strip",
+      "source_page": "https://xkcd.com/327/",
+      "direction": "ltr",
+      "direction_basis": "Source visual convention; not publisher machine metadata",
+      "license": "CC BY-NC 2.5",
+      "input_path": "inputs/xkcd/xkcd-0327.png",
+      "sha256": "0c7b09d66d4dcf0b315bab40833a8b876702bec2d15c826b86c351a7b4fe1c50",
+      "width": 666,
+      "height": 205
+    },
+    {
+      "id": "xkcd-1052",
+      "artist_group": "randall-munroe",
+      "book_group": "xkcd",
+      "unit_kind": "original_webcomic_strip",
+      "source_page": "https://xkcd.com/1052/",
+      "direction": "ltr",
+      "direction_basis": "Source visual convention; not publisher machine metadata",
+      "license": "CC BY-NC 2.5",
+      "input_path": "inputs/xkcd/xkcd-1052.png",
+      "sha256": "880302480a4a3f5553e8f943c3c68065fa36499ed0eca29009af641318e8bc07",
+      "width": 605,
+      "height": 1629
+    },
+    {
+      "id": "ubunchu01-ja-01",
+      "artist_group": "hiroshi-seo",
+      "book_group": "ubunchu-episode-01-ja",
+      "unit_kind": "original_japanese_comic_page",
+      "source_page": "https://seotch.wordpress.com/2009/04/04/ubunchu01/",
+      "direction": "rtl",
+      "direction_basis": "Author explicitly states original Japanese edition was drawn to read right to left. No mirroring or translation performed.",
+      "license": "Accompanying Japanese license: CC BY-NC 2.1 JP; English license: CC BY-NC 3.0",
+      "input_path": "inputs/ubunchu01-ja/ubunchu01_01.png",
+      "sha256": "46edc928a569782199565c0f4788c04cf1bfce401073788131c64c7a48a11735",
+      "width": 1246,
+      "height": 1635
+    },
+    {
+      "id": "ubunchu01-ja-02",
+      "artist_group": "hiroshi-seo",
+      "book_group": "ubunchu-episode-01-ja",
+      "unit_kind": "original_japanese_comic_page",
+      "source_page": "https://seotch.wordpress.com/2009/04/04/ubunchu01/",
+      "direction": "rtl",
+      "direction_basis": "Author explicitly states original Japanese edition was drawn to read right to left. No mirroring or translation performed.",
+      "license": "Accompanying Japanese license: CC BY-NC 2.1 JP; English license: CC BY-NC 3.0",
+      "input_path": "inputs/ubunchu01-ja/ubunchu01_02.png",
+      "sha256": "d5737394c163cbc46348582f8684e4c38b565765eaaa77828d370a5100fcbbee",
+      "width": 1246,
+      "height": 1635
+    },
+    {
+      "id": "ubunchu01-ja-03",
+      "artist_group": "hiroshi-seo",
+      "book_group": "ubunchu-episode-01-ja",
+      "unit_kind": "original_japanese_comic_page",
+      "source_page": "https://seotch.wordpress.com/2009/04/04/ubunchu01/",
+      "direction": "rtl",
+      "direction_basis": "Author explicitly states original Japanese edition was drawn to read right to left. No mirroring or translation performed.",
+      "license": "Accompanying Japanese license: CC BY-NC 2.1 JP; English license: CC BY-NC 3.0",
+      "input_path": "inputs/ubunchu01-ja/ubunchu01_03.png",
+      "sha256": "0415128bd10a53b9964851c62cf54ec69ce73c805719bd042ca9e5c3dcabf8a3",
+      "width": 1246,
+      "height": 1635
+    },
+    {
+      "id": "ubunchu01-ja-04",
+      "artist_group": "hiroshi-seo",
+      "book_group": "ubunchu-episode-01-ja",
+      "unit_kind": "original_japanese_comic_page",
+      "source_page": "https://seotch.wordpress.com/2009/04/04/ubunchu01/",
+      "direction": "rtl",
+      "direction_basis": "Author explicitly states original Japanese edition was drawn to read right to left. No mirroring or translation performed.",
+      "license": "Accompanying Japanese license: CC BY-NC 2.1 JP; English license: CC BY-NC 3.0",
+      "input_path": "inputs/ubunchu01-ja/ubunchu01_04.png",
+      "sha256": "bc5a90b6952e45f11f9d6de80195cef48d2c0dee211e6071521001dd0848abe3",
+      "width": 1246,
+      "height": 1635
+    },
+    {
+      "id": "ubunchu01-ja-05",
+      "artist_group": "hiroshi-seo",
+      "book_group": "ubunchu-episode-01-ja",
+      "unit_kind": "original_japanese_comic_page",
+      "source_page": "https://seotch.wordpress.com/2009/04/04/ubunchu01/",
+      "direction": "rtl",
+      "direction_basis": "Author explicitly states original Japanese edition was drawn to read right to left. No mirroring or translation performed.",
+      "license": "Accompanying Japanese license: CC BY-NC 2.1 JP; English license: CC BY-NC 3.0",
+      "input_path": "inputs/ubunchu01-ja/ubunchu01_05.png",
+      "sha256": "5dfb6ed69c9e9ad0402707ee60a038c7d1d1af0124f1bb169b07afefad705cba",
+      "width": 1246,
+      "height": 1635
+    },
+    {
+      "id": "ubunchu01-ja-06",
+      "artist_group": "hiroshi-seo",
+      "book_group": "ubunchu-episode-01-ja",
+      "unit_kind": "original_japanese_comic_page",
+      "source_page": "https://seotch.wordpress.com/2009/04/04/ubunchu01/",
+      "direction": "rtl",
+      "direction_basis": "Author explicitly states original Japanese edition was drawn to read right to left. No mirroring or translation performed.",
+      "license": "Accompanying Japanese license: CC BY-NC 2.1 JP; English license: CC BY-NC 3.0",
+      "input_path": "inputs/ubunchu01-ja/ubunchu01_06.png",
+      "sha256": "18ddf8669a843afe5545ec4d0f8a4e95bcf7dfdb511f1cef610af48a77cc4743",
+      "width": 1246,
+      "height": 1635
+    },
+    {
+      "id": "homemgrilo-hq013pg01-webtoon-section",
+      "artist_group": "cadu-simoes-fred-hildebrand",
+      "book_group": "homem-grilo-o-gnomo-azul-part-01",
+      "unit_kind": "contiguous_published_webtoon_section",
+      "source_page": "https://homemgrilo.com/comic/o-gnomo-azul-parte-01/",
+      "direction": "ttb",
+      "direction_basis": "Website presents these chunks consecutively top to bottom. Within each scene, Portuguese LTR lettering.",
+      "license": "CC BY-SA 4.0",
+      "input_path": "inputs/homem-grilo/homemgrilo-hq013pg01-webtoon-section.png",
+      "sha256": "5c9699f3638e47ee965c2b49bcf2e6e0d5ee8a192fe4217e9d94c6f9a1cd9611",
+      "width": 745,
+      "height": 5435
+    },
+    {
+      "id": "homemgrilo-hq013pg02-webtoon-section",
+      "artist_group": "cadu-simoes-fred-hildebrand",
+      "book_group": "homem-grilo-o-gnomo-azul-part-01",
+      "unit_kind": "contiguous_published_webtoon_section",
+      "source_page": "https://homemgrilo.com/comic/o-gnomo-azul-parte-01/",
+      "direction": "ttb",
+      "direction_basis": "Website presents these chunks consecutively top to bottom. Within each scene, Portuguese LTR lettering.",
+      "license": "CC BY-SA 4.0",
+      "input_path": "inputs/homem-grilo/homemgrilo-hq013pg02-webtoon-section.png",
+      "sha256": "fc85fb3f4a708eac59bbb47c279b2b6d10ccbe8e2e910edaac489d071ef15298",
+      "width": 745,
+      "height": 5240
+    },
+    {
+      "id": "homemgrilo-hq013pg03-webtoon-section",
+      "artist_group": "cadu-simoes-fred-hildebrand",
+      "book_group": "homem-grilo-o-gnomo-azul-part-01",
+      "unit_kind": "contiguous_published_webtoon_section",
+      "source_page": "https://homemgrilo.com/comic/o-gnomo-azul-parte-01/",
+      "direction": "ttb",
+      "direction_basis": "Website presents these chunks consecutively top to bottom. Within each scene, Portuguese LTR lettering.",
+      "license": "CC BY-SA 4.0",
+      "input_path": "inputs/homem-grilo/homemgrilo-hq013pg03-webtoon-section.png",
+      "sha256": "d7e8cb1c3bc4b8422ecc754904e91cf87a4b79affd7292a337d167d3f573552c",
+      "width": 745,
+      "height": 5140
+    }
+  ]
+}

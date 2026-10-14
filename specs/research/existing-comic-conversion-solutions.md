@@ -1,5 +1,13 @@
 # Existing tools narrow the conversion work
 
+2026-10-08 update: detector selection is reopened by Chris. The [initial measured comparison](detector-comparison-20261008.md) covers OpenAI, YOLO26n and OpenComic. The [cost/quality follow-up](cost-quality-comparison-20261008.md) adds actual Magi/Western-YOLO trials and cheaper OpenAI models; Sol low is the cheapest tested usable pilot. The older Gemini-only selection below is historical.
+
+Continuation note, 2026-10-07: this report predates the completed
+[end-to-end experiment](end-to-end-validation.md). The later validation exercised
+real pages, Gemini and Android UI. Rust ownership and Gemini are settled scope;
+the Python-versus-Rust question below is historical, not a pending decision.
+Pannello remains a research baseline with demonstrated quality limitations.
+
 Research checked **2026-10-07**. This report revisits reuse opportunities before implementation; the [vision](../vision/comic-panel-cli.md) remains macOS-first Rust, Gemini with the user's API key, automatic conversion without a correction interface, and Android reading first.
 
 **Pannello is the strongest existing pipeline to evaluate before building whole-book conversion infrastructure.** It already accepts comic archives, PDFs, and image folders, detects ordered panels, and can produce a CBZ retaining complete page images. Four synthetic runs succeeded on this Mac. Its panel output is a KOReader JSON sidecar, however, and the inspected package has neither embedded ACBF export nor a Gemini backend. ACBF Editor already connects automatic detection to ACBF-in-CBZ export, but through a graphical, page-by-page workflow. No exact complete match for the accepted requirements was verified; that is a scoped search result, not proof none exists. The immediate reuse question is whether extending a Python pipeline is acceptable, or whether Rust remains firm enough to favor narrower component reuse. ([Pannello source](https://github.com/marcopiraccini/pannello/blob/d4747266b5e8ac478168050f75c9ea71bba00e85/pannello/core.py), [CLI](https://github.com/marcopiraccini/pannello/blob/d4747266b5e8ac478168050f75c9ea71bba00e85/pannello/cli.py), [ACBF Editor detector](https://github.com/ACBF-Advanced-Comic-Book-Format/ACBF-Editor/blob/b1941df35ab79b155eebf8b1d9c56171049c2d3e/src/frames_editor.py#L1295-L1316))

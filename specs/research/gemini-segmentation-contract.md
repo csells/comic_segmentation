@@ -1,5 +1,12 @@
 # Gemini segmentation contract for the Rust CLI
 
+Continuation note, 2026-10-07: this pre-experiment research is historical. The
+[measured probe](gemini-e2e-validation.md) subsequently validated `generateContent`,
+not Interactions, and found quality/service failures. The proposed
+[Rust plan](../plans/0002-quality-gated-rust-cli.md) now favors the tested transport
+initially; its policies supersede the recommendations below for discussion.
+Model entitlement and production quality remain unproved.
+
 Research date: 2026-10-07. Scope: Google's public documentation and the existing Flutter service; planning only. No Gemini inference, private-image upload, credential access, or paid API call occurred. All behavioral and spending recommendations below are proposed engineering choices, not benchmark findings.
 
 ## Current model and transport

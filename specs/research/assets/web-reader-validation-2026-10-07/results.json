@@ -1,0 +1,66 @@
+[
+  {
+    "check": "ACBF browser suite",
+    "output": "PASS cover once, XML order, literal title, no-frame whole page\nPASS missing/duplicate/traversal/external image references fail\nPASS bad XML, namespace, entities and malformed geometry fail\nPASS real deflated CBZ decodes image and preserves 3,1,4,2\nPASS duplicate ZIP names are rejected before map overwrite\nPASS out-of-bounds frame fails on actual decoded dimensions\n6 tests passed\n"
+  },
+  {
+    "check": "cover opens guided",
+    "passed": true
+  },
+  {
+    "check": "first metadata frame is panel 3",
+    "passed": true
+  },
+  {
+    "check": "next is panel 1",
+    "passed": true
+  },
+  {
+    "check": "previous returns to panel 3",
+    "passed": true
+  },
+  {
+    "check": "swipe advances one panel",
+    "passed": true
+  },
+  {
+    "check": "swipe click suppressed",
+    "passed": true
+  },
+  {
+    "check": "next is panel 4",
+    "passed": true
+  },
+  {
+    "check": "next is panel 2",
+    "passed": true
+  },
+  {
+    "check": "adapter fallback remains whole",
+    "passed": true
+  },
+  {
+    "check": "back across page goes to last frame",
+    "passed": true
+  },
+  {
+    "check": "page mode preserves full page",
+    "passed": true
+  },
+  {
+    "check": "local file load and resume",
+    "passed": true
+  },
+  {
+    "check": "uncompressed adapter CBZ loads",
+    "passed": true
+  },
+  {
+    "check": "bad CBZ produces visible error",
+    "passed": true
+  },
+  {
+    "check": "uncaught browser exceptions",
+    "count": 0
+  }
+]

@@ -1,0 +1,98 @@
+{
+  "status": "prepared_offline_awaiting_model_confirmation",
+  "model_assumption": "gpt-6-luna; user said laya",
+  "live_calls": 0,
+  "offline_tests_passed": 19,
+  "offline_validation": {
+    "cases_prepared": 14,
+    "ledger_unchanged": true,
+    "generation_calls": 0,
+    "run": "/home/tester/comic-reader/evidence/luna-judge-v1-offline-20261008",
+    "reservation_micro_usd_per_call": 11596,
+    "approval_status": "Live upload rejected by auto-review pending confirmation that laya means GPT-6 Luna."
+  },
+  "expected_keep": 12,
+  "expected_escalate": 2,
+  "frozen_labels_sha256": "81909cb4a4aa3f9461146d25f5869990e11deb5a24237df8c937d8f56ed2490f",
+  "candidate_input_fingerprints": [
+    "5d5d5191baf06168c1a7cfef0a893b60af25622c156b33b9af38aaec5715c3f3",
+    "6329ed625849cfc124e575d889f790ac55fefb779589a98552671b244a3e6233",
+    "e3b7d4ec302625afa14ccbf934bc40e22ef908c960004ee932e78bbc19920944",
+    "38bcd77b3d410c78b43ca7101a3930f7acc07c0e31043886e1d39ef3cdce7e40",
+    "8fde6e17fc3f311705339b7e2772defb3a5e6b7a8fbcf028c8fefefae4445a5d",
+    "527c3aad1386421e109e84d97d51116ee42f546c61958ba1b46d608ac4a4ba58",
+    "931dd934e6cc54c76ff1ed7538ce3fc71037da5b426a0f0c226b9853a0cf9375",
+    "5d4f199855e76156ff4213624f73c4dd21440abc394d0c16dcca42a0a6bea798",
+    "3ed0f8373af17f01a7c9e1885888b0959d3223c948a6445a36337fb6a94ebc8f",
+    "f05d2a57656a889fd63762c2f801a268f30afa8faabf1f5086896da9397b2fdb",
+    "6347e4316e66fb7307600d2d22ebdeb4132f406abd9c0d5539c8ea82d990a5de",
+    "a76e3c12ef8554ec5e831b97daaf2824fab18d0444224a262d434ac8dae5e2f6",
+    "108aa36f3ba570aabba1d8d834a9a259cf86e952d33c7d518bfafab3c29d3b1c",
+    "8098e57570c7c5b2cd2f4d1278c0e821e6d83f7dca1c497b194a139192bdaac8"
+  ],
+  "budget_correction": {
+    "before_micro_usd": 4594361,
+    "after_micro_usd": 4595248,
+    "delta_micro_usd": 887,
+    "corrections": [
+      {
+        "request_id": "fc4aa4e5274a6215797b34908a074c4a856decf30cb0bcb4ccfbef34c256870f",
+        "path": "/home/tester/comic-reader/evidence/openai-luna-v4-pilot-20261008/page-0005",
+        "old_micro_usd": 2751,
+        "corrected_micro_usd": 3135
+      },
+      {
+        "request_id": "de7400e92240accf113a950319b4866e4112c8b5ed1b2afa112d8c5e52435966",
+        "path": "/home/tester/comic-reader/evidence/openai-luna-v4-pilot-20261008/page-0025",
+        "old_micro_usd": 1172,
+        "corrected_micro_usd": 1556
+      },
+      {
+        "request_id": "5bf2ef58e088abb64b749d7c76bd521e2da0ed4b7e82a887cca19901d60dd50f",
+        "path": "/home/tester/comic-reader/evidence/openai-luna-v4-pilot-20261008/page-0254",
+        "old_micro_usd": 739,
+        "corrected_micro_usd": 1123
+      },
+      {
+        "request_id": "01f7c767d04163025d2ba92eb03346e7ce0e9cf99e674213bba85ecea10f75e3",
+        "path": "/home/tester/comic-reader/evidence/openai-luna-v4-pilot-20261008/page-0256",
+        "old_micro_usd": 81,
+        "corrected_micro_usd": 465
+      },
+      {
+        "request_id": "4687ba0c7c79a8ef0e91a05632b7b8a60831e63edb06ca1a5c880822ee8eb185",
+        "path": "/home/tester/comic-reader/evidence/openai-56luna-v4-pilot-20261008/page-0005",
+        "old_micro_usd": 7637,
+        "corrected_micro_usd": 7362
+      },
+      {
+        "request_id": "83dfbb936fbaca547673d7798c5a90036c3ec120f78d63bac4c58e1a53ce4ff6",
+        "path": "/home/tester/comic-reader/evidence/openai-56luna-v4-pilot-20261008/page-0025",
+        "old_micro_usd": 6913,
+        "corrected_micro_usd": 6668
+      },
+      {
+        "request_id": "8a3f771ce3d3d45ea2e0dcd94c4a78537d90b4da7f0787fcf15c847278c0038b",
+        "path": "/home/tester/comic-reader/evidence/openai-56luna-v4-pilot-20261008/page-0254",
+        "old_micro_usd": 3548,
+        "corrected_micro_usd": 3437
+      },
+      {
+        "request_id": "b3e382d16db5410a313e7f18ebf4065561256ba617e9745962e0f4fac4519f4c",
+        "path": "/home/tester/comic-reader/evidence/openai-56luna-v4-pilot-20261008/page-0256",
+        "old_micro_usd": 1210,
+        "corrected_micro_usd": 1192
+      }
+    ],
+    "prior_events_preserved": true,
+    "unknown_holds_unchanged": true
+  },
+  "prototype_source_sha256": {
+    "escalation_probe.py": "b2620aa2162b5d54f862cad1ac47db86873012cf9e976f49ec32cb8cd3adeb8d",
+    "prepare_judge_cases.py": "bcfd470dfa8968c344cf703fa75188f7de2ecf3b760406d9608d4afabd4b7edf",
+    "judge-prompt-v1.txt": "bf6b02dd69eef0ff6619aab7768738f76dcebc1c5e799dfdad888754e34145aa",
+    "test_escalation_probe.py": "8a3ac6de5055b8c9378e63d819379aca91c5da8f5fccbe2a9f50b0d0f9a6982b",
+    "gemini_budget.py": "842fa92ecf7c2fc555c7d1e687ebfb7619641dd67098c43318cc436fb7327c13",
+    "test_budget.py": "8fbc96fbdd813266480ab896d71d48345ce2e596b2cc9374f383aa89f804a9c2"
+  }
+}

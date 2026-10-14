@@ -1,12 +1,17 @@
 # Validate conversion and Android panel reading
 
-Status: paused at the user's request on 2026-10-07. Authorized validation is substantially executed; the consolidated synthesis and next-phase discussion are unfinished. This is a validation prototype, not the production Rust migration. Resume from the [handoff](../handoff-comic-panel-cli.md).
+Status: **completed and archived, 2026-10-07**. The executed experiment and its
+reporting are complete. Format/preservation/Android navigation passed within the
+recorded scope; detector quality did not establish production readiness. See the
+[consolidated result](../../research/end-to-end-validation.md) and proposed
+[next plan](../0002-quality-gated-rust-cli.md). Completion authorizes neither a
+production migration nor additional inference.
 
 ## Question and scope
 
 Can an automatic converter produce a CBZ that preserves complete comic pages and makes an existing Android reader follow embedded panel geometry in the intended order?
 
-Use existing tools first. The initial integration is Pannello/Poppler plus a small ACBF adapter, with Gemini evaluated on representative pages when credentials are available. This distinguishes reader interoperability from detector accuracy. The [vision](../vision/comic-panel-cli.md) remains authoritative for product behavior; the [reuse research](../research/existing-comic-conversion-solutions.md) explains the dependency choices.
+Use existing tools first. The initial integration is Pannello/Poppler plus a small ACBF adapter, with Gemini evaluated on representative pages when credentials are available. This distinguishes reader interoperability from detector accuracy. The [vision](../../vision/comic-panel-cli.md) remains authoritative for product behavior; the [reuse research](../../research/existing-comic-conversion-solutions.md) explains the dependency choices.
 
 Preserve the Flutter project and all source books. All generated books, model responses, temporary environments, and emulator state belong in fresh isolated directories. Publish new paths exclusively; never overwrite earlier results. No user-facing review or correction tool is part of this prototype.
 
@@ -19,7 +24,29 @@ Preserve the Flutter project and all source books. All generated books, model re
 5. **Check book-scale packaging.** When the small path works, run the 257-page input through the validated pipeline with per-page progress. Preserve the source hash and all rendered pages, report page/fallback counts, and confirm the archive's full reference coverage. A full local-detector run and a small Gemini sample are separate observations; neither may be described as a whole-book Gemini result.
 6. **Record the result and the Rust boundary.** Save a concise validation report under `specs/research/`, linking the generated artifacts and evidence. Update this plan with observed results and any unresolved acceptance checks. Propose the next implementation phase only from those findings.
 
-## Dependency versus owned-code boundary
+## Completion ledger
+
+The numbered work above is retained as the original experiment contract. Its
+completion ledger is:
+
+| Work item | Closure evidence and qualification |
+| --- | --- |
+| 1. Format adapter | [Converter report](../../research/e2e-converter-validation.md): seven tests, cover once, ordered bounded pixels, image/auxiliary preservation, collision refusal, XSD/parser passes. Single-image input explicitly rejected; atomic publication remains later work. |
+| 2. Actual reader | [Android report](../../research/android-reader-validation.md): stock v2.0 release asset on API 34 followed 3 → 1 → 4 → 2, previous, cover and fallback. v2.1 passes required a startup-config workaround. |
+| 3. Real pages | [Converter sample](../../research/e2e-converter-validation.md#real-art-findings) and [Gemini sample](../../research/gemini-e2e-validation.md): original pages 1, 3, 5, 25 preserved. Actual Gemini navigation tested on workarounded v2.1. Real panel merges/splits recorded rather than accepted as quality passes. |
+| 4. Gemini integration | [Request evidence](../../research/gemini-e2e-validation.md): six Flash calls, three successes/three 503s; four Pro hard-quota failures. Retry classifier corrected offline. Exactly ten historical calls; no Pro quality comparison. |
+| 5. Book scale | [Full manifest](../../../prototypes/comic_panel_e2e/evidence/pdf-full.manifest.json): 257 pages / 1,094 frames / 48 fallbacks, unchanged PDF hash and rendered-image bytes. XSD/parser complete; Android UI smoke test only. Local detector, not full-book Gemini. |
+| 6. Report and boundary | [Synthesis](../../research/end-to-end-validation.md) consolidates exact evidence and artifact availability; [0002](../0002-quality-gated-rust-cli.md) proposes Rust ownership, staged acceptance and unresolved policies for discussion. |
+
+No validation-experiment acceptance check is silently carried as a pass. The
+remaining product concerns move to 0002: representative segmentation quality,
+physical-device/stock-reader real-book qualification, CBR safety/variants, corrupt
+inputs and resource limits, folder ordering, single-image policy, catalog merging,
+atomic publication, resume/cost controls, RTL and full-book Gemini reliability.
+Private binaries were retained on the original machine but are absent in the new
+clone; this is an explicit replay limitation, not a reason to repeat paid calls.
+
+## Recorded implementation boundary
 
 | Piece | Validation implementation | Rust product implication |
 | --- | --- | --- |

@@ -1,0 +1,161 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Bounded thumbnail checks</title>
+<style>
+  #strip {display:flex;overflow:auto;width:390px;height:176px}
+  #strip button {flex:none;padding:2px}
+  pre {white-space:pre-wrap}
+</style>
+<div id="strip"></div><pre id="results">Running…</pre>
+<script type="module">
+import { createThumbnailStrip } from './visible_thumbnails.js';
+
+// Run in the disposable browser VM. Scheduling is controlled; decoding and
+// canvas drawing use the browser's real image implementation and tiny PNGs.
+const result = window.__thumbnailTests = {status:'running', checks:[]};
+const root = document.querySelector('#strip');
+const NativeImage = globalThis.Image, NativeObserver = globalThis.IntersectionObserver;
+const createURL = URL.createObjectURL.bind(URL), revokeURL = URL.revokeObjectURL.bind(URL);
+const urls = new Set();
+let created = 0;
+URL.createObjectURL = blob => { const url = createURL(blob); urls.add(url); ++created; return url; };
+URL.revokeObjectURL = url => { urls.delete(url); revokeURL(url); };
+class Observer {
+  static latest;
+  constructor(callback, options) {
+    this.callback = callback; this.options = options; this.targets = new Set();
+    this.disconnected = false; Observer.latest = this;
+  }
+  observe(target) { this.targets.add(target); }
+  unobserve(target) { this.targets.delete(target); }
+  disconnect() { this.disconnected = true; this.targets.clear(); }
+  emit(indices, isIntersecting = true) {
+    this.callback(indices.map(index => ({
+      target:root.querySelector(`[data-page="${index}"]`), isIntersecting
+    })));
+  }
+}
+globalThis.IntersectionObserver = Observer;
+function assert(ok, message) { if (!ok) throw Error(message); }
+const tick = () => new Promise(resolve => setTimeout(resolve, 0));
+async function until(predicate) {
+  for (let i = 0; i < 200; ++i) {
+    if (predicate()) return;
+    await new Promise(resolve => setTimeout(resolve, 10));
+  }
+  throw Error('Timed out waiting for browser work');
+}
+const image = document.createElement('canvas'); image.width = 80; image.height = 40;
+image.getContext('2d').fillStyle = 'red'; image.getContext('2d').fillRect(0, 0, 80, 40);
+const blob = await new Promise(resolve => image.toBlob(resolve));
+function deferredBook(count) {
+  const calls = [], pending = new Map();
+  const book = {pages:Array.from({length:count}, (_, index) => ({get() {
+    calls.push(index);
+    return new Promise(resolve => pending.set(index, resolve));
+  }}))};
+  return {book, calls, release(index) { const resolve = pending.get(index); pending.delete(index); resolve(blob); },
+    finish() { for (const resolve of pending.values()) resolve(blob); pending.clear(); }};
+}
+async function check(name, run) {
+  try { await run(); result.checks.push({name, passed:true}); }
+  catch (error) { result.checks.push({name, passed:false, error:String(error)}); }
+  document.querySelector('#results').textContent = JSON.stringify(result, null, 2);
+}
+
+await check('257 controls; two loads; skip departed queue; fit entire page; reuse DOM', async () => {
+  const source = deferredBook(257), jumps = [];
+  const strip = createThumbnailStrip(root, index => jumps.push(index));
+  try {
+    strip.show(source.book);
+    assert(root.children.length === 257, 'All page jump controls must remain present');
+    const observer = Observer.latest;
+    assert(observer.options.root === root && observer.options.rootMargin === '0px 240px', 'Wrong observer viewport');
+    observer.emit([0,1,2,3,4,5,6]);
+    assert(source.calls.join() === '0,1', 'More than two simultaneous extractions');
+    observer.emit([0,1,2,3,4,5,6], false); observer.emit([8]);
+    source.release(0); source.release(1);
+    await until(() => source.calls.length === 3);
+    assert(source.calls.join() === '0,1,8', 'Departed queued previews were loaded');
+    source.release(8);
+    const button = root.children[8], canvas = button.firstElementChild;
+    await until(() => button.dataset.thumbnailState === 'ready');
+    assert(canvas.width === 120 && canvas.height === 160, 'Preview backing store is too large');
+    const context = canvas.getContext('2d');
+    assert(context.getImageData(60,80,1,1).data[0] === 255, 'Preview was not drawn');
+    assert(context.getImageData(60,5,1,1).data[3] === 0, 'Wide image must fit without stretching/cropping');
+    assert(urls.size === 0, 'A decoded full-page URL remained live');
+    root.scrollLeft = 300;
+    const scroll = root.scrollLeft;
+    strip.show(source.book);
+    assert(root.children[8] === button && root.scrollLeft === scroll, 'Page jump rebuilt or reset the strip');
+    strip.hide();
+    assert(observer.disconnected, 'Hide left the observer connected');
+    strip.show(source.book);
+    assert(root.children[8] === button && !Observer.latest.targets.has(button), 'Small preview cache was lost');
+    root.children[256].click();
+    assert(jumps.join() === '256', 'Last page control lost its jump target');
+  } finally { strip.clear(); source.finish(); await tick(); }
+});
+
+await check('hide/book replacement keeps global two-load bound and rejects stale results', async () => {
+  const old = deferredBook(10), next = deferredBook(10);
+  const strip = createThumbnailStrip(root, () => {}), before = created;
+  try {
+    strip.show(old.book); const obsoleteObserver = Observer.latest;
+    obsoleteObserver.emit([0,1,2,3]);
+    const obsoleteCanvas = root.children[0].firstElementChild;
+    strip.hide(); strip.show(next.book); Observer.latest.emit([0,1,2,3]);
+    assert(next.calls.length === 0, 'New generation exceeded the two in-flight limit');
+    old.release(0); await until(() => next.calls.length === 1);
+    old.release(1); await until(() => next.calls.length === 2);
+    assert(old.calls.join() === '0,1', 'Hidden old queued work continued');
+    assert(created === before, 'Stale extraction created a full-page URL');
+    assert(obsoleteCanvas.width === 0, 'Closed book kept its canvas backing store');
+    const first = root.children[0];
+    // A browser may already have queued an observer callback before disconnect.
+    obsoleteObserver.emit([8]);
+    Observer.latest.emit([2,3], false);
+    next.release(0); next.release(1);
+    await until(() => root.children[0].dataset.thumbnailState === 'ready' && root.children[1].dataset.thumbnailState === 'ready');
+    assert(root.children[0] === first && next.calls.length === 2, 'Stale work modified the current book');
+    assert(urls.size === 0, 'Replacement left temporary URLs live');
+  } finally { strip.clear(); old.finish(); next.finish(); await tick(); }
+});
+
+await check('hide cancels in-flight decode and revokes its URL before decode settles', async () => {
+  let releaseDecode;
+  globalThis.Image = function () {
+    const image = new NativeImage(), decode = image.decode.bind(image);
+    image.decode = () => decode().then(() => new Promise(resolve => { releaseDecode = resolve; }));
+    return image;
+  };
+  const strip = createThumbnailStrip(root, () => {});
+  try {
+    strip.show({pages:[{get:async () => blob}]}); Observer.latest.emit([0]);
+    await until(() => releaseDecode);
+    strip.hide(); await until(() => urls.size === 0);
+    assert(!root.children[0].dataset.thumbnailState, 'Canceled preview was marked ready');
+    releaseDecode(); await tick();
+    assert(!root.children[0].dataset.thumbnailState, 'Late decode painted a hidden preview');
+  } finally { globalThis.Image = NativeImage; strip.clear(); releaseDecode?.(); await tick(); }
+});
+
+await check('failed preview stays clickable and releases temporary resources', async () => {
+  const jumps = [], strip = createThumbnailStrip(root, index => jumps.push(index));
+  try {
+    strip.show({pages:[{get:async () => new Blob(['not an image'], {type:'image/png'})}]});
+    Observer.latest.emit([0]);
+    await until(() => root.children[0].dataset.thumbnailState === 'error');
+    assert(urls.size === 0, 'Decode failure leaked its object URL');
+    root.children[0].click();
+    assert(jumps.join() === '0', 'Preview error disabled normal reading');
+  } finally { strip.clear(); await tick(); }
+});
+
+globalThis.Image = NativeImage; globalThis.IntersectionObserver = NativeObserver;
+URL.createObjectURL = createURL; URL.revokeObjectURL = revokeURL;
+result.status = result.checks.every(check => check.passed) && urls.size === 0 ? 'passed' : 'failed';
+result.liveTemporaryURLs = urls.size;
+document.querySelector('#results').textContent = JSON.stringify(result, null, 2);
+</script>

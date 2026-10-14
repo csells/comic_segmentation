@@ -1,0 +1,201 @@
+{
+  "upstream_commit": "ba86994fd8b8c99b62e960bccbeb51a576772f03",
+  "upstream_tarball_sha256": "fcc1065133658434416f5a9f3fd14780a25c09c61cd2d256878874e3f0d3ef00",
+  "vm_artifacts": [
+    {
+      "path": "build-2/LICENSE",
+      "bytes": 1071,
+      "sha256": "a8a94fbfe4c26d854848570876e0414aaef968da028f19cf1622055eaf634152"
+    },
+    {
+      "path": "build-2/acbf.js",
+      "bytes": 5309,
+      "sha256": "4b0437e39abfa2ea718cc4196fc39c1679218d053a9b64a30bd2eeae7529617a"
+    },
+    {
+      "path": "build-2/bounds.cbz",
+      "bytes": 52019,
+      "sha256": "8739490e417814fefd88ca9bb610c9f624f6101859716331435c1a14cefc5466"
+    },
+    {
+      "path": "build-2/comicsol.js",
+      "bytes": 11875,
+      "sha256": "07eb8dcfe33630fc2a4dd1764d22e0c44b941f191104270ee832ae3dd6072881"
+    },
+    {
+      "path": "build-2/detect.js",
+      "bytes": 2601,
+      "sha256": "c1d2b7ca33221033e595f709860ef3002f0ee0eff8fee16fb68c8c769dcadd2c"
+    },
+    {
+      "path": "build-2/duplicate.cbz",
+      "bytes": 70801,
+      "sha256": "d218507eb5499518937ef46adf413580e99509627263a48964de8aad65997f50"
+    },
+    {
+      "path": "build-2/healthz",
+      "bytes": 19,
+      "sha256": "dc1edafb90b67177b961ce1a87ecb4dfa8d1bd3ffd2852aaee278f988c50640a"
+    },
+    {
+      "path": "build-2/index.html",
+      "bytes": 4115,
+      "sha256": "efb051dbf405cc3727fd670d7d884f914682822433315c0bcd1e770e79f6c0e1"
+    },
+    {
+      "path": "build-2/main.js",
+      "bytes": 3691,
+      "sha256": "8467cd8a6822ec77109011855ca78c8fc18a90674ea524e6caae13907bf3ee46"
+    },
+    {
+      "path": "build-2/order-control.cbz",
+      "bytes": 52018,
+      "sha256": "fac553d9939f131c54a3afaeac9a6e4d9d09a3303d97d5110f2c851c9b5088c8"
+    },
+    {
+      "path": "build-2/reader.js",
+      "bytes": 21414,
+      "sha256": "0818de9abc53bc9936c5a28cfa4f05ea150fd8dff82382852569dd3395ac2bd0"
+    },
+    {
+      "path": "build-2/style.css",
+      "bytes": 9034,
+      "sha256": "2700d59d0ff115208f56d0c9cacdf3f14cb82e153c9c16da7ea6a44da84273a1"
+    },
+    {
+      "path": "build-2/test-acbf.html",
+      "bytes": 3541,
+      "sha256": "941075f8132fc6c8d5973fefa12466c215e0f8d5e21a194b57676005b1f051af"
+    },
+    {
+      "path": "build-2/zip.js",
+      "bytes": 3635,
+      "sha256": "9793cd3543854ae4971c306aab93977dff41bdf1b51ac1b65b7cfb377f83985f"
+    },
+    {
+      "path": "fixtures/bounds.cbz",
+      "bytes": 52019,
+      "sha256": "8739490e417814fefd88ca9bb610c9f624f6101859716331435c1a14cefc5466"
+    },
+    {
+      "path": "fixtures/duplicate.cbz",
+      "bytes": 70801,
+      "sha256": "d218507eb5499518937ef46adf413580e99509627263a48964de8aad65997f50"
+    },
+    {
+      "path": "fixtures/order-control.cbz",
+      "bytes": 52018,
+      "sha256": "fac553d9939f131c54a3afaeac9a6e4d9d09a3303d97d5110f2c851c9b5088c8"
+    },
+    {
+      "path": "fixtures/pages/cover.png",
+      "bytes": 26394,
+      "sha256": "95a628b268e7009df34ee13d2deef8fbf25c828875617474656c6a1f3c3658f8"
+    },
+    {
+      "path": "fixtures/pages/fallback.png",
+      "bytes": 32817,
+      "sha256": "407e7b2f85606100b2f1e892f6f66904be312e3c752e8751eef2b165c31ee1d9"
+    },
+    {
+      "path": "fixtures/pages/story.png",
+      "bytes": 14604,
+      "sha256": "fff24f0263a7edb62efe483086f32ee46e4709f32f71eb599a6f9635100b0625"
+    },
+    {
+      "path": "fixtures/stored-control.cbz",
+      "bytes": 75102,
+      "sha256": "6341656b14d16da54ceb1d4ffffab5cb8d5abe2e00a654b15d1c448860fd92f7"
+    },
+    {
+      "path": "fixtures/stored-control.manifest.json",
+      "bytes": 1545,
+      "sha256": "1e0eb721b17595c4f8cf35d23cd987e662bb1b9b0b31c708271e9c39a98d69f2"
+    },
+    {
+      "path": "source/web_panel_reader/README.md",
+      "bytes": 5399,
+      "sha256": "00fdf945fca4978421a563c887abad2c43504e06034de28d343dbf619f4c2ca7"
+    },
+    {
+      "path": "source/web_panel_reader/acbf.js",
+      "bytes": 5309,
+      "sha256": "4b0437e39abfa2ea718cc4196fc39c1679218d053a9b64a30bd2eeae7529617a"
+    },
+    {
+      "path": "source/web_panel_reader/browser_check.py",
+      "bytes": 7794,
+      "sha256": "749a5ad6d2c818ed90f6fd8e8e826a5e3b01d112e5f0e6fc47a6902ab3230fde"
+    },
+    {
+      "path": "source/web_panel_reader/build.py",
+      "bytes": 3580,
+      "sha256": "89292b98b6392f18b4d212ab0ed66e23dd091021854db09bbb6001dfd70ec800"
+    },
+    {
+      "path": "source/web_panel_reader/main.js",
+      "bytes": 3691,
+      "sha256": "8467cd8a6822ec77109011855ca78c8fc18a90674ea524e6caae13907bf3ee46"
+    },
+    {
+      "path": "source/web_panel_reader/make_fixtures.py",
+      "bytes": 3039,
+      "sha256": "8166a490fc89fc6f13ab52025b0262a763dac0e22a948325d95fcaaff5a8b111"
+    },
+    {
+      "path": "source/web_panel_reader/test-acbf.html",
+      "bytes": 3541,
+      "sha256": "941075f8132fc6c8d5973fefa12466c215e0f8d5e21a194b57676005b1f051af"
+    }
+  ],
+  "acceptance_run": "acceptance-5",
+  "build": "build-2",
+  "evidence": [
+    {
+      "path": "01-phone-landing.png",
+      "bytes": 70599,
+      "sha256": "5fd1f44a43756beef1e432ab48e4fac05868fa1346d02f6ffb2eadd875cfcabe"
+    },
+    {
+      "path": "02-cover.png",
+      "bytes": 29275,
+      "sha256": "1c0273f364abbded4c9e15057f776316deed4661c3e0395a21983de1d2605788"
+    },
+    {
+      "path": "03-panel-3.png",
+      "bytes": 17372,
+      "sha256": "6def426cb314319557c24150892c6b474a7feb8b011659a87223da71e5d25d71"
+    },
+    {
+      "path": "04-panel-4.png",
+      "bytes": 17639,
+      "sha256": "79fc64a456b2ce598ee994f87905522fb6e79b58e33350990be0e6d2bfcab36c"
+    },
+    {
+      "path": "05-landscape-panel-2.png",
+      "bytes": 21561,
+      "sha256": "9961055f03ace04e32dbb9c8daf9d4ce84615284180dd80a3067cdc4f0bbb516"
+    },
+    {
+      "path": "06-whole-page-fallback.png",
+      "bytes": 19167,
+      "sha256": "7333ea61fad1c46c0e129be4c1b912b294a204e0b496a261d9caca391ebde44e"
+    },
+    {
+      "path": "07-page-mode.png",
+      "bytes": 12492,
+      "sha256": "af5184b68d5b336f4cac9e072fba67aeb3766b39f01a0c98033508b43921405b"
+    },
+    {
+      "path": "08-visible-error.png",
+      "bytes": 79055,
+      "sha256": "f374a5c0c08397fcaa2eb3b4a6322adb2de3731c4dd11a7b8ec8a2ba27178dd4"
+    },
+    {
+      "path": "results.json",
+      "bytes": 1498,
+      "sha256": "44c7e12f41d03685e5647c4359e9455d1e4cc6969cddfc74cd4b460b309bd0a0"
+    }
+  ],
+  "scope": "Synthetic comic only; VM Chromium 154.0.8037.92; 390x844 and 844x390; six browser cases, fourteen rendered checks; no physical phone or private-book result."
+}

@@ -1,5 +1,11 @@
 # ACBF carries panels across compatible readers
 
+Continuation note, 2026-10-07: the source/parser research below predates the
+[actual Android UI tests](android-reader-validation.md) and
+[completed synthesis](end-to-end-validation.md). Its statements that no UI or
+Gemini work had been performed describe that earlier research pass. Android-first,
+Gemini and macOS-first Rust are now settled in the [vision](../vision/comic-panel-cli.md).
+
 Research checked **2026-10-07**. This report informs the [vision](../vision/comic-panel-cli.md); it does not settle the implementation plan.
 
 **A CBZ containing ACBF 1.1 metadata is the strongest verified candidate for portable, precomputed panel navigation.** Three open-source readers have inspected source paths that discover embedded ACBF, parse ordered panel regions, and navigate those regions: ACBF Viewer, ACBF Viewer for Android, and KDE Peruse. The strongest platform evidence is Linux and Android; Windows distribution needs qualification, and no native macOS or iOS/iPadOS candidate meeting the complete requirement was verified. An existing browser reader consumes ACBF but requires an unpacked, hosted comic rather than opening the CBZ directly. A synthetic archive passed the official schema, and its extracted metadata was successfully consumed by the Android reader's actual parser; no reader GUI was tested. ACBF is therefore a grounded recommendation, **not a guarantee of panel reading in every CBZ reader or on every platform**. ([ACBF specification](https://github.com/ACBF-Advanced-Comic-Book-Format/ACBF/wiki/Specifications), [Android parser](https://github.com/ACBF-Advanced-Comic-Book-Format/ACBF-Viewer-for-Android/blob/1be5e700e793dd864828bbc48927bf28d2f43970/acbf/acbfdocument.py), [browser reader](https://github.com/ragtag/panel-by-panel))

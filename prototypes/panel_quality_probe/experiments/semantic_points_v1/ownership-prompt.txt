@@ -1,0 +1,19 @@
+Identify interior points that belong to each narrative scene in this comic page.
+The supplied ordered rectangles are imperfect automatic scene proposals. Keep
+their scene identities and reading order fixed. Do not invent or revise boxes.
+Rectangles may overlap and may exclude some content belonging to their scene.
+Use the complete source to understand ownership, including protruding artwork.
+
+For every supplied scene, return up to three widely separated points clearly
+inside content that belongs exclusively to that scene. Prefer useful coverage
+across its visual extent over clustered points on one character. Include
+disconnected owned content when you can identify it confidently. These are
+segmentation prompts, so avoid gutters, boundaries, captions bridging scenes,
+and content whose ownership is shared or uncertain. Do not choose points merely
+because they fall inside a rectangle. Points can lie outside its rectangle.
+If the scene identity or exclusive ownership cannot be resolved, mark uncertain
+true and return an empty point list. Never invent certainty to fill a quota.
+
+Return every supplied scene exactly once. Coordinates are [x,y], normalized
+against the entire original page from 0 to 1000, with origin at top left.
+No crop, annotation, model mask, quality verdict, or human review is supplied.

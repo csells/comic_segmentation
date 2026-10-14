@@ -1,0 +1,75 @@
+{
+  "scope": "local diagnostic pilot, not full-book acceptance",
+  "new_paid_calls": 0,
+  "local_requests": 6,
+  "requests": [
+    {
+      "run": "qwen-pilot-v2-20261008",
+      "page": 25,
+      "prompt_sha256": "75cd8134ae50f86d391256b1cefc10a918d0e0cb5c33a2dc4ce1a9da035bd53f",
+      "review": "rejected",
+      "viewed_source_resolution_overlay": true,
+      "manual_geometry_changes": false,
+      "elapsed_seconds": 25.492,
+      "input_tokens": 2282,
+      "output_tokens": 358
+    },
+    {
+      "run": "qwen-pilot-v2b-20261008",
+      "page": 254,
+      "prompt_sha256": "75cd8134ae50f86d391256b1cefc10a918d0e0cb5c33a2dc4ce1a9da035bd53f",
+      "review": "rejected",
+      "viewed_source_resolution_overlay": true,
+      "manual_geometry_changes": false,
+      "elapsed_seconds": 19.092,
+      "input_tokens": 2282,
+      "output_tokens": 240
+    },
+    {
+      "run": "qwen-pilot-v2b-20261008",
+      "page": 256,
+      "prompt_sha256": "75cd8134ae50f86d391256b1cefc10a918d0e0cb5c33a2dc4ce1a9da035bd53f",
+      "review": "appropriate_whole_page",
+      "viewed_source_resolution_overlay": true,
+      "manual_geometry_changes": false,
+      "elapsed_seconds": 13.565,
+      "input_tokens": 2282,
+      "output_tokens": 102
+    },
+    {
+      "run": "qwen-pilot-v3-20261008",
+      "page": 25,
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "review": "rejected",
+      "viewed_source_resolution_overlay": true,
+      "manual_geometry_changes": false,
+      "elapsed_seconds": 26.753,
+      "input_tokens": 2334,
+      "output_tokens": 481
+    },
+    {
+      "run": "qwen-pilot-v3-20261008",
+      "page": 254,
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "review": "rejected",
+      "viewed_source_resolution_overlay": true,
+      "manual_geometry_changes": false,
+      "elapsed_seconds": 20.227,
+      "input_tokens": 2334,
+      "output_tokens": 319
+    },
+    {
+      "run": "qwen-pilot-v3-20261008",
+      "page": 5,
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "review": "rejected",
+      "viewed_source_resolution_overlay": true,
+      "manual_geometry_changes": false,
+      "elapsed_seconds": 33.553,
+      "input_tokens": 2334,
+      "output_tokens": 731
+    }
+  ],
+  "total_input_tokens": 13848,
+  "total_output_tokens": 2231
+}

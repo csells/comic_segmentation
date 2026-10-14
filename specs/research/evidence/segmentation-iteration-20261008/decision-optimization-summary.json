@@ -1,0 +1,272 @@
+{
+  "date": "2026-10-08",
+  "runs": {
+    "luna-decisions-prompt-v2-20261008": {
+      "new_calls": 14,
+      "cached_reuses": 0,
+      "estimated_cost_micro_usd": 8717,
+      "median_request_seconds": 0.6255,
+      "results_sha256": "0596052dd6c45109c98503d7ed8c31e92d08e257797e88dfa68c6b178d07e9c2",
+      "metrics": {
+        "false_accepts": 1,
+        "false_escalations": 5
+      }
+    },
+    "luna-decisions-clean-v2-20261008": {
+      "new_calls": 11,
+      "cached_reuses": 3,
+      "estimated_cost_micro_usd": 5689,
+      "median_request_seconds": 0.462,
+      "results_sha256": "4a94c11474df8a0564ffcb91a39a70c5df605907492c6b0707f9466b773d1476",
+      "metrics": {
+        "false_accepts": 1,
+        "false_escalations": 6
+      }
+    },
+    "luna-decisions-target-v3-20261008": {
+      "new_calls": 76,
+      "cached_reuses": 0,
+      "estimated_cost_micro_usd": 24260,
+      "median_request_seconds": 0.337,
+      "results_sha256": "00d25923282cb5bcedc8c83ef5809454f4b7d7ee7cfa7460266a989e5995eb65",
+      "combined_metrics": {
+        "false_accepts": 1,
+        "false_escalations": 2
+      }
+    },
+    "sol-verifier-v2-20261008": {
+      "new_calls": 4,
+      "cached_reuses": 0,
+      "estimated_cost_micro_usd": 60957,
+      "median_request_seconds": 5.137499999999999,
+      "results_sha256": "d75ea8ae21b532752870c169903958de1908d468b7c510f73e00ddd4817284d9"
+    },
+    "sol-verifier-target-v3-20261008": {
+      "new_calls": 5,
+      "cached_reuses": 0,
+      "estimated_cost_micro_usd": 77578,
+      "median_request_seconds": 8.971,
+      "results_sha256": "c772dedd1d0082337ee00b1f927928e29d45f43f5008deebf8cda29e963b0f7c"
+    }
+  },
+  "combined_target_routes": [
+    {
+      "id": "case-01",
+      "page": 100,
+      "expected": "escalate",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-02",
+      "page": 100,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-03",
+      "page": 205,
+      "expected": "escalate",
+      "actual": "escalate",
+      "flagged_targets": [
+        "case-03-panel-02"
+      ]
+    },
+    {
+      "id": "case-04",
+      "page": 18,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-05",
+      "page": 175,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-06",
+      "page": 240,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-07",
+      "page": 6,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-08",
+      "page": 25,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-09",
+      "page": 205,
+      "expected": "keep",
+      "actual": "escalate",
+      "flagged_targets": [
+        "case-09-panel-10"
+      ]
+    },
+    {
+      "id": "case-10",
+      "page": 254,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-11",
+      "page": 256,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-12",
+      "page": 54,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    },
+    {
+      "id": "case-13",
+      "page": 5,
+      "expected": "keep",
+      "actual": "escalate",
+      "flagged_targets": [
+        "case-13-panel-01"
+      ]
+    },
+    {
+      "id": "case-14",
+      "page": 2,
+      "expected": "keep",
+      "actual": "keep",
+      "flagged_targets": []
+    }
+  ],
+  "replay": {
+    "mode": "offline exact-cache replay with actual gutter refinement",
+    "accepted": 12,
+    "label_matches_after_execution": 12,
+    "runtime_label_reads": 0,
+    "human_routing_decisions": 0,
+    "new_detector_calls": 0,
+    "selected": [
+      {
+        "page": 2,
+        "selected_case": "case-14",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 5,
+        "selected_case": "case-13",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 1
+      },
+      {
+        "page": 6,
+        "selected_case": "case-07",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 18,
+        "selected_case": "case-04",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 25,
+        "selected_case": "case-08",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 54,
+        "selected_case": "case-12",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 100,
+        "selected_case": "case-02",
+        "detector_attempts": 1,
+        "refined_boxes": 5,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 175,
+        "selected_case": "case-05",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 205,
+        "selected_case": "case-09",
+        "detector_attempts": 2,
+        "refined_boxes": 0,
+        "verifier_invocations": 2
+      },
+      {
+        "page": 240,
+        "selected_case": "case-06",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 254,
+        "selected_case": "case-10",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      },
+      {
+        "page": 256,
+        "selected_case": "case-11",
+        "detector_attempts": 1,
+        "refined_boxes": 0,
+        "verifier_invocations": 0
+      }
+    ],
+    "referenced_judging_requests": 88,
+    "estimated_judging_cost_if_uncached_micro_usd": 98577
+  },
+  "new_spend_micro_usd": 177201,
+  "budget_used_held_micro_usd": 4780991,
+  "unknown_holds_micro_usd": 3600000,
+  "verification": {
+    "vm_tests_passed": 37,
+    "new_requests_reconstructed": 110,
+    "old_ledger_prefix_unchanged": true,
+    "new_reservations": 110,
+    "new_settlements": 110,
+    "labels_sha256": "81909cb4a4aa3f9461146d25f5869990e11deb5a24237df8c937d8f56ed2490f"
+  },
+  "limitations": [
+    "Development cases reused for tuning; not held-out validation.",
+    "Both global Sol verifier and targeted Sol verifier miss subtle raw page100 art clipping. Deterministic refinement is essential in this replay.",
+    "Global Sol verifier falsely accepts raw page205; never use its coverage answer to override targeted defect evidence.",
+    "No new live detector integration, full-book conversion or publication performed.",
+    "Merge, omitted-scene, false-split and wrong-order defect recall remain unmeasured."
+  ]
+}

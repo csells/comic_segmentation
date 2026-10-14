@@ -1,0 +1,18 @@
+# Source 36: independent review of the rejected lower courtyard crop
+
+2026-10-09. **The Sol-high target-3 rejection identifies real missing courtyard background, not a false alarm caused solely by the opening figure's overlapping boot.** I viewed the complete source, exact rejected crop, saved unmarked and marked source details, and the automatically selected Astra crop. The affected strip is small relative to the scene; no missing actor, rooster or speech balloon was identified in the rejected crop. This is a background-completeness defect, not a missing-scene claim.
+
+Source SHA-256 is `47641ed8a3bad37274c0607799120088d551b3f474049ceb32b036283f0708f3`. The opening scene contains the oversized standing swordsman and large rooster; its lower boot overlaps the two courtyard insets. The lower inset owns its fallen swordsman, smaller rooster, wall/gate and ground. Its visible ground and a sliver of wall continue leftward beside the overlapping boot. Those drawn surfaces, including small ground marks near the inset's lower border, extend left of the rejected crop's vertical edge. They are not white margin or solely the boot's artwork.
+
+| Actual candidate | Target 3 source-pixel extent, right/bottom exclusive | Crop SHA-256 |
+| --- | --- | --- |
+| Rejected Sol-high `fa3cdf746122…` | `[354,690,1093,1035)` | `b3d8cfde462f12578ff71dc32b3bb1a13fbae48465435b664bb06559b5a44cdd` |
+| Selected Astra `fd497d147c9a…` | `[305,690,1092,1035)` | `a3018904508931f6e7cbb89204695d221c20f188994851f2240ab5c65bc14665` |
+
+The selected view extends 49 source pixels farther left and retains the courtyard continuation. Its right edge also differs by one pixel, so it is not strictly a superset of the rejected rectangle. The inspection identifies the omitted region and restored content; no exact missing-pixel area or isolated semantic mask was measured.
+
+The saved Sol-high source audit correctly assigns the large boot/large rooster to opening scene 1 and the smaller rooster, wall and ground to scene 3. Its whole-candidate ownership check nevertheless accepted, as did marked targets 1 and 2. Marked target 3 rejected request `56fdc0bfcb4b5885f10fc71241d671595c21c8269fe971a9482765702b41d53b`, identifying the left wall/ground strip. That binding local failure automatically escalated to Astra. The selected candidate's whole-candidate check and required marked targets 1–3 passed. No human correction or model repair was introduced for this review.
+
+This supports the need to keep local completeness checks binding despite a global pass. It does not prove every boundary warning is correct: the separate source-57 target-10 warning remains a documented false positive. Root separately reviewed all seven selected source-36 crops; the [rolling development report](v30-development-regressions-20261009.md) owns that page's overall outcome, accounting and browser status. This narrower audit covers the disputed rejection and selected target-3 comparison.
+
+Evidence is in `validation-artifacts/segmentation-iteration-20261008/actual-v30-sources149-36-qualified-20261009.tgz`, with the extracted rejected bundle/crop/source details under sibling `source36-rejected-review-20261009/`. The rejected unmarked detail hashes to `3c6f77b3f19a9510d667311223941feb6630bf67360c14d6bd4d5773f03398e5`; marked detail to `527e9dde100be96e8a13646917f3eec5806e470995576d8963ee66cae6c7d6a7`. The accepted page record hashes to `b59cd610d7c6b14559c879bf6e1ea2a4a4a522e53438c57b52f4091723918487`. All read images and crops matched the recorded hashes. No application runtime, image transformation, API call, geometry edit or frozen-artifact mutation was performed.

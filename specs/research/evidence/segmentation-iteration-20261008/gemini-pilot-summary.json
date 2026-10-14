@@ -1,0 +1,232 @@
+{
+  "date": "2026-10-08",
+  "approved_cap_usd": 20.0,
+  "generation_attempts": 14,
+  "successful_responses": 2,
+  "reported_usage_estimated_cost_usd": 0.00781,
+  "unknown_usage_reserved_usd": 3.6,
+  "total_used_or_held_usd": 3.60781,
+  "billing_receipt": false,
+  "preflight_only_failure": {
+    "model": "gemini-2.5-pro",
+    "http_status": 404,
+    "generation_sent": false
+  },
+  "results": [
+    {
+      "source_page": 25,
+      "request_id": "8a1e1eeca33a8aa19a6fc7f95bd37bfbe1acb74e3861860c52e554a31716c99d",
+      "status": "structurally_valid_unreviewed",
+      "elapsed_seconds": 34.616,
+      "panels": 5,
+      "classification": "panels",
+      "usage": {
+        "promptTokenCount": 1609,
+        "candidatesTokenCount": 458,
+        "totalTokenCount": 2821,
+        "promptTokensDetails": [
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1080
+          },
+          {
+            "modality": "TEXT",
+            "tokenCount": 529
+          }
+        ],
+        "thoughtsTokenCount": 754,
+        "serviceTier": "standard"
+      },
+      "model_version": "gemini-3.8-flash",
+      "run": "gemini-v3-control-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "generateContent",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "visual_review": "rejected: final region merges two narrative panels; crop inspection confirms missing separate step",
+      "reviewed_evidence": "source-resolution overlay and ordered crops"
+    },
+    {
+      "source_page": 254,
+      "request_id": "606c8273d753e51e0dee9c8b1a1cdafcc098fee233eeba25400d98b5efbe9851",
+      "status": "failed",
+      "elapsed_seconds": 17.292,
+      "run": "gemini-v3-control-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "generateContent",
+      "source_sha256": "105fcf687f841e2f0f6a5716cd4af7efed29fcf7d9e343a6021aef7c734c27a2",
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "error_category": "HTTP 503"
+    },
+    {
+      "source_page": 256,
+      "request_id": "1475644d1f2af3cf5b3908d51cb0ecbc474aa0ad3eeeff566c1a6e7e47702f48",
+      "status": "structurally_valid_unreviewed",
+      "elapsed_seconds": 98.381,
+      "panels": 1,
+      "classification": "whole_page",
+      "usage": {
+        "promptTokenCount": 1609,
+        "candidatesTokenCount": 125,
+        "totalTokenCount": 1836,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 529
+          },
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1080
+          }
+        ],
+        "thoughtsTokenCount": 102,
+        "serviceTier": "standard"
+      },
+      "model_version": "gemini-3.8-flash",
+      "run": "gemini-v3-control-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "generateContent",
+      "source_sha256": "886f9239fea97d7cd887d127514b836d2733bf73d0126e0192dc820494b9a0f8",
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "visual_review": "appropriate whole-page splash",
+      "reviewed_evidence": "source-resolution overlay and ordered crops"
+    },
+    {
+      "source_page": 5,
+      "request_id": "393b4ec742230ce24c2e96d35c6766f7f5ebffd4cb12f83b15f6dc1e98a609a2",
+      "status": "failed",
+      "elapsed_seconds": 4.429,
+      "run": "gemini-v3-pilot-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "generateContent",
+      "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "error_category": "HTTP 503"
+    },
+    {
+      "source_page": 5,
+      "request_id": "393b4ec742230ce24c2e96d35c6766f7f5ebffd4cb12f83b15f6dc1e98a609a2:retry1",
+      "status": "failed",
+      "elapsed_seconds": 52.312,
+      "run": "gemini-v3-pilot-retry-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "generateContent",
+      "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "error_category": "HTTP 503"
+    },
+    {
+      "source_page": 25,
+      "request_id": "3caa3de21873899fbd3640727308beed98984e777b7e739722b386603fdcde7e",
+      "status": "failed",
+      "elapsed_seconds": 180.065,
+      "run": "gemini-v4-high-pilot-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "generateContent",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "0f6422eec8ea7ca75cfbe1320b67dcd58b7ad4092a2acbe7e525157efde9e2a3",
+      "error_category": "The read operation timed out"
+    },
+    {
+      "source_page": 25,
+      "request_id": "e514215ba420a50d03dafccc5bad2fd3e48925ea09d47ae339dd6edcb7b6b44d",
+      "status": "failed",
+      "elapsed_seconds": 11.143,
+      "run": "gemini-v4-proposals-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "generateContent",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "c88a806ea3d540fadacece1612e3476da403ee5f6c128d0086abbd2d8578ea82",
+      "error_category": "HTTP 503"
+    },
+    {
+      "source_page": 25,
+      "request_id": "e514215ba420a50d03dafccc5bad2fd3e48925ea09d47ae339dd6edcb7b6b44d:retry1",
+      "status": "failed",
+      "elapsed_seconds": 136.369,
+      "run": "gemini-v4-proposals-retry-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "generateContent",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "c88a806ea3d540fadacece1612e3476da403ee5f6c128d0086abbd2d8578ea82",
+      "error_category": "HTTP 503"
+    },
+    {
+      "source_page": 25,
+      "request_id": "8ea4ea8213a9931b1ca818c94723bfc511e401ffe6a2c0e7622744088714dc3b",
+      "status": "failed",
+      "elapsed_seconds": 0.489,
+      "run": "gemini36-v4-interactions-20261008",
+      "model": "gemini-3.6-flash",
+      "transport": "interactions-v1",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "c88a806ea3d540fadacece1612e3476da403ee5f6c128d0086abbd2d8578ea82",
+      "error_category": "HTTP 429"
+    },
+    {
+      "source_page": 5,
+      "request_id": "f342809cc31781224afb514e51ab8d85d293d5b953511dfbe2266cfdc1593fe3",
+      "status": "failed",
+      "elapsed_seconds": 32.844,
+      "run": "gemini37-v3-pilot-20261008",
+      "model": "gemini-3.7-flash",
+      "transport": "generateContent",
+      "source_sha256": "232badfbdfcf8583d30b085e9697ae18c76c5102b8ee92a6cac1f145364b2a4f",
+      "prompt_sha256": "202b58b7660150bb7cb89e505922bd9225b790e558fabb1e6d528dc4ec23e311",
+      "error_category": "HTTP 503"
+    },
+    {
+      "source_page": 25,
+      "request_id": "c228eaf2b8fd21f9f977cda733426a2e4b5a214daef8c78ceb8a06bd1f8cb146",
+      "status": "failed",
+      "elapsed_seconds": 0.491,
+      "run": "gemini37-v4-interactions-20261008",
+      "model": "gemini-3.7-flash",
+      "transport": "interactions-v1",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "c88a806ea3d540fadacece1612e3476da403ee5f6c128d0086abbd2d8578ea82",
+      "error_category": "HTTP 400"
+    },
+    {
+      "source_page": 25,
+      "request_id": "10d5831a7cb7097fcb8345344e186acf53289795cd310b8fac4448bf57e619d6",
+      "status": "failed",
+      "elapsed_seconds": 5.01,
+      "run": "gemini37-v4-interactions-step-20261008",
+      "model": "gemini-3.7-flash",
+      "transport": "interactions-v1",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "c88a806ea3d540fadacece1612e3476da403ee5f6c128d0086abbd2d8578ea82",
+      "error_category": "HTTP 503"
+    },
+    {
+      "source_page": 25,
+      "request_id": "4a2310b6dddd38af755f478d1a794fe3a981ee51a0de20e8cbb471b124a488bd",
+      "status": "failed",
+      "elapsed_seconds": 9.585,
+      "run": "gemini38-v4-interactions-step-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "interactions-v1",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "c88a806ea3d540fadacece1612e3476da403ee5f6c128d0086abbd2d8578ea82",
+      "error_category": "HTTP 503"
+    },
+    {
+      "source_page": 25,
+      "request_id": "4a2310b6dddd38af755f478d1a794fe3a981ee51a0de20e8cbb471b124a488bd:retry1",
+      "status": "failed",
+      "elapsed_seconds": 13.862,
+      "run": "gemini38-v4-interactions-recovery-20261008",
+      "model": "gemini-3.8-flash",
+      "transport": "interactions-v1",
+      "error_category": "HTTP 503",
+      "source_sha256": "891cb81430ce12281c848f8025b8fb75aec4eeecc005312d04cb9c998938b14b",
+      "prompt_sha256": "c88a806ea3d540fadacece1612e3476da403ee5f6c128d0086abbd2d8578ea82"
+    }
+  ],
+  "quality_status": "pilot incomplete; no new metadata published; full-book acceptance outstanding",
+  "sources": [
+    "https://ai.google.dev/gemini-api/docs/pricing",
+    "https://ai.google.dev/api/interactions-api-v1"
+  ]
+}

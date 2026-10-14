@@ -28,15 +28,19 @@ def source_pages(text):
     return values
 
 
-def validate_page(value):
+def validate_page(value, expected_direction='ltr'):
     if not isinstance(value, dict):
         raise ValueError("page must be an object")
     if value.get("classification") not in ("panels", "whole_page", "blank"):
         raise ValueError("invalid page classification")
     if value.get("orientation") != "upright":
         raise ValueError("analysis image is not upright; refusing geometry remapping")
-    if value.get("reading_direction") != "ltr":
-        raise ValueError("response disagrees with this probe's explicit ltr direction")
+    if expected_direction not in ('ltr', 'rtl', 'auto'):
+        raise ValueError('invalid expected reading direction')
+    if value.get('reading_direction') not in ('ltr', 'rtl'):
+        raise ValueError('invalid response reading direction')
+    if expected_direction != 'auto' and value['reading_direction'] != expected_direction:
+        raise ValueError('response disagrees with requested reading direction')
     panels = value.get("panels")
     if not isinstance(panels, list) or not panels:
         raise ValueError("panels must be a nonempty array")

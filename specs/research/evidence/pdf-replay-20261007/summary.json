@@ -1,0 +1,101 @@
+{
+  "source_drive_file_id": "14bfWbyIf-SFrRlXvtdEDPjEVJL6wxHcZ",
+  "source_pdf_bytes": 119103854,
+  "replays": [
+    {
+      "kind": "offline_saved_geometry_replay",
+      "source_pdf_sha256": "30d075d2bf54cdcd2401ccf905ab50a859779296e7afdbff404efd291f42cd32",
+      "historical_manifest_sha256": "4c101ea55c500ffb5c4ac769d6e0d339b9c96146a9578448071ad70e8fdc5651",
+      "historical_cbz_sha256": "4f6ef5f6856141a6f8d38b6f9f5e77ae624dadd15417bddd1df7f7db00848869",
+      "output_file": "gemini-saved.cbz",
+      "output_sha256": "8b5e080530f1532cfa0d710a3001490b6825220c15d8c8c764ce7386358d2848",
+      "output_bytes": 7539352,
+      "page_count": 4,
+      "frame_count": 8,
+      "fallback_count": 1,
+      "new_model_calls": 0,
+      "render_version": "pdftoppm version 25.03.0\nCopyright 2005-2025 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+      "historical_image_hash_matches": 1
+    },
+    {
+      "kind": "offline_saved_geometry_replay",
+      "source_pdf_sha256": "30d075d2bf54cdcd2401ccf905ab50a859779296e7afdbff404efd291f42cd32",
+      "historical_manifest_sha256": "c9fe09ce782d4e8e25c8843b4e1353fab230256c2e41f455a876ed7b2ff36df3",
+      "historical_cbz_sha256": "7fc2547e38a0a1c86c5d338378adabfb0ba5a551f7926da519f9057fa4fc66e7",
+      "output_file": "local-saved.cbz",
+      "output_sha256": "7f684110be76a478f8d79ce6c249b0d70f6ebd2ae142858942587a84365be073",
+      "output_bytes": 75362700,
+      "page_count": 257,
+      "frame_count": 1094,
+      "fallback_count": 48,
+      "new_model_calls": 0,
+      "render_version": "pdftoppm version 25.03.0\nCopyright 2005-2025 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+      "historical_image_hash_matches": 9
+    }
+  ],
+  "published_browser_checks": [
+    {
+      "check": "two labeled saved experiments",
+      "passed": true
+    },
+    {
+      "check": "Gemini CBZ opens four pages and eight saved frames",
+      "passed": true
+    },
+    {
+      "check": "source page 3 retained",
+      "passed": true
+    },
+    {
+      "check": "source page 5 whole-page fallback retained",
+      "passed": true
+    },
+    {
+      "check": "source page 25 five recorded regions",
+      "passed": true
+    },
+    {
+      "check": "page25 metadata region 2",
+      "passed": true
+    },
+    {
+      "check": "page25 metadata region 3",
+      "passed": true
+    },
+    {
+      "check": "page25 metadata region 4",
+      "passed": true
+    },
+    {
+      "check": "page25 metadata region 5",
+      "passed": true
+    },
+    {
+      "check": "known merged bottom region unchanged",
+      "passed": true
+    },
+    {
+      "check": "whole page 25 remains available",
+      "passed": true
+    },
+    {
+      "check": "full CBZ opens 257 pages and 1094 saved frames",
+      "passed": true
+    },
+    {
+      "check": "full book navigates first body page",
+      "passed": true
+    },
+    {
+      "check": "full book page mode",
+      "passed": true
+    },
+    {
+      "check": "uncaught browser exceptions",
+      "count": 0
+    }
+  ],
+  "private_evidence_directory": "validation-artifacts/pdf-replay-20261007",
+  "private_files_git_ignored": true,
+  "new_generation_calls": 0
+}
