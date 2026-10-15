@@ -1,0 +1,14 @@
+[package]
+name = "comic-panel"
+version = "0.1.0"
+edition = "2024"
+description = "Automatic comic panel segmentation into a panel-guided CBZ"
+license = "UNLICENSED"
+publish = false
+
+[dependencies]
+indexmap = "2"
+turbojpeg-sys = { version = "1", features = ["cmake"] }
+
+[profile.release]
+debug = 1
