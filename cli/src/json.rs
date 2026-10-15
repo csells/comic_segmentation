@@ -764,8 +764,9 @@ mod tests {
 
     #[test]
     fn ascii_escapes_match_cpython() {
-        let v = Value::Str("a\"b\\c\n\u{7f}é—😀".into());
-        assert_eq!(dumps(&v), r#""a\"b\\c\n\u007fé—😀""#);
+        // CPython: json.dumps('a"b\\c\n\x7f\u00e9\u2014\U0001F600')
+        let v = Value::Str("a\"b\\c\n\u{7f}\u{e9}\u{2014}\u{1F600}".into());
+        assert_eq!(dumps(&v), "\"a\\\"b\\\\c\\n\\u007f\\u00e9\\u2014\\ud83d\\ude00\"");
     }
 
     #[test]
@@ -779,9 +780,9 @@ mod tests {
 
     #[test]
     fn parse_preserves_order_and_number_kinds() {
-        let v = loads(r#"{"z": 1, "a": 1.0, "m": [true, null, "é😀"], "z": 2}"#).unwrap();
-        assert_eq!(dumps(&v), r#"{"z": 2, "a": 1.0, "m": [true, null, "é😀"]}"#);
-        assert!(loads_unique(r#"{"a":1,"a":2}"#).is_err());
+        let v = loads("{\"z\": 1, \"a\": 1.0, \"m\": [true, null, \"\\u00e9\\ud83d\\ude00\"], \"z\": 2}").unwrap();
+        assert_eq!(dumps(&v), "{\"z\": 2, \"a\": 1.0, \"m\": [true, null, \"\\u00e9\\ud83d\\ude00\"]}");
+        assert!(loads_unique("{\"a\":1,\"a\":2}").is_err());
         assert_eq!(loads("[").unwrap_err().0, "Expecting value: line 1 column 2 (char 1)");
     }
 

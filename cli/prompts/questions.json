@@ -1,0 +1,12 @@
+[
+  {
+    "type": "predicate",
+    "name": "text_clipping",
+    "instructions": "At least one TARGET scene crop removes lettering or an associated speech/thought balloon that is visible in that scene in the unmodified original page. The same shared balloon must be complete for each of its speakers. Do NOT count lettering belonging to another inset or neighboring scene incidentally visible in the rectangle. Do NOT count anything covered by diagnostic overlay labels/lines; only the original and actual crop determine clipping. A balloon meeting the original drawn border is not crop damage. Does genuine target-scene text clipping occur?"
+  },
+  {
+    "type": "predicate",
+    "name": "art_clipping",
+    "instructions": "At least one TARGET scene crop excludes artwork visibly belonging to that scene in the original, such as a border-breaking ear, limb, clothing or object. Compare candidate crop edge with the ORIGINAL SCENE edge. A subject cut by the original frame was drawn that way and is not erroneous. Incidental fragments of OTHER inset/neighboring scenes, source page edges, overlay labels and the source artist's black frame are not clipping defects. Does genuine target-scene artwork clipping occur? An artist's original cut excuses only that original cut. A candidate boundary further inside the same scene that removes additional visible artwork or background is a defect, even if a subject was already partly outside the original frame. Compare the top, right, bottom and left actual crop edges separately against the original scene; do not stop after finding that one edge matches an original cut."
+  }
+]

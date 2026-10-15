@@ -7,8 +7,20 @@ license = "UNLICENSED"
 publish = false
 
 [dependencies]
+base64 = "0.22"
+clap = { version = "4", features = ["derive"] }
+getrandom = "0.3"
+hex = "0.4"
+image = { version = "0.25", default-features = false, features = ["bmp", "gif", "webp", "png", "jpeg"] }
 indexmap = "2"
+kamadak-exif = "0.6"
+libc = "0.2"
+libz-ng-sys = "1"
+png = "0.17"
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "rustls-tls"] }
+sha2 = "0.10"
 turbojpeg-sys = { version = "1", features = ["cmake"] }
+zip = { version = "2", default-features = false, features = ["deflate"] }
 
 [profile.release]
 debug = 1
