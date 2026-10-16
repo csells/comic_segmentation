@@ -1,7 +1,13 @@
 # Establish quality, then implement the Rust comic CLI
 
-Status: **implementation plan for discussion; production Rust has not begun**.
-Updated 2026-10-10. V32 fixes the tested V31 clipped-art failure by giving the
+Status (2026-10-16): **Rust CLI implemented in `cli/` on branch `comic-panel-cli`;
+production-readiness record in
+[cli-production-readiness-20261016](../research/cli-production-readiness-20261016.md),
+pending Chris's approval to merge to `main`.** The Rust port reproduces the V63
+prototype byte for byte (see
+[rust-port-parity-20261015](../research/rust-port-parity-20261015.md)). The
+milestones below remain the design record; their completion status is in the
+readiness record. Original status, updated 2026-10-10: V32 fixes the tested V31 clipped-art failure by giving the
 cheap checker marked source context, then letting the existing stronger verifier
 decide. All seven integrated quality controls and five actual CLI conversions
 passed, along with 35 reader steps and ten actual-main resume/corruption checks.
