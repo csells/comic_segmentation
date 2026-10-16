@@ -343,12 +343,18 @@ fn run(a: Args) -> R<i32> {
         acceptance::validate_page_record(&publication_source, &analysis, record, &result, ordinal)?;
         save(&final_path, &result)?;
         let status = result.opt("status").as_str().unwrap_or("").to_string();
-        let panels = result.opt("selected").opt("panels").opt("panels").as_array().map(Vec::len).unwrap_or(0);
+        let selected = result.opt("selected").opt("panels");
+        let panels = selected.opt("panels").as_array().map(Vec::len).unwrap_or(0);
+        let whole = selected.opt("classification").as_str() != Some("panels");
         outcomes.push(result);
         new_pages += 1;
         let cost =
             if client.page_cap().is_some() { format!(", page cost ${:.3}", client.page_spent() as f64 / 1e6) } else { String::new() };
-        let what = if status == "accepted" { format!("{panels} panel(s)") } else { "whole-page fallback".to_string() };
+        let what = match (status.as_str(), whole) {
+            ("accepted", false) => format!("{panels} panel(s)"),
+            ("accepted", true) => "whole page (cover/splash)".to_string(),
+            _ => "whole-page fallback".to_string(),
+        };
         println!("[{ordinal}/{count}] page {source_page}: {what}{cost}");
     }
     let (new_calls, cache_hits) = client.counters();
