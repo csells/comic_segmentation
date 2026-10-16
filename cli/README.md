@@ -93,3 +93,5 @@ The port reproduces the prototype byte for byte wherever bytes reach a request:
 - `v63_replay_oracle.py` replays the frozen prototype from the recorded cache;
   `replay_all.sh` replays the same pages with this binary;
   `compare_replay.py` compares the page records.
+- `v63_replay_run.py` replays a multi-page run (for example a live Rust run)
+  with the prototype in one directory, so page ordinals line up for comparison.
