@@ -276,7 +276,15 @@ fn run(a: Args) -> R<i32> {
     "implementation" => implementation};
     let run_json = output.join("run.json");
     if run_json.exists() {
-        if read_json(&run_json)? != config {
+        let previous = read_json(&run_json)?;
+        if previous.opt("implementation") != config.opt("implementation") {
+            return Err(Error::Value(format!(
+                "this work directory was created by comic-panel {}; use a new --work-dir (cached answers are still reused at no cost): {}",
+                previous.opt("implementation").opt("version").as_str().unwrap_or("(prototype)"),
+                output.display()
+            )));
+        }
+        if previous != config {
             return Err(Error::Value(format!(
                 "this work directory belongs to a different conversion (source, pages, title, direction or page cap changed): {}",
                 output.display()

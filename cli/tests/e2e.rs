@@ -452,3 +452,23 @@ fn single_page_book_is_cover_only() {
     assert_eq!(frame_counts(&xml), vec![3]);
     validate_schema(&out);
 }
+
+#[test]
+fn work_directory_from_another_version_is_refused_clearly() {
+    let fx = Arc::new(fixture());
+    let server = start(fx.clone(), Arc::new(Behavior::default()));
+    let dir = temp_dir("version");
+    let cbz = dir.join("book.cbz");
+    write_cbz(&cbz, &fx.pages[..1], &[]);
+    let work = dir.join("work");
+    let ledger = dir.join("ledger.jsonl");
+    let first = run(server.port, &[&s(&cbz), &s(&dir.join("a.cbz")), "--work-dir", &s(&work), "--ledger", &s(&ledger)]);
+    assert_eq!(first.code, 0, "{}", first.stderr);
+    let run_json = work.join("run.json");
+    let mut config = json::loads(&std::fs::read_to_string(&run_json).unwrap()).unwrap();
+    config.get_mut("implementation").unwrap().set("version", "0.0.1");
+    std::fs::write(&run_json, json::dumps_indent(&config)).unwrap();
+    let r = run(server.port, &[&s(&cbz), &s(&dir.join("b.cbz")), "--work-dir", &s(&work), "--ledger", &s(&ledger)]);
+    assert_eq!(r.code, 1);
+    assert!(r.stderr.contains("created by comic-panel 0.0.1") && r.stderr.contains("new --work-dir"), "{}", r.stderr);
+}
