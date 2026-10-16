@@ -56,10 +56,28 @@ its cached calls were free.
 - sample prototype and Rust page records (pages 5, 12, 119);
 - the macOS build and test logs.
 
+## Live sample (paid, 2026-10-15)
+
+The Rust CLI ran live on 12 uncached pages of different kinds: 67, 73, 74, 83,
+85, 100, 101, 109, 145, 183, 195 and 215. It used the shared ledger, the `$0.50`
+page cap and automatic transient recovery.
+
+- Cost: 206 new requests, $3.325510, 20 minutes. No blocked or unknown requests.
+- Outcome: 10 accepted, 2 whole-page fallbacks. Pages 67 and 109 reached the page
+  cap at $0.551 and $0.522.
+- Prototype cross-check: the frozen V63 prototype replayed Rust's live answers in
+  cache-only mode with 215 cache hits and 0 misses. All 12 page records are
+  identical apart from request provenance (`cached`/`retry_of`) and the evidence
+  digest that hashes it.
+- Quality on the 8 pages with personally reviewed segmentations: all 6 accepted
+  pages match the reviewed panel counts. The minimum per-panel IoU on five of
+  them is 0.96–1.0. Page 85 is 0.84: Rust's borderless bottom panel includes
+  extra blank margin, and no art is clipped.
+- Page 183, a whole-page fallback in the best-available assembly, is now
+  accepted with all 7 panels in reading order (checked visually).
+- Evidence: `validation-artifacts/rust-port-20261015/live-sample/`.
+
 ## Remaining
 
-A paid live sample would exercise the HTTP path end to end on pages the cache
-does not cover. The Rust CLI runs live on those pages, then the prototype
-replays Rust's recorded answers, which checks both implementations for one
-spend. Proposed pages: 67, 73, 74, 83, 85, 100, 101, 109, 145, 183, 195, 215.
-It needs OpenAI credits and Chris's approval of the spend.
+Staged-candidate review and Chris's promotion approval. The ledger now has
+$319.999486 used of the $370 cap.
