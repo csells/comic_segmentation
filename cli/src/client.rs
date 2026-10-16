@@ -84,12 +84,15 @@ pub fn transient_server_rejection(error: &str) -> bool {
 /// `gateway_failure`: an HTTP 500/502/503/504 HTML gateway page.
 pub fn gateway_failure(error: &str) -> bool {
     let b = error.as_bytes();
-    if b.len() < 9 || !error.starts_with("HTTP 50") || !matches!(b[7], b'0' | b'2' | b'3' | b'4') || &error[8..10.min(error.len())] != ": " {
+    if b.len() < 9 || !error.starts_with("HTTP 50") || !matches!(b[7], b'0' | b'2' | b'3' | b'4') || &error[8..10.min(error.len())] != ": "
+    {
         return false;
     }
     let body = error[9..].to_lowercase();
     body.trim_start().starts_with('<')
-        && ["bad gateway", "gateway time-out", "gateway timeout", "service unavailable", "internal server error"].iter().any(|w| body.contains(w))
+        && ["bad gateway", "gateway time-out", "gateway timeout", "service unavailable", "internal server error"]
+            .iter()
+            .any(|w| body.contains(w))
 }
 
 pub fn transient_failure(error: &str) -> bool {
@@ -155,12 +158,19 @@ fn sanitized(body: &Value) -> R<Value> {
 }
 
 impl Client {
-    pub fn new(key: Option<String>, budget: Budget, root: &Path, retries: Recoveries, page_cap: Option<i64>, auto_transient: bool) -> R<Client> {
+    pub fn new(
+        key: Option<String>,
+        budget: Budget,
+        root: &Path,
+        retries: Recoveries,
+        page_cap: Option<i64>,
+        auto_transient: bool,
+    ) -> R<Client> {
         std::fs::create_dir_all(root)?;
-        if let Some(c) = page_cap {
-            if c <= 0 {
-                return Err("Invalid page spend limit".into());
-            }
+        if let Some(c) = page_cap
+            && c <= 0
+        {
+            return Err("Invalid page spend limit".into());
         }
         let groups = [&retries.unknown, &retries.rejected, &retries.transient, &retries.interrupted, &retries.second];
         let total: usize = groups.iter().map(|g| g.len()).sum();
@@ -168,11 +178,7 @@ impl Client {
         if total != union.len() {
             return Err("Ambiguous recovery type".into());
         }
-        let http = if key.is_some() {
-            Some(reqwest::blocking::Client::builder().build().map_err(|e| e.to_string())?)
-        } else {
-            None
-        };
+        let http = if key.is_some() { Some(reqwest::blocking::Client::builder().build().map_err(|e| e.to_string())?) } else { None };
         let set = |v: &Vec<String>| v.iter().cloned().collect::<HashSet<_>>();
         Ok(Client {
             key,
@@ -276,11 +282,19 @@ impl Client {
 
     fn second_recovery(&self, identity: &str, first: &str, endpoint: &str, kind: Kind, s: &State) -> R<String> {
         let path = PathBuf::from(s.budget.entries[first].opt("path").as_str().unwrap_or(""));
-        let error = if path.join("error.json").is_file() { read_json(&path.join("error.json"))?.opt("error").as_str().unwrap_or("").to_string() } else { String::new() };
+        let error = if path.join("error.json").is_file() {
+            read_json(&path.join("error.json"))?.opt("error").as_str().unwrap_or("").to_string()
+        } else {
+            String::new()
+        };
         if !transient_failure(&error) {
             return Err(Error::Blocked(format!("second recovery requires a recorded transient failure of the first recovery: {first}")));
         }
-        let saved = if path.join("request.json").is_file() { read_json(&path.join("request.json"))? } else { obj! {} };
+        let saved = if path.join("request.json").is_file() {
+            read_json(&path.join("request.json"))?
+        } else {
+            obj! {}
+        };
         if saved.opt("request_id").as_str() != Some(first)
             || saved.opt("request_fingerprint").as_str() != Some(identity)
             || saved.opt("retry_of").as_str() != Some(identity)
@@ -324,7 +338,10 @@ impl Client {
                     let id = identity.clone();
                     return self.cached(s, &[&id], &id, None, &old);
                 }
-                let recoveries: Vec<(&str, String)> = ["timeout", "quota", "transient-server", "interruption"].iter().map(|k| (*k, recovery_identity(k, &identity))).collect();
+                let recoveries: Vec<(&str, String)> = ["timeout", "quota", "transient-server", "interruption"]
+                    .iter()
+                    .map(|k| (*k, recovery_identity(k, &identity)))
+                    .collect();
                 let second = second_identity(&identity);
                 if let Some(e) = s.budget.entries.get(&second).cloned() {
                     let recovered = PathBuf::from(e.opt("path").as_str().unwrap_or(""));
@@ -349,8 +366,14 @@ impl Client {
                         return self.cached(s, &[&id, recovery], recovery, Some(&id), &recovered);
                     }
                 }
-                let error = if old.join("error.json").is_file() { read_json(&old.join("error.json"))?.opt("error").as_str().unwrap_or("").to_string() } else { String::new() };
-                let in_other = |s: &State| s.retry_unknown.contains(&identity) || s.retry_rejected.contains(&identity) || s.retry_interrupted.contains(&identity);
+                let error = if old.join("error.json").is_file() {
+                    read_json(&old.join("error.json"))?.opt("error").as_str().unwrap_or("").to_string()
+                } else {
+                    String::new()
+                };
+                let in_other = |s: &State| {
+                    s.retry_unknown.contains(&identity) || s.retry_rejected.contains(&identity) || s.retry_interrupted.contains(&identity)
+                };
                 if self.auto_transient && failed_recovery.is_none() && transient_failure(&error) && !in_other(s) {
                     s.retry_transient.insert(identity.clone());
                 }
@@ -360,9 +383,18 @@ impl Client {
                 let recovery = if let Some(first) = &failed_recovery {
                     self.second_recovery(&identity, first, endpoint, kind, s)?
                 } else if s.retry_interrupted.contains(&identity) {
-                    let original = if old.join("request.json").is_file() { read_json(&old.join("request.json"))? } else { obj! {} };
-                    let proof = if old.join("interruption.json").is_file() { read_json(&old.join("interruption.json"))? } else { obj! {} };
-                    let request_sha = if old.join("request.json").is_file() { util::sha_file(&old.join("request.json"))? } else { String::new() };
+                    let original = if old.join("request.json").is_file() {
+                        read_json(&old.join("request.json"))?
+                    } else {
+                        obj! {}
+                    };
+                    let proof = if old.join("interruption.json").is_file() {
+                        read_json(&old.join("interruption.json"))?
+                    } else {
+                        obj! {}
+                    };
+                    let request_sha =
+                        if old.join("request.json").is_file() { util::sha_file(&old.join("request.json"))? } else { String::new() };
                     let ok = original.opt("request_id").as_str() == Some(&identity)
                         && original.opt("request_fingerprint").as_str() == Some(&identity)
                         && original.opt("retry_of").is_null()
@@ -392,9 +424,15 @@ impl Client {
                     recoveries[1].1.clone()
                 } else {
                     if !transient_failure(&error) {
-                        return Err(Error::Blocked(format!("transient recovery requires a recorded structured HTTP 503 or connection error: {identity}")));
+                        return Err(Error::Blocked(format!(
+                            "transient recovery requires a recorded structured HTTP 503 or connection error: {identity}"
+                        )));
                     }
-                    let original = if old.join("request.json").is_file() { read_json(&old.join("request.json"))? } else { obj! {} };
+                    let original = if old.join("request.json").is_file() {
+                        read_json(&old.join("request.json"))?
+                    } else {
+                        obj! {}
+                    };
                     if original.opt("request_id").as_str() != Some(&identity)
                         || original.opt("request_fingerprint").as_str() != Some(&identity)
                         || !original.opt("retry_of").is_null()
@@ -417,8 +455,11 @@ impl Client {
                 return Err(Error::Blocked("untracked existing response".into()));
             }
             if !out.join("request.json").exists() {
-                save(&out.join("request.json"), &obj! {"endpoint" => endpoint, "kind" => kind.name(), "request_id" => identity.as_str(),
-                    "request_fingerprint" => original_identity.as_str(), "retry_of" => retry_of.clone(), "body_without_image_bytes" => sanitized(body)?})?;
+                save(
+                    &out.join("request.json"),
+                    &obj! {"endpoint" => endpoint, "kind" => kind.name(), "request_id" => identity.as_str(),
+                    "request_fingerprint" => original_identity.as_str(), "retry_of" => retry_of.clone(), "body_without_image_bytes" => sanitized(body)?},
+                )?;
             }
             let model = body.opt("model").as_str().unwrap_or("");
             let (res, inp, out_rate) = match kind {
@@ -459,7 +500,13 @@ impl Client {
         }
         let started = Instant::now();
         if kind != Kind::Native {
-            println!("  {} {} started; recovery={}; request={}", kind.name(), body.opt("model").as_str().unwrap_or(""), if retry_of.is_some() { "True" } else { "False" }, &identity[..12]);
+            println!(
+                "  {} {} started; recovery={}; request={}",
+                kind.name(),
+                body.opt("model").as_str().unwrap_or(""),
+                if retry_of.is_some() { "True" } else { "False" },
+                &identity[..12]
+            );
         }
         let mut settled = false;
         let result: R<Value> = (|| {

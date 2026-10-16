@@ -65,17 +65,17 @@ pub fn source_proposal(bundle: &Value) -> R<Value> {
         return Err("Invalid proposal reading direction".into());
     }
     Ok(obj! {"source_sha256" => sha, "classification" => bundle.opt("classification").clone(),
-        "reading_direction" => bundle.opt("reading_direction").clone(), "panels" => Value::Array(panels(bundle, true)?)})
+    "reading_direction" => bundle.opt("reading_direction").clone(), "panels" => Value::Array(panels(bundle, true)?)})
 }
 
 pub fn evidence_schema() -> Value {
     let text = || obj! {"type" => "string", "minLength" => 1, "maxLength" => 1200};
     let list = || obj! {"type" => "array", "items" => text(), "maxItems" => 8};
     let scene = obj! {"order" => obj! {"type" => "integer", "minimum" => 1}, "identity" => text(),
-        "owned_content" => list(), "ownership_cues" => list(), "distinguish_from_neighbors" => list(),
-        "uncertain" => obj! {"type" => "boolean"}};
+    "owned_content" => list(), "ownership_cues" => list(), "distinguish_from_neighbors" => list(),
+    "uncertain" => obj! {"type" => "boolean"}};
     let issue = obj! {"kind" => obj! {"type" => "string", "enum" => Value::from(ISSUE_KINDS.to_vec())},
-        "orders" => obj! {"type" => "array", "items" => obj! {"type" => "integer", "minimum" => 1}}, "evidence" => text()};
+    "orders" => obj! {"type" => "array", "items" => obj! {"type" => "integer", "minimum" => 1}}, "evidence" => text()};
     let keys = |v: &Value| Value::Array(v.as_object().unwrap().keys().map(|k| Value::from(k.as_str())).collect());
     let fields = obj! {
         "inventory_status" => obj! {"type" => "string", "enum" => arr!["complete", "incomplete", "uncertain"]},
@@ -115,11 +115,11 @@ pub fn request_body(bundle: &Value, model: &str, limit: Option<i64>) -> R<Value>
     supplied.set("box_coordinate_convention", "[top,left,bottom,right] normalized 0..1000");
     let max = output_limit(&snapshot, limit)?;
     Ok(obj! {"model" => model, "store" => false, "max_output_tokens" => max,
-        "reasoning" => obj! {"effort" => "high"}, "service_tier" => "default",
-        "text" => obj! {"format" => obj! {"type" => "json_schema", "name" => "source_scene_evidence", "strict" => true, "schema" => evidence_schema()}},
-        "input" => arr![obj! {"role" => "user", "content" => arr![
-            obj! {"type" => "input_text", "text" => format!("{}\n{}", prompts::SCENE_EVIDENCE, json::dumps(&supplied))},
-            obj! {"type" => "input_image", "detail" => "original", "image_url" => format!("data:image/jpeg;base64,{}", crate::util::b64(&data))}]}]})
+    "reasoning" => obj! {"effort" => "high"}, "service_tier" => "default",
+    "text" => obj! {"format" => obj! {"type" => "json_schema", "name" => "source_scene_evidence", "strict" => true, "schema" => evidence_schema()}},
+    "input" => arr![obj! {"role" => "user", "content" => arr![
+        obj! {"type" => "input_text", "text" => format!("{}\n{}", prompts::SCENE_EVIDENCE, json::dumps(&supplied))},
+        obj! {"type" => "input_image", "detail" => "original", "image_url" => format!("data:image/jpeg;base64,{}", crate::util::b64(&data))}]}]})
 }
 
 fn validate_result(value: &Value, orders: &[i64]) -> R<()> {
@@ -144,7 +144,11 @@ fn validate_result(value: &Value, orders: &[i64]) -> R<()> {
             return Err("Invalid source evidence types".into());
         }
         for key in ["identity", "owned_content", "ownership_cues", "distinguish_from_neighbors"] {
-            let values: Vec<Value> = if key == "identity" { vec![scene.opt(key).clone()] } else { scene.opt(key).as_array().cloned().unwrap_or_else(|| vec![Value::Null; 9]) };
+            let values: Vec<Value> = if key == "identity" {
+                vec![scene.opt(key).clone()]
+            } else {
+                scene.opt(key).as_array().cloned().unwrap_or_else(|| vec![Value::Null; 9])
+            };
             if values.len() > 8 || values.iter().any(|v| !v.as_str().is_some_and(|s| !s.trim().is_empty() && s.chars().count() <= 1200)) {
                 return Err("Invalid source evidence text".into());
             }
@@ -233,10 +237,10 @@ pub fn response_evidence(raw: &Value, bundle: &Value, request: Option<&Value>, m
         }
     }
     let mut artifact = obj! {"version" => VERSION, "model" => model, "response_model" => response_model,
-        "request_kind" => kind, "request_fingerprint" => fingerprint, "output_limit" => limit,
-        "prompt_sha256" => sha256_hex(prompts::SCENE_EVIDENCE.as_bytes()),
-        "proposal" => snapshot.clone(), "proposal_sha256" => json_hash(&snapshot), "result" => result,
-        "response_sha256" => json_hash(raw), "request" => req_subset};
+    "request_kind" => kind, "request_fingerprint" => fingerprint, "output_limit" => limit,
+    "prompt_sha256" => sha256_hex(prompts::SCENE_EVIDENCE.as_bytes()),
+    "proposal" => snapshot.clone(), "proposal_sha256" => json_hash(&snapshot), "result" => result,
+    "response_sha256" => json_hash(raw), "request" => req_subset};
     let digest = json_hash(&artifact);
     artifact.set("evidence_sha256", digest);
     Ok(artifact)
@@ -276,7 +280,9 @@ fn gate_inner(evidence: &Value, bundle: &Value, frozen: Option<&str>) -> R<Value
         frozen_bundle.set(k, snapshot.opt(k).clone());
     }
     let limit = key("output_limit")?.as_int();
-    if request_fingerprint(&frozen_bundle, key("model")?.as_str().unwrap(), key("request_kind")?.as_str().unwrap_or(""), limit)? != key("request_fingerprint")?.as_str().unwrap_or("") {
+    if request_fingerprint(&frozen_bundle, key("model")?.as_str().unwrap(), key("request_kind")?.as_str().unwrap_or(""), limit)?
+        != key("request_fingerprint")?.as_str().unwrap_or("")
+    {
         return Err("Source audit request fingerprint changed".into());
     }
     match frozen {
@@ -315,7 +321,7 @@ fn gate_inner(evidence: &Value, bundle: &Value, frozen: Option<&str>) -> R<Value
         return Err("Source inventory or ownership remains unresolved".into());
     }
     Ok(obj! {"route" => "keep", "reason" => "Source evidence is linked and resolved; crop quality still requires checking",
-        "evidence_sha256" => evidence.opt("evidence_sha256").clone(), "proposal_sha256" => evidence.opt("proposal_sha256").clone()})
+    "evidence_sha256" => evidence.opt("evidence_sha256").clone(), "proposal_sha256" => evidence.opt("proposal_sha256").clone()})
 }
 
 /// `scene_evidence.evidence_gate` (never raises; failures escalate).

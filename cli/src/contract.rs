@@ -64,7 +64,11 @@ fn close(x: &mut Value) {
         Value::Object(m) => {
             if m.get("type").and_then(Value::as_str) == Some("object") {
                 m.insert("additionalProperties".into(), Value::Bool(false));
-                let keys: Vec<Value> = m.get("properties").and_then(Value::as_object).map(|p| p.keys().map(|k| Value::from(k.as_str())).collect()).unwrap_or_default();
+                let keys: Vec<Value> = m
+                    .get("properties")
+                    .and_then(Value::as_object)
+                    .map(|p| p.keys().map(|k| Value::from(k.as_str())).collect())
+                    .unwrap_or_default();
                 m.insert("required".into(), Value::Array(keys));
             }
             for v in m.values_mut() {
@@ -226,7 +230,8 @@ pub fn responses_output_exhausted(raw: &Value) -> bool {
 // ---------------------------------------------------------------- verifier verdicts
 
 pub const CHECKS: [&str; 3] = ["scene_inventory", "reading_order", "crop_coverage"];
-pub const KINDS: [&str; 8] = ["missing_scene", "merged_scenes", "false_split", "clipped_text", "clipped_art", "wrong_order", "wrong_classification", "uncertain"];
+pub const KINDS: [&str; 8] =
+    ["missing_scene", "merged_scenes", "false_split", "clipped_text", "clipped_art", "wrong_order", "wrong_classification", "uncertain"];
 
 /// `escalation_probe.verdict_schema()`.
 pub fn verdict_schema() -> Value {
@@ -235,10 +240,13 @@ pub fn verdict_schema() -> Value {
         properties.set(k, obj! {"type" => "string", "enum" => arr!["pass", "fail", "uncertain"]});
     }
     let issue = obj! {"kind" => obj! {"type" => "string", "enum" => Value::from(KINDS.to_vec())},
-        "panels" => obj! {"type" => "array", "items" => obj! {"type" => "integer", "minimum" => 1}},
-        "evidence" => obj! {"type" => "string"}};
-    properties.set("issues", obj! {"type" => "array", "items" => obj! {"type" => "object", "properties" => issue,
-        "required" => arr!["kind", "panels", "evidence"], "additionalProperties" => false}});
+    "panels" => obj! {"type" => "array", "items" => obj! {"type" => "integer", "minimum" => 1}},
+    "evidence" => obj! {"type" => "string"}};
+    properties.set(
+        "issues",
+        obj! {"type" => "array", "items" => obj! {"type" => "object", "properties" => issue,
+        "required" => arr!["kind", "panels", "evidence"], "additionalProperties" => false}},
+    );
     let required: Vec<Value> = properties.as_object().unwrap().keys().map(|k| Value::from(k.as_str())).collect();
     obj! {"type" => "object", "properties" => properties, "required" => Value::Array(required), "additionalProperties" => false}
 }
@@ -284,25 +292,32 @@ pub fn parse_verdict(raw: &Value, panel_count: usize) -> Result<Value, String> {
     }
     let Some(issues) = value.opt("issues").as_array() else { return Err("judge issues invalid".into()) };
     for issue in issues {
-        let ok = issue.as_object().is_some_and(|o| o.len() == 3 && o.contains_key("kind") && o.contains_key("panels") && o.contains_key("evidence"))
+        let ok = issue
+            .as_object()
+            .is_some_and(|o| o.len() == 3 && o.contains_key("kind") && o.contains_key("panels") && o.contains_key("evidence"))
             && issue.opt("kind").as_str().is_some_and(|k| KINDS.contains(&k))
-            && issue.opt("panels").as_array().is_some_and(|p| p.iter().all(|n| matches!(n.as_int(), Some(v) if v >= 1 && v <= panel_count as i64)))
+            && issue
+                .opt("panels")
+                .as_array()
+                .is_some_and(|p| p.iter().all(|n| matches!(n.as_int(), Some(v) if v >= 1 && v <= panel_count as i64)))
             && issue.opt("evidence").as_str().is_some_and(|e| !e.trim().is_empty());
         if !ok {
             return Err("judge issue invalid".into());
         }
     }
-    let keep = value.opt("decision").as_str() == Some("accept") && issues.is_empty() && CHECKS.iter().all(|k| value.opt(k).as_str() == Some("pass"));
+    let keep = value.opt("decision").as_str() == Some("accept")
+        && issues.is_empty()
+        && CHECKS.iter().all(|k| value.opt(k).as_str() == Some("pass"));
     Ok(value.with("route", if keep { "keep" } else { "escalate" }))
 }
 
 /// `continuity_verifier.SCHEMA`.
 pub fn continuity_schema() -> Value {
     obj! {"type" => "object", "properties" => obj! {
-        "classification" => obj! {"type" => "string", "enum" => arr!["continuous", "distinct", "uncertain"]},
-        "views" => obj! {"type" => "array", "items" => obj! {"type" => "string"}},
-        "evidence" => obj! {"type" => "string"}},
-        "required" => arr!["classification", "views", "evidence"], "additionalProperties" => false}
+    "classification" => obj! {"type" => "string", "enum" => arr!["continuous", "distinct", "uncertain"]},
+    "views" => obj! {"type" => "array", "items" => obj! {"type" => "string"}},
+    "evidence" => obj! {"type" => "string"}},
+    "required" => arr!["classification", "views", "evidence"], "additionalProperties" => false}
 }
 
 /// `continuity_verifier.response_verdict`.
@@ -320,7 +335,8 @@ pub fn continuity_verdict(raw: &Value) -> Result<Value, String> {
         }
     }
     let value = json::loads(&text).map_err(|e| e.0)?;
-    let ok_fields = value.as_object().is_some_and(|m| m.len() == 3 && ["classification", "views", "evidence"].iter().all(|k| m.contains_key(*k)));
+    let ok_fields =
+        value.as_object().is_some_and(|m| m.len() == 3 && ["classification", "views", "evidence"].iter().all(|k| m.contains_key(*k)));
     if !ok_fields {
         return Err("invalid source-continuity fields".into());
     }
@@ -352,7 +368,8 @@ pub const DECISION_THRESHOLD: f64 = 0.5;
 
 /// `decisions_probe.parse_answers`.
 pub fn parse_answers(raw: &Value, questions: &Value) -> Result<Value, String> {
-    let model_ok = raw.is_object() && raw.opt("model").as_str().map(|m| m.to_string()).unwrap_or_else(|| json::dumps(raw.opt("model"))).starts_with(DECISION_MODEL);
+    let model_ok = raw.is_object()
+        && raw.opt("model").as_str().map(|m| m.to_string()).unwrap_or_else(|| json::dumps(raw.opt("model"))).starts_with(DECISION_MODEL);
     if !model_ok {
         return Err("unexpected Decisions model".into());
     }
@@ -375,7 +392,7 @@ pub fn parse_answers(raw: &Value, questions: &Value) -> Result<Value, String> {
     }
     let max = probabilities.values().filter_map(Value::as_f64).fold(f64::NEG_INFINITY, f64::max);
     Ok(obj! {"route" => if max >= DECISION_THRESHOLD { "escalate" } else { "keep" },
-        "threshold" => DECISION_THRESHOLD, "probabilities" => Value::Object(probabilities)})
+    "threshold" => DECISION_THRESHOLD, "probabilities" => Value::Object(probabilities)})
 }
 
 /// `decisions_probe.decision_cost`: `Ok(None)` when usage lacks input tokens.

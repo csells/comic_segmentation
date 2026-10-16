@@ -69,9 +69,7 @@ pub fn expand_dark_gutter_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<
             let inter = (x2.min(r) - x1.max(l)).max(0) * (y2.min(bb) - y1.max(t)).max(0);
             let box_area = (x2 - x1) * (y2 - y1);
             let comp_area = (r - l) * (bb - t);
-            if box_area.min(comp_area) > 0
-                && (inter as f64 / box_area as f64).min(inter as f64 / comp_area as f64) >= 0.90
-            {
+            if box_area.min(comp_area) > 0 && (inter as f64 / box_area as f64).min(inter as f64 / comp_area as f64) >= 0.90 {
                 matches.push(*c);
             }
         }
@@ -83,7 +81,7 @@ pub fn expand_dark_gutter_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<
         if expanded != *b {
             result[index] = expanded;
             changes.push(obj! {"index" => index, "before_pixels" => pxbox(*b),
-                "component_pixels" => pxbox(matches[0]), "after_pixels" => pxbox(expanded)});
+            "component_pixels" => pxbox(matches[0]), "after_pixels" => pxbox(expanded)});
         }
     }
     (result, changes)
@@ -220,7 +218,7 @@ pub fn expand_balloon_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<Valu
                 })
                 .collect();
             changes.push(obj! {"index" => index, "before_pixels" => pxbox(*b), "after_pixels" => pxbox(expanded),
-                "components" => Value::Array(comps), "method" => "enclosed-lettered-light-component-v1"});
+            "components" => Value::Array(comps), "method" => "enclosed-lettered-light-component-v1"});
         }
     }
     (result, changes)
@@ -258,8 +256,7 @@ pub fn expand_frame_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<Value>
     let cc = cv::connected_components(&ink, w, h);
     let mut candidates: Vec<PxBox> = Vec::new();
     for s in &cc.stats[1..] {
-        if (s.width as f64 / width as f64).min(s.height as f64 / height as f64) < 0.025
-            || (s.area as f64) < (width * height) as f64 * 0.001
+        if (s.width as f64 / width as f64).min(s.height as f64 / height as f64) < 0.025 || (s.area as f64) < (width * height) as f64 * 0.001
         {
             continue;
         }
@@ -316,7 +313,7 @@ pub fn expand_frame_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<Value>
         let expanded = [(l.min(x - 2)).max(0), (t.min(y - 2)).max(0), (r.max(rr + 2)).min(width), (bb.max(cb + 2)).min(height)];
         result[index] = expanded;
         changes.push(obj! {"index" => index, "before_pixels" => pxbox(*b), "after_pixels" => pxbox(expanded),
-            "component_pixels" => pxbox(matches[0]), "method" => "near-matching-connected-ink-v1"});
+        "component_pixels" => pxbox(matches[0]), "method" => "near-matching-connected-ink-v1"});
     }
     (result, changes)
 }
@@ -385,7 +382,12 @@ pub fn expand_dark_fringe_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<
         }
         attached[index].push(component);
         let old = result[index];
-        result[index] = [(old[0].min(x - 2)).max(0), (old[1].min(y - 2)).max(0), (old[2].max(x + w + 2)).min(width), (old[3].max(y + h + 2)).min(height)];
+        result[index] = [
+            (old[0].min(x - 2)).max(0),
+            (old[1].min(y - 2)).max(0),
+            (old[2].max(x + w + 2)).min(width),
+            (old[3].max(y + h + 2)).min(height),
+        ];
     }
     let changes = attached
         .iter()
@@ -419,11 +421,8 @@ pub fn uncovered_content_risk(rgb: &Rgb, boxes: &[PxBox]) -> Result<Value, Strin
         }
     }
     let (black, corner, levels) = corner_blocks_dark(rgb);
-    let fg: Vec<bool> = if black {
-        rgb.channel_max().iter().map(|&v| v > 25).collect()
-    } else {
-        rgb.channel_min().iter().map(|&v| v < 245).collect()
-    };
+    let fg: Vec<bool> =
+        if black { rgb.channel_max().iter().map(|&v| v > 25).collect() } else { rgb.channel_min().iter().map(|&v| v < 245).collect() };
     let residual: Vec<u8> = fg.iter().zip(&covered).map(|(f, c)| (*f && !*c) as u8).collect();
     let cc = cv::connected_components(&residual, rgb.width, rgb.height);
     let minimum = 16i64.max(((width * height) as f64 * 0.0005).ceil() as i64);
@@ -452,7 +451,7 @@ pub fn expand_component_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<Va
     let fg = threshold_mask(&rgb.channel_min(), |v| v < 245);
     let cc = cv::connected_components(&fg, rgb.width, rgb.height);
     let mut colored_counts = vec![0i64; cc.count];
-    for (i, p) in rgb.data.chunks_exact(3).enumerate() {
+    for (i, p) in rgb.data.as_chunks::<3>().0.iter().enumerate() {
         let (mx, mn) = (p[0].max(p[1]).max(p[2]), p[0].min(p[1]).min(p[2]));
         if mx as i32 - mn as i32 >= 20 {
             colored_counts[cc.labels[i] as usize] += 1;
@@ -486,7 +485,8 @@ pub fn expand_component_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<Va
                 continue;
             }
             let bounds = [s.left, s.top, s.left + s.width, s.top + s.height];
-            let expansion = [(left - s.left).max(0), (top - s.top).max(0), (s.left + s.width - right).max(0), (s.top + s.height - bottom).max(0)];
+            let expansion =
+                [(left - s.left).max(0), (top - s.top).max(0), (s.left + s.width - right).max(0), (s.top + s.height - bottom).max(0)];
             let scales = [width, height, width, height];
             if expansion.iter().all(|&e| e == 0) || (0..4).any(|i| expansion[i] as f64 > 0.02 * scales[i] as f64) {
                 continue;
@@ -506,8 +506,8 @@ pub fn expand_component_boxes(rgb: &Rgb, boxes: &[PxBox]) -> (Vec<PxBox>, Vec<Va
         ];
         result[index] = updated;
         changes.push(obj! {"index" => index, "before" => pxbox(*b), "after" => pxbox(updated),
-            "component_bounds" => pxbox(bounds), "component_fraction_inside" => contained,
-            "algorithm" => "mostly-enclosed-color-component-v1"});
+        "component_bounds" => pxbox(bounds), "component_fraction_inside" => contained,
+        "algorithm" => "mostly-enclosed-color-component-v1"});
     }
     (result, changes)
 }
@@ -542,7 +542,7 @@ pub fn reading_viewports(value: &Value, width: i64, height: i64) -> Result<(Valu
         ];
         panel.set("box", nb.to_vec());
         changes.push(obj! {"index" => index, "order" => panel.opt("order").clone(), "before" => vec![top, left, bottom, right],
-            "after" => nb.to_vec(), "margin_source_pixels" => arr![dx, dy]});
+        "after" => nb.to_vec(), "margin_source_pixels" => arr![dx, dy]});
     }
     Ok((result, changes))
 }

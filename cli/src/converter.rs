@@ -12,7 +12,7 @@
 
 use crate::acceptance::{self, POLICY};
 use crate::bodies;
-use crate::client::{Client, Kind, ASTRA_TIER_MIN};
+use crate::client::{ASTRA_TIER_MIN, Client, Kind};
 use crate::completeness::{self, Completeness};
 use crate::contract;
 use crate::error::{Error, R};
@@ -22,7 +22,7 @@ use crate::json::{self, Value};
 use crate::prompts;
 use crate::refine;
 use crate::scene_evidence;
-use crate::util::{self, read_json, save, sha256_hex, sha_file};
+use crate::util::{self, read_json, save, sha_file, sha256_hex};
 use crate::{arr, obj};
 use indexmap::IndexMap;
 use std::cell::RefCell;
@@ -154,7 +154,11 @@ pub fn with_source_detail(bundle: &Value, target: i64, directory: &Path, mark_bo
     let encoded = image::encode_jpeg(&detail, 95)?;
     write_or_match(&destination, &encoded, "existing source detail differs; use a new evidence directory")?;
     let label = format!("Candidate crop {target} in reading order");
-    let mut out_images: Vec<Value> = images.iter().filter(|im| matches!(im.opt("label").as_str(), Some(l) if l == "Original complete page" || l == label)).cloned().collect();
+    let mut out_images: Vec<Value> = images
+        .iter()
+        .filter(|im| matches!(im.opt("label").as_str(), Some(l) if l == "Original complete page" || l == label))
+        .cloned()
+        .collect();
     if out_images.len() != 2 {
         return Err("expected original source and one actual target crop".into());
     }
@@ -192,7 +196,13 @@ pub fn with_source_detail(bundle: &Value, target: i64, directory: &Path, mark_bo
 }
 
 impl<'a> Converter<'a> {
-    pub fn new(client: &'a Client, root: &Path, source_context: HashMap<String, Vec<String>>, reading_direction: &str, reading_margin: bool) -> R<Converter<'a>> {
+    pub fn new(
+        client: &'a Client,
+        root: &Path,
+        source_context: HashMap<String, Vec<String>>,
+        reading_direction: &str,
+        reading_margin: bool,
+    ) -> R<Converter<'a>> {
         if !matches!(reading_direction, "ltr" | "rtl" | "auto") {
             return Err("Invalid reading direction".into());
         }
@@ -216,10 +226,10 @@ impl<'a> Converter<'a> {
     }
 
     fn page_rgb(&self, page: &Path) -> R<Rc<Rgb>> {
-        if let Some((p, rgb)) = self.rgb_cache.borrow().as_ref() {
-            if p == page {
-                return Ok(rgb.clone());
-            }
+        if let Some((p, rgb)) = self.rgb_cache.borrow().as_ref()
+            && p == page
+        {
+            return Ok(rgb.clone());
         }
         let rgb = Rc::new(image::load_rgb(page)?);
         *self.rgb_cache.borrow_mut() = Some((page.to_path_buf(), rgb.clone()));
@@ -243,7 +253,7 @@ impl<'a> Converter<'a> {
         if matches!(limit, Some(4096 | 8192)) && contract::responses_output_exhausted(&raw) {
             let limit = limit.unwrap();
             let recovery = obj! {"original_request" => provenance.clone(), "original_status" => raw.opt("status").clone(),
-                "incomplete_details" => raw.opt("incomplete_details").clone(), "original_output_limit" => limit, "expanded_output_limit" => limit * 2};
+            "incomplete_details" => raw.opt("incomplete_details").clone(), "original_output_limit" => limit, "expanded_output_limit" => limit * 2};
             let expanded = request.with("max_output_tokens", limit * 2);
             let (raw, provenance) = self.client.request("responses", &expanded, kind)?;
             return Ok((raw, provenance.with("output_limit_recovery", recovery)));
@@ -254,12 +264,11 @@ impl<'a> Converter<'a> {
     // ------------------------------------------------------------ detection
 
     pub fn detect(&self, page: &Path, tier: &str) -> R<Value> {
-        if tier == "astra" {
-            if let Some(remaining) = self.client.page_remaining() {
-                if remaining < ASTRA_TIER_MIN {
-                    return Err(Error::PageBudget(format!("page budget too low to start the Astra tier: {remaining} micro-USD left")));
-                }
-            }
+        if tier == "astra"
+            && let Some(remaining) = self.client.page_remaining()
+            && remaining < ASTRA_TIER_MIN
+        {
+            return Err(Error::PageBudget(format!("page budget too low to start the Astra tier: {remaining} micro-USD left")));
         }
         let data = std::fs::read(page)?;
         let request = bodies::detector(&data, tier, &self.reading_direction);
@@ -302,9 +311,9 @@ impl<'a> Converter<'a> {
         let request = bodies::redetection(&saved, &self.reading_direction, &findings)?;
         let (raw, record) = self.responses_with_output_recovery(&request, Kind::Detector)?;
         let provenance = obj! {"tier" => "astra", "source_sha256" => sha_file(page)?, "detector" => record,
-            "completeness_redetection_of" => previous.opt("identity").clone(),
-            "completeness_rejection_proof" => attempt.opt("completeness").opt("proof").clone(),
-            "completeness_feedback_sha256" => util::json_hash(&findings)};
+        "completeness_redetection_of" => previous.opt("identity").clone(),
+        "completeness_rejection_proof" => attempt.opt("completeness").opt("proof").clone(),
+        "completeness_feedback_sha256" => util::json_hash(&findings)};
         Ok(Some(match contract::response_panels(&raw, &self.reading_direction) {
             Ok(panels) => provenance.with("panels", panels),
             Err(e) => provenance.with("invalid", e),
@@ -369,9 +378,9 @@ impl<'a> Converter<'a> {
         }
         let value = previous.opt("panels").with("panels", Value::Array(kept));
         Ok(Some(obj! {"tier" => "astra", "source_sha256" => sha_file(page)?, "completeness_merge_of" => previous.opt("identity").clone(),
-            "completeness_rejection_proof" => attempt.opt("completeness").opt("proof").clone(),
-            "merged_orders" => unreferenced, "viewport_padding_applied" => previous.get("viewport_padding_applied").cloned().unwrap_or(Value::Bool(false)),
-            "panels" => value}))
+        "completeness_rejection_proof" => attempt.opt("completeness").opt("proof").clone(),
+        "merged_orders" => unreferenced, "viewport_padding_applied" => previous.get("viewport_padding_applied").cloned().unwrap_or(Value::Bool(false)),
+        "panels" => value}))
     }
 
     pub fn repair(&self, page: &Path, attempt: &Value) -> R<Option<Value>> {
@@ -384,10 +393,11 @@ impl<'a> Converter<'a> {
         let body = self.repair_request_body(bundle, &issues)?;
         let (raw, request) = self.client.request("responses", &body, Kind::Detector)?;
         let provenance = obj! {"tier" => "astra", "source_sha256" => sha_file(page)?, "detector" => request,
-            "repair_of" => previous.opt("identity").clone(), "repair_issues" => Value::Array(issues.clone()),
-            "viewport_padding_applied" => previous.get("viewport_padding_applied").cloned().unwrap_or(Value::Bool(false))};
+        "repair_of" => previous.opt("identity").clone(), "repair_issues" => Value::Array(issues.clone()),
+        "viewport_padding_applied" => previous.get("viewport_padding_applied").cloned().unwrap_or(Value::Bool(false))};
         let direction = str_of(previous.opt("panels").opt("reading_direction"));
-        let applied = contract::response_panels(&raw, &direction).and_then(|p| geometry::apply_expansions(previous.opt("panels"), &p, &issues));
+        let applied =
+            contract::response_panels(&raw, &direction).and_then(|p| geometry::apply_expansions(previous.opt("panels"), &p, &issues));
         Ok(Some(match applied {
             Ok(panels) => {
                 let changed = panels.is_some();
@@ -437,9 +447,9 @@ impl<'a> Converter<'a> {
         }
         let Some(applied) = geometry::apply_expansions(previous.opt("panels"), &proposed, &issues)? else { return Ok(None) };
         Ok(Some(obj! {"tier" => "astra", "source_sha256" => sha_file(page)?, "detector" => previous.opt("detector").clone(),
-            "panels" => applied, "repair_of" => previous.opt("identity").clone(), "repair_issues" => Value::Array(issues),
-            "repair_changed" => true, "component_changes" => Value::Array(changes),
-            "viewport_padding_applied" => previous.get("viewport_padding_applied").cloned().unwrap_or(Value::Bool(false))}))
+        "panels" => applied, "repair_of" => previous.opt("identity").clone(), "repair_issues" => Value::Array(issues),
+        "repair_changed" => true, "component_changes" => Value::Array(changes),
+        "viewport_padding_applied" => previous.get("viewport_padding_applied").cloned().unwrap_or(Value::Bool(false))}))
     }
 
     // ------------------------------------------------------------ refinement
@@ -499,8 +509,20 @@ impl<'a> Converter<'a> {
         let directory = self.root.join("candidates").join(&identity);
         std::fs::create_dir_all(&directory)?;
         let mut bundle = value.pick(&["classification", "reading_direction"])?;
-        bundle.set("panels", Value::Array(value.opt("panels").as_array().unwrap().iter().map(|p| obj! {"order" => p.opt("order").clone(), "box" => p.opt("box").clone()}).collect()));
-        let mut images = vec![obj! {"label" => "Original complete page", "path" => util::path_str(&util::resolve(page)), "sha256" => page_sha.as_str()}];
+        bundle.set(
+            "panels",
+            Value::Array(
+                value
+                    .opt("panels")
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|p| obj! {"order" => p.opt("order").clone(), "box" => p.opt("box").clone()})
+                    .collect(),
+            ),
+        );
+        let mut images =
+            vec![obj! {"label" => "Original complete page", "path" => util::path_str(&util::resolve(page)), "sha256" => page_sha.as_str()}];
         if value.opt("classification").as_str() == Some("panels") {
             for p in value.opt("panels").as_array().unwrap() {
                 let points = geometry::box_points(geometry::box4(p.opt("box")).unwrap(), w, h)?;
@@ -524,7 +546,11 @@ impl<'a> Converter<'a> {
         all_changes.extend(changes);
         all_changes.extend(margin_changes.iter().map(|c| c.with("kind", "reading-viewport-margin")));
         let padding = !margin_changes.is_empty() || candidate.get("viewport_padding_applied").map(Value::truthy).unwrap_or(false);
-        let padding_value = if !margin_changes.is_empty() { Value::Bool(true) } else { candidate.get("viewport_padding_applied").cloned().unwrap_or(Value::Bool(false)) };
+        let padding_value = if !margin_changes.is_empty() {
+            Value::Bool(true)
+        } else {
+            candidate.get("viewport_padding_applied").cloned().unwrap_or(Value::Bool(false))
+        };
         let _ = padding;
         let result = candidate
             .with("source_sha256", page_sha.as_str())
@@ -569,13 +595,21 @@ impl<'a> Converter<'a> {
                 let secondary = contract::continuity_verdict(&raw).map_err(Error::Blocked)?;
                 flagged = secondary.opt("classification").as_str() != Some("distinct");
                 check.set("final_tier_disambiguation", obj! {"verdict" => secondary, "request" => secondary_request});
-                let predecessors = self.source_context.get(&util::path_str(&util::resolve(Path::new(&source)))).cloned().unwrap_or_default();
+                let predecessors =
+                    self.source_context.get(&util::path_str(&util::resolve(Path::new(&source)))).cloned().unwrap_or_default();
                 if flagged && !predecessors.is_empty() {
-                    let (raw, context_request) = self.responses_with_output_recovery(&bodies::narrative_context(&predecessors, &source, &region)?, Kind::Verifier)?;
+                    let (raw, context_request) =
+                        self.responses_with_output_recovery(&bodies::narrative_context(&predecessors, &source, &region)?, Kind::Verifier)?;
                     let context = contract::continuity_verdict(&raw).map_err(Error::Blocked)?;
                     flagged = context.opt("classification").as_str() != Some("distinct");
-                    let pages: Vec<Value> = predecessors.iter().map(|p| Ok(obj! {"path" => p.as_str(), "sha256" => sha_file(Path::new(p))?})).collect::<R<_>>()?;
-                    check.set("preceding_page_disambiguation", obj! {"verdict" => context, "request" => context_request, "source_pages" => Value::Array(pages)});
+                    let pages: Vec<Value> = predecessors
+                        .iter()
+                        .map(|p| Ok(obj! {"path" => p.as_str(), "sha256" => sha_file(Path::new(p))?}))
+                        .collect::<R<_>>()?;
+                    check.set(
+                        "preceding_page_disambiguation",
+                        obj! {"verdict" => context, "request" => context_request, "source_pages" => Value::Array(pages)},
+                    );
                 }
             }
             checks.push(check);
@@ -597,7 +631,11 @@ impl<'a> Converter<'a> {
             .map(|h| h.iter().map(|c| c.borrow().clone()).filter(|p| str_of(p.opt("identity")) != identity).collect())
             .unwrap_or_default();
         // Largest earlier inventory; ties prefer the later tier.
-        let reference = earlier.iter().enumerate().max_by_key(|(i, p)| (p.opt("panels").opt("panels").as_array().map(Vec::len).unwrap_or(0), *i)).map(|(_, p)| p.clone());
+        let reference = earlier
+            .iter()
+            .enumerate()
+            .max_by_key(|(i, p)| (p.opt("panels").opt("panels").as_array().map(Vec::len).unwrap_or(0), *i))
+            .map(|(_, p)| p.clone());
         let bundle = self.bundle(&identity)?.clone();
         let source = str_of(bundle.opt("images").as_array().unwrap()[0].opt("path"));
         if let Some(previous) = reference {
@@ -607,7 +645,11 @@ impl<'a> Converter<'a> {
                     continue;
                 }
                 let directory = PathBuf::from(str_of(candidate.opt("bundle"))).parent().unwrap().to_path_buf();
-                let region = source_region(Path::new(&source), group.opt("previous_panels").as_array().unwrap(), &directory.join(format!("inventory-{}.jpg", sha256_hex(signature.as_bytes()))))?;
+                let region = source_region(
+                    Path::new(&source),
+                    group.opt("previous_panels").as_array().unwrap(),
+                    &directory.join(format!("inventory-{}.jpg", sha256_hex(signature.as_bytes()))),
+                )?;
                 let (raw, request) = self.responses_with_output_recovery(&bodies::continuity(&region)?, Kind::Verifier)?;
                 let mut verdict = contract::continuity_verdict(&raw).map_err(Error::Blocked)?;
                 let mut check = obj! {"previous_tier" => previous.opt("tier").clone(), "group" => group.clone(), "source_verdict" => verdict.clone(), "source_request" => request};
@@ -621,7 +663,9 @@ impl<'a> Converter<'a> {
                     check.set("context_request", context_request);
                 }
                 checks.push(check);
-                if verdict.opt("classification").as_str() == Some("uncertain") || verdict.opt("views").as_array().map(Vec::len).unwrap_or(0) > represented.len() {
+                if verdict.opt("classification").as_str() == Some("uncertain")
+                    || verdict.opt("views").as_array().map(Vec::len).unwrap_or(0) > represented.len()
+                {
                     flags.insert(group.opt("current_order").as_int().unwrap());
                 }
             }
@@ -658,16 +702,28 @@ impl<'a> Converter<'a> {
     }
 
     fn check_crossing_art(&self, bundle: &Value) -> R<Value> {
-        let pairs = if bundle.opt("classification").as_str() == Some("panels") { geometry::partial_overlap_pairs(bundle.opt("panels").as_array().unwrap()) } else { vec![] };
+        let pairs = if bundle.opt("classification").as_str() == Some("panels") {
+            geometry::partial_overlap_pairs(bundle.opt("panels").as_array().unwrap())
+        } else {
+            vec![]
+        };
         if pairs.is_empty() {
             return Ok(obj! {"pairs" => arr![], "targets" => arr![]});
         }
         let source = str_of(bundle.opt("images").as_array().unwrap()[0].opt("path"));
         let (raw, request) = self.client.request("decisions", &bodies::crossing_art(&source)?, Kind::Native)?;
-        let probability = contract::parse_answers(&raw, &prompts::crossing_art_questions()).map_err(Error::Blocked)?.opt("probabilities").opt("crossing_art").clone();
-        let targets: BTreeSet<i64> = if probability.as_f64().unwrap_or(0.0) >= prompts::CROSSING_ART_THRESHOLD { pairs.iter().flatten().copied().collect() } else { BTreeSet::new() };
+        let probability = contract::parse_answers(&raw, &prompts::crossing_art_questions())
+            .map_err(Error::Blocked)?
+            .opt("probabilities")
+            .opt("crossing_art")
+            .clone();
+        let targets: BTreeSet<i64> = if probability.as_f64().unwrap_or(0.0) >= prompts::CROSSING_ART_THRESHOLD {
+            pairs.iter().flatten().copied().collect()
+        } else {
+            BTreeSet::new()
+        };
         Ok(obj! {"pairs" => Value::Array(pairs.iter().map(|p| Value::from(p.to_vec())).collect()), "targets" => ints(&targets),
-            "probability" => probability, "threshold" => prompts::CROSSING_ART_THRESHOLD, "request" => request})
+        "probability" => probability, "threshold" => prompts::CROSSING_ART_THRESHOLD, "request" => request})
     }
 
     fn workers(&self) -> usize {
@@ -676,8 +732,10 @@ impl<'a> Converter<'a> {
     }
 
     fn quality_route(global: &Value, targets: &IndexMap<i64, Value>) -> Value {
-        let semantic: Vec<&str> = ["scene_defect", "order_defect"].into_iter().filter(|n| global.opt(n).as_f64().unwrap_or(0.0) >= 0.5).collect();
-        let crops: Vec<&str> = ["text_clipping", "art_clipping"].into_iter().filter(|n| global.get(n).and_then(Value::as_f64).unwrap_or(0.0) >= 0.5).collect();
+        let semantic: Vec<&str> =
+            ["scene_defect", "order_defect"].into_iter().filter(|n| global.opt(n).as_f64().unwrap_or(0.0) >= 0.5).collect();
+        let crops: Vec<&str> =
+            ["text_clipping", "art_clipping"].into_iter().filter(|n| global.get(n).and_then(Value::as_f64).unwrap_or(0.0) >= 0.5).collect();
         let flagged: Vec<i64> = targets
             .iter()
             .filter(|(_, p)| p.as_object().unwrap().values().filter_map(Value::as_f64).fold(f64::NEG_INFINITY, f64::max) >= 0.5)
@@ -695,7 +753,8 @@ impl<'a> Converter<'a> {
         let identity = str_of(candidate.opt("identity"));
         let bundle = self.bundle(&identity)?.clone();
         let prompt = prompts::DECISIONS;
-        let overlap_pairs = if candidate.opt("tier").as_str() == Some("sol-low") && bundle.opt("classification").as_str() == Some("panels") {
+        let overlap_pairs = if candidate.opt("tier").as_str() == Some("sol-low") && bundle.opt("classification").as_str() == Some("panels")
+        {
             geometry::overlap_risk_pairs(bundle.opt("panels").as_array().unwrap())
         } else {
             vec![]
@@ -707,23 +766,23 @@ impl<'a> Converter<'a> {
         };
         if !overlap_pairs.is_empty() {
             let v = obj! {"route" => "escalate", "overlap_pairs" => Value::Array(overlap_pairs.iter().map(|p| Value::from(p.to_vec())).collect()),
-                "reason" => "overlapping or contained scenes require stronger boundary and scene detection",
-                "semantic_flags" => arr![], "global_crop_flags" => arr![], "target_flags" => arr![]};
+            "reason" => "overlapping or contained scenes require stronger boundary and scene detection",
+            "semantic_flags" => arr![], "global_crop_flags" => arr![], "target_flags" => arr![]};
             return Ok(store(self, v));
         }
         let inventory = self.check_inventory(candidate)?;
         if inventory.opt("flags").truthy() {
             let v = obj! {"route" => "escalate", "inventory_flags" => inventory.opt("flags").clone(), "inventory_checks" => inventory.opt("checks").clone(),
-                "reason" => "a stronger candidate lost a previously proposed narrative view",
-                "semantic_flags" => arr![], "global_crop_flags" => arr![], "target_flags" => arr![]};
+            "reason" => "a stronger candidate lost a previously proposed narrative view",
+            "semantic_flags" => arr![], "global_crop_flags" => arr![], "target_flags" => arr![]};
             return Ok(store(self, v));
         }
         let splits = self.check_splits(candidate)?;
         if splits.opt("flags").truthy() {
             let v = obj! {"route" => "escalate", "split_flags" => splits.opt("flags").clone(), "split_checks" => splits.opt("checks").clone(),
-                "inventory_checks" => inventory.opt("checks").clone(),
-                "reason" => "source continuity indicates a false split; require fresh detection",
-                "semantic_flags" => arr![], "global_crop_flags" => arr![], "target_flags" => arr![]};
+            "inventory_checks" => inventory.opt("checks").clone(),
+            "reason" => "source continuity indicates a false split; require fresh detection",
+            "semantic_flags" => arr![], "global_crop_flags" => arr![], "target_flags" => arr![]};
             return Ok(store(self, v));
         }
         let (global_answer, global_request) = self.decision(&bundle, prompt, &prompts::global_questions())?;
@@ -773,15 +832,25 @@ impl<'a> Converter<'a> {
         }
         let identity = str_of(candidate.opt("identity"));
         let bundle = self.bundle(&identity)?.clone();
-        let source = bundle.opt("images").as_array().unwrap().iter().find(|i| i.opt("label").as_str() == Some("Original complete page")).cloned().ok_or("StopIteration")?;
-        if source.opt("sha256") != candidate.opt("source_sha256") || Some(sha_file(Path::new(&str_of(source.opt("path"))))?.as_str()) != source.opt("sha256").as_str() {
+        let source = bundle
+            .opt("images")
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|i| i.opt("label").as_str() == Some("Original complete page"))
+            .cloned()
+            .ok_or("StopIteration")?;
+        if source.opt("sha256") != candidate.opt("source_sha256")
+            || Some(sha_file(Path::new(&str_of(source.opt("path"))))?.as_str()) != source.opt("sha256").as_str()
+        {
             return Err(Error::Blocked("Uncovered-content source changed".into()));
         }
         let result = (|| -> R<Value> {
             let mut boxes = Vec::new();
             for panel in bundle.opt("panels").as_array().unwrap() {
                 let label = format!("Candidate crop {} in reading order", json::dumps(panel.opt("order")));
-                let crops: Vec<&Value> = bundle.opt("images").as_array().unwrap().iter().filter(|i| i.opt("label").as_str() == Some(&label)).collect();
+                let crops: Vec<&Value> =
+                    bundle.opt("images").as_array().unwrap().iter().filter(|i| i.opt("label").as_str() == Some(&label)).collect();
                 if crops.len() != 1 {
                     return Err("Expected one actual crop per target".into());
                 }
@@ -809,9 +878,18 @@ impl<'a> Converter<'a> {
 
     fn source_ownership_screen(&mut self, candidate: &Value) -> R<Value> {
         let bundle = self.bundle(&str_of(candidate.opt("identity")))?;
-        let source = bundle.opt("images").as_array().unwrap().iter().find(|i| i.opt("label").as_str() == Some("Original complete page")).cloned().ok_or("StopIteration")?;
+        let source = bundle
+            .opt("images")
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|i| i.opt("label").as_str() == Some("Original complete page"))
+            .cloned()
+            .ok_or("StopIteration")?;
         let identity = str_of(source.opt("sha256"));
-        if Some(identity.as_str()) != candidate.opt("source_sha256").as_str() || sha_file(Path::new(&str_of(source.opt("path"))))? != identity {
+        if Some(identity.as_str()) != candidate.opt("source_sha256").as_str()
+            || sha_file(Path::new(&str_of(source.opt("path"))))? != identity
+        {
             return Err(Error::Blocked("Source ownership screen input changed".into()));
         }
         if !self.source_occlusion.contains_key(&identity) {
@@ -822,24 +900,33 @@ impl<'a> Converter<'a> {
                 .opt("source_occlusion")
                 .clone();
             let requires = probability.as_f64().unwrap_or(0.0) >= prompts::OCCLUSION_THRESHOLD;
-            self.source_occlusion.insert(identity.clone(), obj! {"source_sha256" => identity.as_str(), "probability" => probability,
-                "threshold" => prompts::OCCLUSION_THRESHOLD, "requires_ownership" => requires, "request" => request});
+            self.source_occlusion.insert(
+                identity.clone(),
+                obj! {"source_sha256" => identity.as_str(), "probability" => probability,
+                "threshold" => prompts::OCCLUSION_THRESHOLD, "requires_ownership" => requires, "request" => request},
+            );
         }
         Ok(self.source_occlusion[&identity].clone())
     }
 
     fn record_source_risk(&self, candidate: &Value, verdict: &mut Value) {
         if let Some(coverage) = self.coverage_risk.get(&str_of(candidate.opt("identity"))) {
-            let retained = self.uncovered_sources.contains(&str_of(candidate.opt("source_sha256"))) && coverage.opt("requires_ownership").as_bool() != Some(true);
+            let retained = self.uncovered_sources.contains(&str_of(candidate.opt("source_sha256")))
+                && coverage.opt("requires_ownership").as_bool() != Some(true);
             verdict.set("uncovered_content_risk", coverage.with("retained_source_risk", retained));
         }
         if let Some(screen) = self.source_occlusion.get(&str_of(candidate.opt("source_sha256"))) {
             verdict.set("source_occlusion_risk", screen.clone());
-            if screen.opt("requires_ownership").as_bool() == Some(true) && candidate.opt("panels").opt("classification").as_str() == Some("panels") {
+            if screen.opt("requires_ownership").as_bool() == Some(true)
+                && candidate.opt("panels").opt("classification").as_str() == Some("panels")
+            {
                 verdict.set("ownership_required_targets", panel_orders(candidate.opt("panels")));
             }
         }
-        if candidate.contains("source_sha256") && self.uncovered_sources.contains(&str_of(candidate.opt("source_sha256"))) && candidate.opt("panels").opt("classification").as_str() == Some("panels") {
+        if candidate.contains("source_sha256")
+            && self.uncovered_sources.contains(&str_of(candidate.opt("source_sha256")))
+            && candidate.opt("panels").opt("classification").as_str() == Some("panels")
+        {
             verdict.set("ownership_required_targets", panel_orders(candidate.opt("panels")));
         }
     }
@@ -877,7 +964,9 @@ impl<'a> Converter<'a> {
                 }
                 orders.extend(int_set(verdict.opt("crossing_art").opt("targets")));
                 let screen = self.source_occlusion.get(&str_of(current.opt("source_sha256")));
-                if screen.is_some_and(|s| s.opt("requires_ownership").as_bool() == Some(true)) || self.uncovered_sources.contains(&str_of(current.opt("source_sha256"))) {
+                if screen.is_some_and(|s| s.opt("requires_ownership").as_bool() == Some(true))
+                    || self.uncovered_sources.contains(&str_of(current.opt("source_sha256")))
+                {
                     orders.extend(panel_orders(current.opt("panels")));
                 }
             }
@@ -894,7 +983,11 @@ impl<'a> Converter<'a> {
                 None => return Err(Error::Blocked("Repair has no frozen proposal ancestor".into())),
             }
         }
-        Ok(if !orders.is_empty() || !ownership.is_empty() { orders.union(&required).copied().collect::<BTreeSet<_>>().union(&ownership).copied().collect() } else { BTreeSet::new() })
+        Ok(if !orders.is_empty() || !ownership.is_empty() {
+            orders.union(&required).copied().collect::<BTreeSet<_>>().union(&ownership).copied().collect()
+        } else {
+            BTreeSet::new()
+        })
     }
 
     fn ensure_evidence(&mut self, cand: &Shared) -> R<Value> {
@@ -904,7 +997,9 @@ impl<'a> Converter<'a> {
         let parent = candidate.get("repair_of").filter(|v| !v.is_null()).map(str_of);
         let previous = self.repair_parent(&candidate);
         if parent.is_some() {
-            let Some(prev) = &previous else { return Ok(obj! {"route" => "escalate", "reason" => "Repair has no frozen proposal ancestor"}) };
+            let Some(prev) = &previous else {
+                return Ok(obj! {"route" => "escalate", "reason" => "Repair has no frozen proposal ancestor"});
+            };
             let prev = prev.borrow().clone();
             let (before, after) = (prev.opt("panels"), candidate.opt("panels"));
             let mut same = prev.opt("source_sha256") == candidate.opt("source_sha256")
@@ -1046,14 +1141,18 @@ impl<'a> Converter<'a> {
         let verdict = self.judgments.get(&identity).ok_or_else(|| Error::Value(format!("'{identity}'")))?.borrow().clone();
         let (mut checks, mut evidence): (Vec<bool>, Vec<Value>) = (vec![], vec![]);
         if verdict.opt("overlap_pairs").truthy() || verdict.opt("split_flags").truthy() || verdict.opt("inventory_flags").truthy() {
-            return Ok(obj! {"route" => "escalate", "evidence" => arr![], "reason" => "layout risk requires stronger detection, not verifier clearance"});
+            return Ok(
+                obj! {"route" => "escalate", "evidence" => arr![], "reason" => "layout risk requires stronger detection, not verifier clearance"},
+            );
         }
         let crossing_targets = int_set(verdict.opt("crossing_art").opt("targets"));
         let tier = candidate.opt("tier").as_str().unwrap_or("");
         let global_model = if tier == "astra" && !crossing_targets.is_empty() { "gpt-6-astra" } else { "gpt-6-sol" };
         if verdict.opt("global_crop_flags").truthy() {
             if tier == "sol-low" {
-                return Ok(obj! {"route" => "escalate", "evidence" => arr![], "reason" => "independent page-level clipping warning requires stronger detection"});
+                return Ok(
+                    obj! {"route" => "escalate", "evidence" => arr![], "reason" => "independent page-level clipping warning requires stronger detection"},
+                );
             }
             let (answer, request) = self.verification(&bundle, prompts::JUDGE, "high", global_model)?;
             checks.push(answer.opt("route").as_str() == Some("keep"));
@@ -1065,7 +1164,9 @@ impl<'a> Converter<'a> {
             evidence.push(obj! {"scope" => "complete candidate after semantic warning", "verdict" => answer, "request" => request});
         }
         if tier != "astra" && checks.contains(&false) {
-            return Ok(obj! {"route" => "escalate", "evidence" => Value::Array(evidence), "reason" => "intermediate candidate already rejected; proceed to stronger detection"});
+            return Ok(
+                obj! {"route" => "escalate", "evidence" => Value::Array(evidence), "reason" => "intermediate candidate already rejected; proceed to stronger detection"},
+            );
         }
         let mut targets = int_set(verdict.opt("target_flags"));
         targets.extend(crossing_targets.iter().copied());
@@ -1075,11 +1176,13 @@ impl<'a> Converter<'a> {
             let (mut answer, request) = self.verification(&local, prompts::JUDGE_TARGET, "high", model)?;
             evidence.push(obj! {"scope" => "target", "panel" => target, "verdict" => answer.clone(), "request" => request, "crossing_art_risk" => crossing_targets.contains(&target)});
             let resolved_context = verdict.opt("split_checks").as_array().cloned().unwrap_or_default().iter().any(|check| {
-                int_set(check.opt("pair")).contains(&target) && check.opt("preceding_page_disambiguation").opt("verdict").opt("classification").as_str() == Some("distinct")
+                int_set(check.opt("pair")).contains(&target)
+                    && check.opt("preceding_page_disambiguation").opt("verdict").opt("classification").as_str() == Some("distinct")
             });
             if answer.opt("route").as_str() != Some("keep") && tier == "astra" && resolved_context {
                 let source = str_of(bundle.opt("images").as_array().unwrap()[0].opt("path"));
-                let predecessors = self.source_context.get(&util::path_str(&util::resolve(Path::new(&source)))).cloned().unwrap_or_default();
+                let predecessors =
+                    self.source_context.get(&util::path_str(&util::resolve(Path::new(&source)))).cloned().unwrap_or_default();
                 if !predecessors.is_empty() {
                     let mut images = local.opt("images").as_array().cloned().unwrap();
                     for (i, p) in predecessors.iter().enumerate() {
@@ -1101,7 +1204,9 @@ impl<'a> Converter<'a> {
             }
             checks.push(answer.opt("route").as_str() == Some("keep"));
             if tier != "astra" && answer.opt("route").as_str() != Some("keep") {
-                return Ok(obj! {"route" => "escalate", "evidence" => Value::Array(evidence), "reason" => "intermediate target failed; proceed to stronger detection"});
+                return Ok(
+                    obj! {"route" => "escalate", "evidence" => Value::Array(evidence), "reason" => "intermediate target failed; proceed to stronger detection"},
+                );
             }
         }
         let keep = !checks.is_empty() && checks.iter().all(|c| *c);
@@ -1126,17 +1231,20 @@ impl<'a> Converter<'a> {
         for issue in answer.opt("issues").as_array().unwrap() {
             let ok = issue.is_object()
                 && matches!(issue.opt("kind").as_str(), Some("clipped_art" | "clipped_text"))
-                && issue.opt("panels").as_array().is_some_and(|p| !p.is_empty() && p.iter().all(|o| o.as_int().is_some_and(|v| known.contains(&v))))
+                && issue
+                    .opt("panels")
+                    .as_array()
+                    .is_some_and(|p| !p.is_empty() && p.iter().all(|o| o.as_int().is_some_and(|v| known.contains(&v))))
                 && issue.opt("evidence").as_str().is_some_and(|e| !e.trim().is_empty());
             if !ok {
                 return Ok(entry);
             }
             targets.extend(int_set(issue.opt("panels")));
         }
-        if let Some(t) = target {
-            if targets != BTreeSet::from([t]) {
-                return Ok(entry);
-            }
+        if let Some(t) = target
+            && targets != BTreeSet::from([t])
+        {
+            return Ok(entry);
         }
         let mut bundle = bundle.clone();
         let mut details = entry.opt("source_details").clone();
@@ -1155,7 +1263,8 @@ impl<'a> Converter<'a> {
             images.extend(list);
             bundle = bundle.with("images", Value::Array(images));
         }
-        let (stronger, request) = self.verification(&bundle, &format!("{prompt}{}", prompts::AUTHORED_BOUNDARY_CLARIFICATION), "high", "gpt-6-astra")?;
+        let (stronger, request) =
+            self.verification(&bundle, &format!("{prompt}{}", prompts::AUTHORED_BOUNDARY_CLARIFICATION), "high", "gpt-6-astra")?;
         Ok(entry
             .with("original_verdict", answer)
             .with("original_request", entry.opt("request").clone())
@@ -1175,7 +1284,9 @@ impl<'a> Converter<'a> {
         let identity = str_of(candidate.opt("identity"));
         if risky.is_empty() {
             let confirmation = self.base_verify(&candidate)?;
-            if confirmation.opt("route").as_str() != Some("keep") || candidate.opt("panels").opt("classification").as_str() != Some("panels") {
+            if confirmation.opt("route").as_str() != Some("keep")
+                || candidate.opt("panels").opt("classification").as_str() != Some("panels")
+            {
                 return Ok(confirmation);
             }
             self.source_ownership_screen(&candidate)?;
@@ -1188,7 +1299,9 @@ impl<'a> Converter<'a> {
             previous_confirmation = Some(confirmation);
         }
         let verdict = self.judgments.get(&identity).ok_or_else(|| Error::Value(format!("'{identity}'")))?.borrow().clone();
-        if previous_confirmation.is_none() && (verdict.opt("overlap_pairs").truthy() || verdict.opt("split_flags").truthy() || verdict.opt("inventory_flags").truthy()) {
+        if previous_confirmation.is_none()
+            && (verdict.opt("overlap_pairs").truthy() || verdict.opt("split_flags").truthy() || verdict.opt("inventory_flags").truthy())
+        {
             let confirmation = self.base_verify(&candidate)?;
             if confirmation.opt("route").as_str() != Some("keep") {
                 return Ok(confirmation);
@@ -1198,11 +1311,14 @@ impl<'a> Converter<'a> {
         let gate = self.ensure_evidence(cand)?;
         let candidate = cand.borrow().clone();
         if gate.opt("route").as_str() != Some("keep") {
-            return Ok(obj! {"route" => "escalate", "source_evidence_gate" => gate, "evidence" => arr![], "reason" => "Source ownership is unresolved; crop passes cannot clear it"});
+            return Ok(
+                obj! {"route" => "escalate", "source_evidence_gate" => gate, "evidence" => arr![], "reason" => "Source ownership is unresolved; crop passes cannot clear it"},
+            );
         }
         let bundle = self.bundle(&identity)?.clone();
         let mut checks = vec![];
-        let mut evidence: Vec<Value> = previous_confirmation.as_ref().and_then(|c| c.opt("evidence").as_array().cloned()).unwrap_or_default();
+        let mut evidence: Vec<Value> =
+            previous_confirmation.as_ref().and_then(|c| c.opt("evidence").as_array().cloned()).unwrap_or_default();
         let crossing_targets = int_set(verdict.opt("crossing_art").opt("targets"));
         let tier = candidate.opt("tier").as_str().unwrap_or("").to_string();
         let global_model = if tier == "astra" && !crossing_targets.is_empty() { "gpt-6-astra" } else { "gpt-6-sol" };
@@ -1218,7 +1334,9 @@ impl<'a> Converter<'a> {
         checks.push(item.opt("verdict").opt("route").as_str() == Some("keep"));
         evidence.push(item);
         if tier != "astra" && !checks[checks.len() - 1] {
-            return Ok(obj! {"route" => "escalate", "evidence" => Value::Array(evidence), "source_evidence_gate" => gate, "reason" => "Global ownership confirmation failed; require stronger detection"});
+            return Ok(
+                obj! {"route" => "escalate", "evidence" => Value::Array(evidence), "source_evidence_gate" => gate, "reason" => "Global ownership confirmation failed; require stronger detection"},
+            );
         }
         let mut targets = risky.clone();
         targets.extend(int_set(verdict.opt("target_flags")));
@@ -1233,15 +1351,17 @@ impl<'a> Converter<'a> {
             }
             let (answer, request) = self.verification(&local, &prompt, "high", model)?;
             let mut item = obj! {"scope" => "target with source ownership and exact crop boundary", "panel" => target,
-                "verdict" => answer, "request" => request, "source_details" => Value::Array(local.opt("images").as_array().unwrap()[2..].to_vec()),
-                "model" => model, "effort" => "high", "crossing_art_risk" => crossing_targets.contains(&target)};
+            "verdict" => answer, "request" => request, "source_details" => Value::Array(local.opt("images").as_array().unwrap()[2..].to_vec()),
+            "model" => model, "effort" => "high", "crossing_art_risk" => crossing_targets.contains(&target)};
             if model == "gpt-6-sol" {
                 item = self.adjudicate_clipping(&candidate, &local, &prompt, item, Some(target))?;
             }
             checks.push(item.opt("verdict").opt("route").as_str() == Some("keep"));
             evidence.push(item);
             if tier != "astra" && !checks[checks.len() - 1] {
-                return Ok(obj! {"route" => "escalate", "evidence" => Value::Array(evidence), "source_evidence_gate" => gate, "reason" => "Marked target failed; require stronger detection"});
+                return Ok(
+                    obj! {"route" => "escalate", "evidence" => Value::Array(evidence), "source_evidence_gate" => gate, "reason" => "Marked target failed; require stronger detection"},
+                );
             }
         }
         let keep = !checks.is_empty() && checks.iter().all(|c| *c);
@@ -1318,7 +1438,7 @@ fn decision(client: &Client, root: &Path, bundle: &Value, prompt: &str, question
     clean.set("panels", Value::Array(clean_panels.clone()));
     clean.set("images", Value::Array(images.clone()));
     let identity = util::json_hash(&obj! {"geometry" => Value::Array(clean_panels), "source" => images[0].opt("sha256").clone(),
-        "crop" => images[1].opt("sha256").clone(), "target" => target});
+    "crop" => images[1].opt("sha256").clone(), "target" => target});
     let detailed = with_source_detail(&clean, target, &root.join("marked-native").join(&identity), true)?;
     let instructions = format!("{expected}{}", prompts::CONTEXT_GUIDANCE);
     base_decision(client, &detailed, &instructions, &prompts::marked_questions())
@@ -1337,13 +1457,15 @@ where
     let slots: Vec<std::sync::Mutex<Option<R<O>>>> = items.iter().map(|_| std::sync::Mutex::new(None)).collect();
     std::thread::scope(|scope| {
         for _ in 0..workers.min(items.len()) {
-            scope.spawn(|| loop {
-                let i = next.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
-                if i >= items.len() {
-                    break;
+            scope.spawn(|| {
+                loop {
+                    let i = next.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+                    if i >= items.len() {
+                        break;
+                    }
+                    let r = f(&items[i]);
+                    *slots[i].lock().unwrap() = Some(r);
                 }
-                let r = f(&items[i]);
-                *slots[i].lock().unwrap() = Some(r);
             });
         }
     });

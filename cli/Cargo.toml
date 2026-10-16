@@ -2,6 +2,7 @@
 name = "comic-panel"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.88"
 description = "Automatic comic panel segmentation into a panel-guided CBZ"
 license = "UNLICENSED"
 publish = false
@@ -20,7 +21,7 @@ png = "0.17"
 reqwest = { version = "0.12", default-features = false, features = ["blocking", "rustls-tls"] }
 sha2 = "0.10"
 turbojpeg-sys = { version = "1", features = ["cmake"] }
-zip = { version = "2", default-features = false, features = ["deflate"] }
+zip = { version = "9", default-features = false, features = ["deflate-flate2"] }
 
 [profile.release]
 debug = 1

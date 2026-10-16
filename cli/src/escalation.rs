@@ -112,7 +112,10 @@ impl Run<'_, '_, '_> {
         for round in 1..=MAX_REPAIRS {
             let Some(raw) = self.conv.repair(self.page, &self.last())? else { break };
             let tier = raw.opt("tier").clone();
-            if let Some(c) = self.attempt(vec![("tier", tier), ("stage", Value::from("geometry-repair")), ("repair_round", Value::from(round))], raw.clone())? {
+            if let Some(c) = self.attempt(
+                vec![("tier", tier), ("stage", Value::from("geometry-repair")), ("repair_round", Value::from(round))],
+                raw.clone(),
+            )? {
                 return Ok(Some(c));
             }
             if raw.get("repair_changed") == Some(&Value::Bool(false)) {
@@ -131,27 +134,32 @@ impl Run<'_, '_, '_> {
             && rejection.opt("route").as_str() == Some("escalate")
             && rejection.opt("disposition").as_str() == Some("missing")
             && rejection.get("unresolved") == Some(&Value::Array(vec![]))
+            && let Some(raw) = self.conv.completeness_redetect(self.page, &last)?
         {
-            if let Some(raw) = self.conv.completeness_redetect(self.page, &last)? {
+            let tier = raw.opt("tier").clone();
+            if let Some(c) = self.attempt(vec![("tier", tier), ("stage", Value::from("completeness-redetection"))], raw)? {
+                return Ok(Some(c));
+            }
+            let redetected = self.last();
+            if let Some(raw) = self.conv.repair(self.page, &redetected)? {
                 let tier = raw.opt("tier").clone();
-                if let Some(c) = self.attempt(vec![("tier", tier), ("stage", Value::from("completeness-redetection"))], raw)? {
+                let identity = redetected.opt("candidate").opt("identity").clone();
+                let fields = vec![
+                    ("tier", tier),
+                    ("stage", Value::from("post-completeness-geometry-repair")),
+                    ("repair_round", Value::Int(1)),
+                    ("completeness_redetection_candidate", identity),
+                ];
+                if let Some(c) = self.attempt(fields, raw)? {
                     return Ok(Some(c));
-                }
-                let redetected = self.last();
-                if let Some(raw) = self.conv.repair(self.page, &redetected)? {
-                    let tier = raw.opt("tier").clone();
-                    let identity = redetected.opt("candidate").opt("identity").clone();
-                    let fields = vec![("tier", tier), ("stage", Value::from("post-completeness-geometry-repair")), ("repair_round", Value::Int(1)), ("completeness_redetection_candidate", identity)];
-                    if let Some(c) = self.attempt(fields, raw)? {
-                        return Ok(Some(c));
-                    }
                 }
             }
         }
         for index in (0..self.attempts.len()).rev() {
             let previous = self.attempts[index].value();
             let rejection = previous.opt("completeness");
-            let bijection = rejection.opt("unresolved").as_array().is_some_and(|u| u.iter().any(|x| x.as_str() == Some("incomplete_bijection")));
+            let bijection =
+                rejection.opt("unresolved").as_array().is_some_and(|u| u.iter().any(|x| x.as_str() == Some("incomplete_bijection")));
             if rejection.is_object() && rejection.opt("route").as_str() == Some("escalate") && bijection {
                 if let Some(raw) = self.conv.completeness_merge(self.page, &previous)? {
                     let tier = raw.opt("tier").clone();
@@ -174,8 +182,10 @@ pub fn run_page(conv: &mut Converter, page: &Path, guard: &Completeness) -> R<Va
     Ok(match outcome {
         Ok(Some(selected)) => obj! {"status" => "accepted", "selected" => selected.borrow().clone(), "attempts" => attempts},
         Ok(None) => obj! {"status" => "whole_page_fallback", "selected" => Value::Null, "attempts" => attempts,
-            "reason" => "bounded detector and repair attempts exhausted without a passing quality verdict"},
-        Err(Error::PageBudget(m)) => obj! {"status" => "whole_page_fallback", "selected" => Value::Null, "attempts" => attempts, "reason" => m},
+        "reason" => "bounded detector and repair attempts exhausted without a passing quality verdict"},
+        Err(Error::PageBudget(m)) => {
+            obj! {"status" => "whole_page_fallback", "selected" => Value::Null, "attempts" => attempts, "reason" => m}
+        }
         Err(Error::Blocked(m)) => obj! {"status" => "blocked", "selected" => Value::Null, "attempts" => attempts, "reason" => m},
         Err(other) => return Err(other),
     })

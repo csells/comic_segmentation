@@ -239,16 +239,14 @@ pub fn clipping_feedback(attempt: &Value) -> Vec<Value> {
     if verifier.opt("route").as_str() != Some("escalate") {
         return vec![];
     }
-    let orders: Vec<Value> = candidate.opt("panels").opt("panels").as_array().map(|a| a.iter().map(|p| p.opt("order").clone()).collect()).unwrap_or_default();
+    let orders: Vec<Value> =
+        candidate.opt("panels").opt("panels").as_array().map(|a| a.iter().map(|p| p.opt("order").clone()).collect()).unwrap_or_default();
     let mut issues = Vec::new();
     // Later contextual adjudication for the same target supersedes earlier ones.
     let mut effective: Vec<(String, Value)> = Vec::new();
     for (index, item) in verifier.opt("evidence").as_array().cloned().unwrap_or_default().into_iter().enumerate() {
-        let key = if item.contains("panel") {
-            format!("target:{}", crate::json::dumps(item.opt("panel")))
-        } else {
-            format!("global:{index}")
-        };
+        let key =
+            if item.contains("panel") { format!("target:{}", crate::json::dumps(item.opt("panel"))) } else { format!("global:{index}") };
         if let Some(e) = effective.iter_mut().find(|e| e.0 == key) {
             e.1 = item;
         } else {
@@ -297,12 +295,12 @@ pub fn needs_source_detail(candidate: &Value, verdict: &Value, target: i64) -> b
         && verdict.opt("reading_order").as_str() == Some("pass")
         && verdict.opt("issues").truthy()
         && verdict.opt("issues").as_array().unwrap().iter().all(|issue| {
-            matches!(issue.opt("kind").as_str(), Some("clipped_art") | Some("clipped_text"))
-                && {
-                    let mut set: Vec<i64> = issue.opt("panels").as_array().map(|a| a.iter().filter_map(Value::as_int).collect()).unwrap_or_default();
-                    set.sort();
-                    set.dedup();
-                    set == vec![target]
-                }
+            matches!(issue.opt("kind").as_str(), Some("clipped_art") | Some("clipped_text")) && {
+                let mut set: Vec<i64> =
+                    issue.opt("panels").as_array().map(|a| a.iter().filter_map(Value::as_int).collect()).unwrap_or_default();
+                set.sort();
+                set.dedup();
+                set == vec![target]
+            }
         })
 }

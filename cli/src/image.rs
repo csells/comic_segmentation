@@ -53,12 +53,12 @@ impl Rgb {
 
     /// Per-pixel max over channels (`rgb.max(axis=2)`).
     pub fn channel_max(&self) -> Vec<u8> {
-        self.data.chunks_exact(3).map(|p| p[0].max(p[1]).max(p[2])).collect()
+        self.data.as_chunks::<3>().0.iter().map(|p| p[0].max(p[1]).max(p[2])).collect()
     }
 
     /// Per-pixel min over channels (`rgb.min(axis=2)`).
     pub fn channel_min(&self) -> Vec<u8> {
-        self.data.chunks_exact(3).map(|p| p[0].min(p[1]).min(p[2])).collect()
+        self.data.as_chunks::<3>().0.iter().map(|p| p[0].min(p[1]).min(p[2])).collect()
     }
 }
 
@@ -75,11 +75,7 @@ impl Drop for Handle {
 fn tj_error(h: &Handle) -> String {
     unsafe {
         let msg = tj::tj3GetErrorStr(h.0);
-        if msg.is_null() {
-            "libjpeg-turbo error".into()
-        } else {
-            std::ffi::CStr::from_ptr(msg).to_string_lossy().into_owned()
-        }
+        if msg.is_null() { "libjpeg-turbo error".into() } else { std::ffi::CStr::from_ptr(msg).to_string_lossy().into_owned() }
     }
 }
 
@@ -109,7 +105,7 @@ pub fn decode_jpeg(bytes: &[u8]) -> Result<Rgb, String> {
                 return Err(tj_error(&h));
             }
             let mut out = Rgb::new(w, ht);
-            for (o, p) in out.data.chunks_exact_mut(3).zip(cmyk.chunks_exact(4)) {
+            for (o, p) in out.data.as_chunks_mut::<3>().0.iter_mut().zip(cmyk.chunks_exact(4)) {
                 // Pillow stores Adobe JPEG CMYK inverted ("CMYK;I"), then `cmyk2rgb`.
                 let inv = |v: u8| 255 - v as i32;
                 let nk = 255 - inv(p[3]);
@@ -214,7 +210,7 @@ pub fn load_rgb(path: &Path) -> Result<Rgb, String> {
         Some("PNG") => {
             let d = crate::png::decode(&bytes)?;
             let mut out = Rgb::new(d.width, d.height);
-            for (o, p) in out.data.chunks_exact_mut(3).zip(d.rgba.chunks_exact(4)) {
+            for (o, p) in out.data.as_chunks_mut::<3>().0.iter_mut().zip(d.rgba.chunks_exact(4)) {
                 o.copy_from_slice(&p[..3]);
             }
             Ok(out)
@@ -238,7 +234,7 @@ pub fn composite_on_white(width: usize, height: usize, rgba: &[u8]) -> Rgb {
     const PB: u32 = 7;
     let mut out = Rgb::new(width, height);
     let div255 = |a: u32| ((a >> 8) + a) >> 8;
-    for (o, s) in out.data.chunks_exact_mut(3).zip(rgba.chunks_exact(4)) {
+    for (o, s) in out.data.as_chunks_mut::<3>().0.iter_mut().zip(rgba.chunks_exact(4)) {
         let sa = s[3] as u32;
         if sa == 0 {
             o.copy_from_slice(&[255, 255, 255]);
@@ -314,10 +310,7 @@ fn coeffs(in_size: usize, in0: f32, in1: f32, out_size: usize) -> Coeffs {
         bounds.push((xmin as usize, xmax.max(0) as usize));
     }
     let one = (1i64 << PRECISION_BITS) as f64;
-    let kk = pre
-        .iter()
-        .map(|&v| if v < 0.0 { (-0.5 + v * one) as i32 } else { (0.5 + v * one) as i32 })
-        .collect();
+    let kk = pre.iter().map(|&v| if v < 0.0 { (-0.5 + v * one) as i32 } else { (0.5 + v * one) as i32 }).collect();
     Coeffs { ksize, bounds, kk }
 }
 
@@ -442,4 +435,32 @@ pub fn draw_rectangle_outline(img: &mut Rgb, x0: i64, y0: i64, x1: i64, y1: i64,
         vline(img, x1 - i, y0 + width, y1 - width + 1, ink);
         vline(img, x0 + i, y0 + width, y1 - width + 1, ink);
     }
+}
+
+/// `ImageOps.exif_transpose` on an RGBA buffer: returns the upright (w, h, pixels).
+///
+/// Orientation → Pillow transpose: 2 FLIP_LEFT_RIGHT, 3 ROTATE_180,
+/// 4 FLIP_TOP_BOTTOM, 5 TRANSPOSE, 6 ROTATE_270, 7 TRANSVERSE, 8 ROTATE_90.
+pub fn exif_transpose(rgba: &[u8], w: usize, h: usize, orientation: i64) -> (usize, usize, Vec<u8>) {
+    let swap = matches!(orientation, 5..=8);
+    let (ow, oh) = if swap { (h, w) } else { (w, h) };
+    let mut out = vec![0u8; ow * oh * 4];
+    for y in 0..oh {
+        for x in 0..ow {
+            let (sx, sy) = match orientation {
+                2 => (w - 1 - x, y),
+                3 => (w - 1 - x, h - 1 - y),
+                4 => (x, h - 1 - y),
+                5 => (y, x),
+                6 => (y, h - 1 - x),
+                7 => (w - 1 - y, h - 1 - x),
+                8 => (w - 1 - y, x),
+                _ => (x, y),
+            };
+            let s = (sy * w + sx) * 4;
+            let d = (y * ow + x) * 4;
+            out[d..d + 4].copy_from_slice(&rgba[s..s + 4]);
+        }
+    }
+    (ow, oh, out)
 }

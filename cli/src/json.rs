@@ -39,7 +39,6 @@ impl PartialEq for Value {
     }
 }
 
-
 impl Value {
     fn as_number(&self) -> Option<f64> {
         match self {
@@ -664,8 +663,7 @@ impl Parser<'_> {
 
     fn hex4(&mut self) -> Result<u32, ParseError> {
         let h = self.s.get(self.i..self.i + 4).ok_or_else(|| self.err("Invalid \\uXXXX escape"))?;
-        let v = u32::from_str_radix(std::str::from_utf8(h).unwrap_or("x"), 16)
-            .map_err(|_| self.err("Invalid \\uXXXX escape"))?;
+        let v = u32::from_str_radix(std::str::from_utf8(h).unwrap_or("x"), 16).map_err(|_| self.err("Invalid \\uXXXX escape"))?;
         self.i += 4;
         Ok(v)
     }

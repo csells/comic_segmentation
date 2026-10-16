@@ -16,14 +16,20 @@ fn main() {
         let boxes: Vec<[i64; 4]> = case.opt("boxes").as_array().unwrap().iter().map(|b| comic_panel::geometry::box4(b).unwrap()).collect();
         let mut out = obj! {"page" => page, "variant" => case.opt("variant").clone()};
         type F = fn(&image::Rgb, &[[i64; 4]]) -> (Vec<[i64; 4]>, Vec<Value>);
-        let fns: [(&str, F); 5] = [("gutter", refine::expand_dark_gutter_boxes), ("balloon", refine::expand_balloon_boxes),
-            ("frame", refine::expand_frame_boxes), ("fringe", refine::expand_dark_fringe_boxes), ("component", refine::expand_component_boxes)];
+        let fns: [(&str, F); 5] = [
+            ("gutter", refine::expand_dark_gutter_boxes),
+            ("balloon", refine::expand_balloon_boxes),
+            ("frame", refine::expand_frame_boxes),
+            ("fringe", refine::expand_dark_fringe_boxes),
+            ("component", refine::expand_component_boxes),
+        ];
         for (name, f) in fns {
             let (result, changes) = f(rgb, &boxes);
             out.set(name, obj! {"boxes" => Value::Array(result.iter().map(|b| Value::from(b.to_vec())).collect()), "changes" => Value::Array(changes)});
         }
         let (w, h) = (rgb.width as i64, rgb.height as i64);
-        let valid: Vec<[i64; 4]> = boxes.iter().copied().filter(|b| 0 <= b[0] && b[0] < b[2] && b[2] <= w && 0 <= b[1] && b[1] < b[3] && b[3] <= h).collect();
+        let valid: Vec<[i64; 4]> =
+            boxes.iter().copied().filter(|b| 0 <= b[0] && b[0] < b[2] && b[2] <= w && 0 <= b[1] && b[1] < b[3] && b[3] <= h).collect();
         out.set("uncovered", refine::uncovered_content_risk(rgb, &valid).unwrap());
         println!("{}", json::dumps(&out));
     }

@@ -1,4 +1,7 @@
 //! Comic panel CLI library: automatic panel segmentation into a panel-guided CBZ.
+
+// Pixel loops intentionally mirror Pillow/OpenCV C code index for index.
+#![allow(clippy::needless_range_loop, clippy::chunks_exact_to_as_chunks)]
 pub mod acceptance;
 pub mod bodies;
 pub mod budget;

@@ -7,8 +7,9 @@ use crate::error::{Error, R};
 use crate::image;
 use crate::json::Value;
 use crate::obj;
-use crate::util::{self, read_json, save, sha256_hex, sha_file};
+use crate::util::{self, read_json, save, sha_file, sha256_hex};
 use std::collections::{HashMap, HashSet};
+use std::io::{Read, Write};
 use std::path::{Component, Path, PathBuf};
 
 pub const IMAGE_EXTS: [&str; 6] = [".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"];
@@ -52,26 +53,56 @@ fn natural_key(path: &str) -> Vec<(u8, String, u128)> {
 
 fn safe_member(name: &str) -> R<PathBuf> {
     let path = Path::new(name);
-    if name.is_empty() || name.contains('\\') || path.is_absolute() || name.contains(':') || path.components().any(|c| matches!(c, Component::ParentDir)) {
+    if name.is_empty()
+        || name.contains('\\')
+        || path.is_absolute()
+        || name.contains(':')
+        || path.components().any(|c| matches!(c, Component::ParentDir))
+    {
         return Err("unsafe archive member".into());
     }
     Ok(path.to_path_buf())
 }
 
+/// Archive limits: entry count and actual expanded bytes (declared sizes can lie).
+pub const MAX_ENTRIES: usize = 10_000;
+pub const MAX_EXPANDED_BYTES: u64 = 2_000_000_000;
+/// Pillow's decompression-bomb error threshold (2 x `Image.MAX_IMAGE_PIXELS`).
+pub const MAX_PIXELS: u64 = 178_956_970;
+
+/// Copy at most `budget` bytes; more input than that is an archive bomb.
+fn bounded_copy(src: &mut impl Read, dst: &mut impl Write, budget: &mut u64) -> R<()> {
+    let mut buf = vec![0u8; 1 << 16];
+    loop {
+        let n = src.read(&mut buf).map_err(|e| Error::Value(format!("archive read failed: {e}")))?;
+        if n == 0 {
+            return Ok(());
+        }
+        if n as u64 > *budget {
+            return Err("archive expands beyond the 2 GB limit".into());
+        }
+        *budget -= n as u64;
+        dst.write_all(&buf[..n])?;
+    }
+}
+
 fn extract_zip(source: &Path, dest: &Path) -> R<()> {
     let file = std::fs::File::open(source)?;
-    let mut archive = zip::ZipArchive::new(file).map_err(|e| e.to_string())?;
-    let mut total: u64 = 0;
+    let mut archive = zip::ZipArchive::new(file).map_err(|e| format!("cannot read ZIP archive: {e}"))?;
+    let mut declared: u64 = 0;
     for i in 0..archive.len() {
-        total += archive.by_index_raw(i).map_err(|e| e.to_string())?.size();
+        declared += archive.by_index_raw(i).map_err(|e| e.to_string())?.size();
     }
-    if archive.len() > 10000 || total > 2_000_000_000 {
-        return Err("archive exceeds research limits".into());
+    if archive.len() > MAX_ENTRIES || declared > MAX_EXPANDED_BYTES {
+        return Err("archive exceeds the 10,000-entry / 2 GB limits".into());
     }
     let mut names = HashSet::new();
     for i in 0..archive.len() {
         let entry = archive.by_index_raw(i).map_err(|e| e.to_string())?;
-        let name = safe_member(entry.name())?;
+        if entry.encrypted() {
+            return Err("encrypted archive members are not supported".into());
+        }
+        let name = safe_member(&entry.name().map_err(|e| format!("invalid archive member name: {e}"))?)?;
         if !names.insert(name.to_string_lossy().to_lowercase()) {
             return Err("duplicate archive member".into());
         }
@@ -79,44 +110,67 @@ fn extract_zip(source: &Path, dest: &Path) -> R<()> {
             return Err("archive symlink".into());
         }
     }
+    let mut budget = MAX_EXPANDED_BYTES;
     for i in 0..archive.len() {
         let mut entry = archive.by_index(i).map_err(|e| e.to_string())?;
-        let target = dest.join(safe_member(entry.name())?);
+        let target = dest.join(safe_member(&entry.name().map_err(|e| format!("invalid archive member name: {e}"))?)?);
         if entry.is_dir() {
             std::fs::create_dir_all(&target)?;
             continue;
         }
         std::fs::create_dir_all(target.parent().unwrap())?;
         let mut out = std::fs::File::create(&target)?;
-        std::io::copy(&mut entry, &mut out)?;
+        // Reading to the end verifies the entry CRC.
+        bounded_copy(&mut entry, &mut out, &mut budget)?;
     }
     Ok(())
 }
 
-/// CBR/RAR through the system `bsdtar` (libarchive), after listing members safely.
+/// CBR/RAR through `bsdtar` (libarchive; built into macOS, `libarchive-tools` on Debian).
 fn extract_rar(source: &Path, dest: &Path) -> R<()> {
-    let list = std::process::Command::new("bsdtar").arg("-tf").arg(source).output().map_err(|e| format!("bsdtar unavailable for CBR/RAR input: {e}"))?;
+    let list = std::process::Command::new("bsdtar")
+        .arg("-tvf")
+        .arg(source)
+        .output()
+        .map_err(|e| format!("CBR/RAR input needs bsdtar (libarchive): {e}"))?;
     if !list.status.success() {
         return Err(format!("cannot read RAR archive: {}", String::from_utf8_lossy(&list.stderr).trim()).into());
     }
+    let names_out = std::process::Command::new("bsdtar").arg("-tf").arg(source).output()?;
     let mut names = HashSet::new();
-    for line in String::from_utf8_lossy(&list.stdout).lines() {
+    for (line, verbose) in String::from_utf8_lossy(&names_out.stdout).lines().zip(String::from_utf8_lossy(&list.stdout).lines()) {
+        if verbose.starts_with('l') || verbose.starts_with('h') {
+            return Err("nonregular RAR member".into());
+        }
         let name = safe_member(line.trim_end_matches('/'))?;
         if !names.insert(name.to_string_lossy().to_lowercase()) {
             return Err("duplicate RAR member".into());
         }
-        if names.len() > 10000 {
-            return Err("RAR exceeds research limits".into());
+        if names.len() > MAX_ENTRIES {
+            return Err("archive exceeds the 10,000-entry / 2 GB limits".into());
         }
     }
-    let status = std::process::Command::new("bsdtar").arg("-xf").arg(source).arg("-C").arg(dest).arg("--no-same-owner").arg("--no-same-permissions").status()?;
+    let status = std::process::Command::new("bsdtar")
+        .arg("-xf")
+        .arg(source)
+        .arg("-C")
+        .arg(dest)
+        .arg("--no-same-owner")
+        .arg("--no-same-permissions")
+        .status()?;
     if !status.success() {
-        return Err("RAR extraction failed".into());
+        return Err("RAR extraction failed (encrypted, multipart or unsupported archive)".into());
     }
+    let mut total = 0u64;
     for entry in walk(dest)? {
-        if std::fs::symlink_metadata(&entry)?.file_type().is_symlink() {
+        let meta = std::fs::symlink_metadata(&entry)?;
+        if meta.file_type().is_symlink() {
             return Err("nonregular RAR member".into());
         }
+        total += meta.len();
+    }
+    if total > MAX_EXPANDED_BYTES {
+        return Err("archive expands beyond the 2 GB limit".into());
     }
     Ok(())
 }
@@ -148,27 +202,65 @@ fn source_identity(source: &Path) -> R<String> {
         return sha_file(source);
     }
     let mut files: Vec<PathBuf> = walk(source)?.into_iter().filter(|p| p.is_file()).collect();
-    files.sort_by(|a, b| a.as_os_str().cmp(b.as_os_str()));
-    let list: Vec<Value> = files.iter().map(|p| Ok(Value::from(vec![Value::from(rel(p, source)), Value::from(sha_file(p)?)]))).collect::<R<_>>()?;
+    files.sort_by(|a, b| a.components().cmp(b.components()));
+    let list: Vec<Value> =
+        files.iter().map(|p| Ok(Value::from(vec![Value::from(rel(p, source)), Value::from(sha_file(p)?)]))).collect::<R<_>>()?;
     Ok(util::json_hash(&Value::Array(list)))
 }
 
-/// `import_format.prepare_publication_image`.
+/// Decode any supported still image to RGBA, rejecting animation and bombs.
+fn decode_still(bytes: &[u8], format: &str) -> R<(usize, usize, Vec<u8>, bool)> {
+    use ::image::AnimationDecoder;
+    let frames = match format {
+        "GIF" => {
+            ::image::codecs::gif::GifDecoder::new(std::io::Cursor::new(bytes)).map_err(|e| e.to_string())?.into_frames().take(2).count()
+        }
+        "WEBP" => {
+            let d = ::image::codecs::webp::WebPDecoder::new(std::io::Cursor::new(bytes)).map_err(|e| e.to_string())?;
+            if d.has_animation() { 2 } else { 1 }
+        }
+        "PNG" => {
+            let reader = png::Decoder::new(std::io::Cursor::new(bytes)).read_info().map_err(|e| e.to_string())?;
+            reader.info().animation_control().map(|a| a.num_frames as usize).unwrap_or(1)
+        }
+        _ => 1,
+    };
+    if frames != 1 {
+        return Err("animated or multipage image unsupported; no frames were discarded".into());
+    }
+    let reader = ::image::ImageReader::new(std::io::Cursor::new(bytes)).with_guessed_format().map_err(|e| e.to_string())?;
+    let (w, h) = reader.into_dimensions().map_err(|e| format!("unreadable page image: {e}"))?;
+    if w as u64 * h as u64 > MAX_PIXELS {
+        return Err(format!("page image of {w}x{h} pixels exceeds the decompression-bomb limit").into());
+    }
+    let img = ::image::load_from_memory(bytes).map_err(|e| format!("unreadable page image: {e}"))?;
+    let alpha = img.color().has_alpha();
+    let rgba = img.to_rgba8();
+    Ok((rgba.width() as usize, rgba.height() as usize, rgba.into_raw(), alpha))
+}
+
+/// `import_format.prepare_publication_image`: preserve compatible upright
+/// JPEG/PNG bytes; otherwise write an upright PNG and keep the original bytes.
 fn prepare_publication_image(source: &Path, stem: &Path, originals: &Path, locator: &str) -> R<Value> {
     let bytes = std::fs::read(source)?;
     let source_hash = sha256_hex(&bytes);
-    let format = image::sniff_format(&bytes).ok_or_else(|| Error::Value(format!("unsupported publication image format: {}", ext_lower(source))))?;
+    let format =
+        image::sniff_format(&bytes).ok_or_else(|| Error::Value(format!("unsupported publication image format: {}", ext_lower(source))))?;
     let orientation = exif_orientation(&bytes);
     if !(1..=8).contains(&orientation) {
         return Err("invalid EXIF orientation".into());
     }
-    let (ow, oh) = match format {
-        "JPEG" => image::jpeg_size(&bytes)?,
-        "PNG" => crate::png::size(&bytes)?,
-        _ => {
-            let img = ::image::load_from_memory(&bytes).map_err(|e| e.to_string())?;
-            (img.width() as usize, img.height() as usize)
+    // Decode every page now so unreadable content stops the run before any paid call.
+    let (ow, oh, rgba, alpha) = match format {
+        "JPEG" => {
+            let rgb = image::decode_jpeg(&bytes).map_err(|e| format!("unreadable page image {locator}: {e}"))?;
+            let mut rgba = Vec::with_capacity(rgb.width * rgb.height * 4);
+            for p in rgb.data.as_chunks::<3>().0 {
+                rgba.extend_from_slice(&[p[0], p[1], p[2], 255]);
+            }
+            (rgb.width, rgb.height, rgba, false)
         }
+        _ => decode_still(&bytes, format).map_err(|e| Error::Value(format!("{locator}: {}", e.message())))?,
     };
     let transformed = !matches!(format, "JPEG" | "PNG") || orientation != 1;
     let compatible: &[&str] = if format == "JPEG" { &[".jpg", ".jpeg"] } else { &[".png"] };
@@ -187,44 +279,41 @@ fn prepare_publication_image(source: &Path, stem: &Path, originals: &Path, locat
     let (w, h) = if transformed {
         std::fs::create_dir_all(originals)?;
         util::write_new(&original, &bytes)?;
-        let decoded = ::image::load_from_memory(&bytes).map_err(|e| e.to_string())?;
-        let decoded = match orientation {
-            2 => decoded.fliph(),
-            3 => decoded.rotate180(),
-            4 => decoded.flipv(),
-            5 => decoded.rotate90().fliph(),
-            6 => decoded.rotate90(),
-            7 => decoded.rotate270().fliph(),
-            8 => decoded.rotate270(),
-            _ => decoded,
-        };
+        let (tw, th, upright) = image::exif_transpose(&rgba, ow, oh, orientation);
         if orientation != 1 {
             operations.push("exif-transpose");
         }
-        let rgb = decoded.to_rgb8();
-        let img = image::Rgb { width: rgb.width() as usize, height: rgb.height() as usize, data: rgb.into_raw() };
-        util::write_new(&destination, &crate::png::encode_rgb(&img)?)?;
+        let png = if alpha {
+            crate::png::encode_rgba(tw, th, &upright)?
+        } else {
+            let mut rgb = image::Rgb::new(tw, th);
+            for (o, p) in rgb.data.as_chunks_mut::<3>().0.iter_mut().zip(upright.chunks_exact(4)) {
+                o.copy_from_slice(&p[..3]);
+            }
+            crate::png::encode_rgb(&rgb)?
+        };
+        util::write_new(&destination, &png)?;
         operations.push("encode-png");
-        (img.width, img.height)
+        (tw, th)
     } else {
         util::write_new(&destination, &bytes)?;
         (ow, oh)
     };
-    Ok(obj! {"locator" => locator, "image" => destination.file_name().unwrap().to_string_lossy().as_ref(), "sha256" => sha_file(&destination)?,
+    Ok(
+        obj! {"locator" => locator, "image" => destination.file_name().unwrap().to_string_lossy().as_ref(), "sha256" => sha_file(&destination)?,
         "width" => w, "height" => h, "original_sha256" => source_hash, "original_format" => format,
         "original_dimensions" => vec![ow as i64, oh as i64], "original_exif_orientation" => orientation,
         "publication_transforms" => operations,
-        "preserved_original" => if transformed { Value::from(rel(&original, destination.parent().unwrap())) } else { Value::Null }})
+        "preserved_original" => if transformed { Value::from(rel(&original, destination.parent().unwrap())) } else { Value::Null }},
+    )
 }
 
 fn exif_orientation(bytes: &[u8]) -> i64 {
     let mut cursor = std::io::Cursor::new(bytes);
     match exif::Reader::new().read_from_container(&mut cursor) {
-        Ok(data) => data
-            .get_field(exif::Tag::Orientation, exif::In::PRIMARY)
-            .and_then(|f| f.value.get_uint(0))
-            .map(|v| v as i64)
-            .unwrap_or(1),
+        Ok(data) => {
+            data.get_field(exif::Tag::Orientation, exif::In::PRIMARY).and_then(|f| f.value.get_uint(0)).map(|v| v as i64).unwrap_or(1)
+        }
         Err(_) => 1,
     }
 }
@@ -265,10 +354,10 @@ pub fn prepare_input(source: &Path, work: &Path, render_cache: Option<&Path>) ->
             Some(p) => Some(read_json(p)?),
             None => None,
         };
-        if let Some(c) = &cache {
-            if c.opt("source_pdf_sha256").as_str() != Some(&source_id) || c.opt("page_count").as_int() != Some(count as i64) {
-                return Err("render cache does not match PDF".into());
-            }
+        if let Some(c) = &cache
+            && (c.opt("source_pdf_sha256").as_str() != Some(&source_id) || c.opt("page_count").as_int() != Some(count as i64))
+        {
+            return Err("render cache does not match PDF".into());
         }
         for i in 1..=count {
             let dest = pages.join(format!("{i:04}.jpg"));
@@ -316,7 +405,7 @@ pub fn prepare_input(source: &Path, work: &Path, render_cache: Option<&Path>) ->
             source.clone()
         };
         let mut files = walk(&extracted)?;
-        files.sort_by(|a, b| natural_key(&rel(a, &extracted)).cmp(&natural_key(&rel(b, &extracted))));
+        files.sort_by_key(|a| natural_key(&rel(a, &extracted)));
         for p in &files {
             if std::fs::symlink_metadata(p)?.file_type().is_symlink() {
                 return Err("source symlinks unsupported".into());
@@ -347,7 +436,7 @@ pub fn prepare_input(source: &Path, work: &Path, render_cache: Option<&Path>) ->
         record.set("height", h);
     }
     let result = obj! {"source" => util::path_str(&source), "source_sha256" => source_id, "pages" => Value::Array(source_map),
-        "render_cache" => render_cache.map(|p| util::path_str(p))};
+    "render_cache" => render_cache.map(util::path_str)};
     save(&manifest, &result)?;
     Ok(result)
 }
@@ -362,7 +451,9 @@ pub fn prepare_analysis_image(image_path: &Path, output: &Path, number: usize) -
     let source_hash = sha_file(image_path)?;
     if provenance.exists() {
         let record = read_json(&provenance)?;
-        if record.opt("publication_sha256").as_str() != Some(&source_hash) || Some(sha_file(&analysis)?.as_str()) != record.opt("analysis_sha256").as_str() {
+        if record.opt("publication_sha256").as_str() != Some(&source_hash)
+            || Some(sha_file(&analysis)?.as_str()) != record.opt("analysis_sha256").as_str()
+        {
             return Err("analysis source or cached pixels changed".into());
         }
         return Ok(analysis);
@@ -380,8 +471,11 @@ pub fn prepare_analysis_image(image_path: &Path, output: &Path, number: usize) -
         _ => return Err("unsupported analysis image".into()),
     };
     std::fs::write(&analysis, image::encode_jpeg(&rgb, 95)?)?;
-    save(&provenance, &obj! {"publication_sha256" => source_hash, "analysis_sha256" => sha_file(&analysis)?,
-        "transform" => "upright source composited on white, JPEG quality95"})?;
+    save(
+        &provenance,
+        &obj! {"publication_sha256" => source_hash, "analysis_sha256" => sha_file(&analysis)?,
+        "transform" => "upright source composited on white, JPEG quality95"},
+    )?;
     Ok(analysis)
 }
 
@@ -398,7 +492,7 @@ mod tests {
     #[test]
     fn natural_order_matches_python() {
         let mut names = vec!["page10.jpg", "page2.jpg", "Page1.jpg", "a/b3.png", "a/b20.png"];
-        names.sort_by(|a, b| natural_key(a).cmp(&natural_key(b)));
+        names.sort_by_key(|a| natural_key(a));
         // CPython: sorted(..., key=natural) puts "a/..." before "page..." (case-folded).
         assert_eq!(names, vec!["a/b3.png", "a/b20.png", "Page1.jpg", "page2.jpg", "page10.jpg"]);
     }

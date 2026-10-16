@@ -184,13 +184,7 @@ pub fn connected_components(mask: &[u8], w: usize, h: usize) -> Components {
             if area[l] == 0 {
                 Stat { left: 0, top: 0, width: 0, height: 0, area: 0 }
             } else {
-                Stat {
-                    left: minx[l],
-                    top: miny[l],
-                    width: maxx[l] - minx[l] + 1,
-                    height: maxy[l] - miny[l] + 1,
-                    area: area[l],
-                }
+                Stat { left: minx[l], top: miny[l], width: maxx[l] - minx[l] + 1, height: maxy[l] - miny[l] + 1, area: area[l] }
             }
         })
         .collect();

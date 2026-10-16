@@ -34,18 +34,18 @@ pub fn decode(bytes: &[u8]) -> Result<Decoded, String> {
     match frame.color_type {
         png::ColorType::Rgba => rgba.copy_from_slice(&data[..w * h * 4]),
         png::ColorType::Rgb => {
-            for (o, p) in rgba.chunks_exact_mut(4).zip(data.chunks_exact(3)) {
+            for (o, p) in rgba.as_chunks_mut::<4>().0.iter_mut().zip(data.chunks_exact(3)) {
                 o[..3].copy_from_slice(p);
                 o[3] = 255;
             }
         }
         png::ColorType::Grayscale => {
-            for (o, &g) in rgba.chunks_exact_mut(4).zip(data.iter()) {
+            for (o, &g) in rgba.as_chunks_mut::<4>().0.iter_mut().zip(data.iter()) {
                 o.copy_from_slice(&[g, g, g, 255]);
             }
         }
         png::ColorType::GrayscaleAlpha => {
-            for (o, p) in rgba.chunks_exact_mut(4).zip(data.chunks_exact(2)) {
+            for (o, p) in rgba.as_chunks_mut::<4>().0.iter_mut().zip(data.chunks_exact(2)) {
                 o.copy_from_slice(&[p[0], p[0], p[0], p[1]]);
             }
         }
@@ -80,19 +80,18 @@ fn cost(v: u8) -> i64 {
 }
 
 /// Filtered scanlines (filter byte + row) using Pillow's selection order.
-fn filtered_rows(img: &Rgb) -> Vec<u8> {
-    let bytes = img.width * 3;
-    let bpp = 3;
+fn filtered_rows(data: &[u8], width: usize, height: usize, bpp: usize) -> Vec<u8> {
+    let bytes = width * bpp;
     let mut previous = vec![0u8; bytes + 1];
-    let mut out = Vec::with_capacity((bytes + 1) * img.height);
+    let mut out = Vec::with_capacity((bytes + 1) * height);
     let mut buffer = vec![0u8; bytes + 1];
     let mut up = vec![2u8; bytes + 1];
     let mut prior = vec![1u8; bytes + 1];
     let mut average = vec![3u8; bytes + 1];
     let mut paeth = vec![4u8; bytes + 1];
-    for y in 0..img.height {
+    for y in 0..height {
         buffer[0] = 0;
-        buffer[1..].copy_from_slice(&img.data[y * bytes..(y + 1) * bytes]);
+        buffer[1..].copy_from_slice(&data[y * bytes..(y + 1) * bytes]);
         let mut choice = 0;
         let mut sum: i64 = buffer[1..].iter().map(|&v| cost(v)).sum();
         if sum > 0 {
@@ -143,7 +142,13 @@ fn filtered_rows(img: &Rgb) -> Vec<u8> {
                 } else {
                     let (a, b, c) = (buffer[i - bpp] as i32, previous[i] as i32, previous[i - bpp] as i32);
                     let (pa, pb, pc) = ((b - c).abs(), (a - c).abs(), (a + b - 2 * c).abs());
-                    let pred = if pa <= pb && pa <= pc { a } else if pb <= pc { b } else { c };
+                    let pred = if pa <= pb && pa <= pc {
+                        a
+                    } else if pb <= pc {
+                        b
+                    } else {
+                        c
+                    };
                     buffer[i].wrapping_sub(pred as u8)
                 };
                 paeth[i] = v;
@@ -170,7 +175,7 @@ extern "C" fn zalloc(_opaque: z::voidpf, items: z::uInt, size: z::uInt) -> z::vo
 }
 
 extern "C" fn zfree(_opaque: z::voidpf, address: z::voidpf) {
-    unsafe { libc::free(address as *mut libc::c_void) }
+    unsafe { libc::free(address) }
 }
 
 fn deflate(data: &[u8], row: usize) -> Result<Vec<u8>, String> {
@@ -227,22 +232,31 @@ fn deflate(data: &[u8], row: usize) -> Result<Vec<u8>, String> {
     }
 }
 
-/// `image.save(buf, format='PNG')` for an RGB image without ICC/pnginfo.
-pub fn encode_rgb(img: &Rgb) -> Result<Vec<u8>, String> {
-    if img.width == 0 || img.height == 0 {
+fn encode(data: &[u8], width: usize, height: usize, channels: usize) -> Result<Vec<u8>, String> {
+    if width == 0 || height == 0 {
         return Err("cannot write empty image as PNG".into());
     }
     let mut out = b"\x89PNG\r\n\x1a\n".to_vec();
     let mut ihdr = Vec::new();
-    ihdr.extend_from_slice(&(img.width as u32).to_be_bytes());
-    ihdr.extend_from_slice(&(img.height as u32).to_be_bytes());
-    ihdr.extend_from_slice(&[8, 2, 0, 0, 0]);
+    ihdr.extend_from_slice(&(width as u32).to_be_bytes());
+    ihdr.extend_from_slice(&(height as u32).to_be_bytes());
+    ihdr.extend_from_slice(&[8, if channels == 4 { 6 } else { 2 }, 0, 0, 0]);
     chunk(&mut out, b"IHDR", &ihdr);
-    let stream = deflate(&filtered_rows(img), img.width * 3 + 1)?;
-    let block = 65536usize.max(img.width * 4);
+    let stream = deflate(&filtered_rows(data, width, height, channels), width * channels + 1)?;
+    let block = 65536usize.max(width * 4);
     for part in stream.chunks(block) {
         chunk(&mut out, b"IDAT", part);
     }
     chunk(&mut out, b"IEND", b"");
     Ok(out)
+}
+
+/// `image.save(buf, format='PNG')` for an RGB image without ICC/pnginfo.
+pub fn encode_rgb(img: &Rgb) -> Result<Vec<u8>, String> {
+    encode(&img.data, img.width, img.height, 3)
+}
+
+/// `image.save(buf, format='PNG')` for an RGBA image.
+pub fn encode_rgba(width: usize, height: usize, rgba: &[u8]) -> Result<Vec<u8>, String> {
+    encode(rgba, width, height, 4)
 }
