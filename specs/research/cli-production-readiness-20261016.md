@@ -1,7 +1,10 @@
 # comic-panel CLI production readiness (2026-10-16)
 
-This is the state of the Rust CLI (`cli/`, branch `comic-panel-cli`) before
-Chris decides whether to merge it to `main`.
+**Approved by Chris and merged to `main` on 2026-10-16 (`3779a81`).** CI
+passed on Linux and macOS for both the branch and `main`. The disposable
+staging environments have been removed.
+
+This is the state of the Rust CLI (`cli/`) that was reviewed for that decision.
 
 Parity with the V63 prototype is recorded in
 [rust-port-parity-20261015](rust-port-parity-20261015.md). The milestones refer
@@ -20,7 +23,7 @@ to [plan 0002](../plans/0002-quality-gated-rust-cli.md).
 | Input safety | Path traversal, absolute paths, symlinks, duplicate and case-colliding members, encrypted members, more than 10,000 entries, more than 2 GB actually expanded (lying sizes caught while copying), and pages over ~179 MP are refused. Multi-frame images are refused. Every page is fully decoded before any paid request. | e2e `rejects_corrupt_or_unsafe_input_before_any_request`; animated-GIF check |
 | Spending and recovery | Durable reservations before dispatch, settlement from reported usage, global ledger cap, per-run limit, per-page cap with cold-run accounting. One automatic recovery of a recorded transient 503/connection failure; unknown outcomes are never replayed. | `budget::tests`; e2e `run_spending_limit_stops_resumably`, `recovers_one_transient_server_error`, `converts_resumes_and_replays` |
 | Platforms | Linux x86-64 (Debian 13) and macOS 26 arm64: fmt, clippy `-D warnings` and all 22 tests pass. Image bytes are identical across platforms. | `validation-artifacts/cli-production-20261016/macos-*.log` |
-| CI | `.github/workflows/cli.yml` runs fmt, clippy and the tests (with schema validation) on Ubuntu and macOS. | first run pending a push |
+| CI | `.github/workflows/cli.yml` runs fmt, clippy and the tests (with schema validation) on Ubuntu and macOS. | green on `comic-panel-cli` and `main` (`validation-artifacts/cli-production-20261016/ci-*.log`) |
 | Reproducible build | `Cargo.lock` committed; `rust-version = 1.88`. | `cli/Cargo.lock` |
 
 ## Unseen-book validation

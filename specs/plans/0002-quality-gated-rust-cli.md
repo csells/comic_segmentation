@@ -3,7 +3,7 @@
 Status (2026-10-16): **Rust CLI implemented in `cli/` on branch `comic-panel-cli`;
 production-readiness record in
 [cli-production-readiness-20261016](../research/cli-production-readiness-20261016.md),
-pending Chris's approval to merge to `main`.** The Rust port reproduces the V63
+approved by Chris and merged to `main` on 2026-10-16 (`3779a81`).** The Rust port reproduces the V63
 prototype byte for byte (see
 [rust-port-parity-20261015](../research/rust-port-parity-20261015.md)). The
 milestones below remain the design record; their completion status is in the
