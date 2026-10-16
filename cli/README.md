@@ -142,8 +142,6 @@ cover:
 - the per-run spending limit, and recovery from a transient 503;
 - corrupt pages and path-traversal archives refused before any request.
 
-CI runs formatting, clippy and the tests on Linux and macOS
-(`.github/workflows/cli.yml`).
 
 The port's parity with the Python prototype is recorded in
 `specs/research/rust-port-parity-20261015.md`. Requests are byte-identical, so
